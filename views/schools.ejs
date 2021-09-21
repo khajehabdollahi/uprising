@@ -1,0 +1,22 @@
+<% layout('layout/boilerplate') %> 
+  <h1>Here you can see all Schools</h1>
+
+  <ul style="list-style-type:none">
+    <% for(let school of schools) { %>
+     
+        <div class="row">
+          <div class="col-md-12">
+        <li><h2>  <a href="/news/<%= school.id %>"><%= school.schoolsname %></a></h2></li>    
+
+   
+
+    </li> 
+          </div>
+        </div>
+
+   
+
+   <%} %>
+  </ul>
+  <br> <br>
+  <a href="/newones"><h2> Add new Schools</h2></a>  <br> <br>

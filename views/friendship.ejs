@@ -1,0 +1,23 @@
+<% layout('layout/boilerplate') %> 
+
+<h3>Welcome to Request Friendship Page</h3>
+<br/><br/>
+
+<form action="/friend " method="POST">
+
+ 
+ 
+    <input type="text" name="schoolId" id="schoolId" value="<%=id %>" style="display:none">
+
+    <h2>Your friendship reqest will be sent to this School</h2>
+
+    <a href="/news/<%=id %>"> <h2><%=school.schoolsname%> </a>
+<br/>
+   
+  
+  <input type="text" name="friendrequesterId" id="friendrequesterId" value="<%=currentUser.id  %>" style="display: none">
+
+<br/><br/>
+
+  <button type="submit">Request Friendship</button>
+</form>

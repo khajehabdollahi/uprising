@@ -1,0 +1,63 @@
+<% layout('layout/boilerplate') %> 
+  <h1>Here you can edit information about backeries</h1>
+  <form action="/news/<%=school._id %>?_method=PUT " method="POST">
+    
+    <label for="schoolsname">School's Name</label> <br/>
+  <input type="text" name="schoolsname" id="schoolsname" value="<%=school.schoolsname %> "> <br/> <br/>
+
+
+<label for="ownersName">Owners's Name</label> <br/>
+  <input type="text" name="ownersName" id="ownersName" value="<%=school.ownersName%> "> <br/> <br/>
+  
+ <label for="ownersFamily">Owners's Family</label> <br/>
+  <input type="text" name="ownersFamily" id="ownersFamily" value="<%=school.ownersFamily%>"><br/> <br/>
+
+ <label for="numberOfPoorPeople">  Average Monthly Incom Per Person</label><br/>
+  <input type="number" name="numberOfPoorPeople" id="numberOfPoorPeople" value="<%=school.numberOfPoorPeople%>"> <br><br>
+
+ <label for="averageMonthlyIncomPerPerson">  Average Monthly Incom Per Person</label><br/>
+  <input type="number" name="averageMonthlyIncomPerPerson" id="averageMonthlyIncomPerPerson" value="<%=school.averageMonthlyIncomPerPerson%>"> <br><br>
+
+  
+
+
+
+
+
+
+<label for="provience"> Provience</label><br/>
+  <input type="text" name="provience" id="provience" value="<%=school.provience%>"> <br><br>
+
+<label for="city"> City</label><br/>
+  <input type="text" name="city" id="city" value="<%=school.city%>"> <br><br>
+
+<label for="district"> Schools Location</label><br/>
+  <input type="text" name="district" id="district" value="<%=school.district%>"> <br><br>
+
+<label for="village"> Village</label><br/>
+  <input type="text" name="village" id="village" value="<%=school.village%>"> <br><br>
+
+<label for="Street"> Street</label><br/>
+  <input type="text" name="Street" id="Street" value="<%=school.Street%>"> <br><br>
+
+<label for="location"> Number</label><br/>
+  <input type="text" name="number" id="number" value="<%=school.number%>"> <br><br>
+
+<label for="postCode"> Post Code</label><br/>
+  <input type="text" name="postCode" id="postCode" value="<%=school.postCode%>"> <br><br>
+
+<label for="mobileNumber"> Mobile Number</label><br/>
+  <input type="text" name="mobileNumber" id="mobileNumber" value="<%=school.mobileNumber%>"> <br><br>
+
+<label for="location"> Schools Location</label><br/>
+  <input type="text" name="location" id="location" value="<%=school.location%>"> <br><br>
+  
+  <input type="file" name="image" id="image" > <br/> <br/>
+
+ <!-- <label for="creator"> Schools Account creator</label><br/>
+  <input type="text" name="creator" id="creator" value="<%=school.creator%>"> <br><br> -->
+
+
+  <button type="submit">Save new Information</button> <br><br>
+  </form>
+

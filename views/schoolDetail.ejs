@@ -1,0 +1,87 @@
+<% layout('layout/boilerplate') %> 
+
+<ul>
+<li> Schools name: <%= school.schoolsname %> </li>
+
+<li>Number Of Poor People: <%= school.numberOfStudents %> </li>
+<li>Average Monthly Incom Per Person: <%= school.averageMonthlyIncomPerPerson %> </li>
+<li> provience: <%= school.provience %> </li>
+<li> City: <%= school.city %> </li>
+<li> district: <%= school.district %> </li>
+<li> Village: <%= school.village %> </li>
+<li> Street: <%= school.Street %> </li>
+<li> number: <%= school.number %> </li>
+<li> postCode: <%= school.postCode %> </li>
+<li> Mobile Number: <%= school.mobileNumber %> </li>
+
+<li> Location: <%= school.location %> </li>
+
+  
+
+
+<img src=<%=school.image %> alt="School Image" width="100%"> 
+
+<% if(currentUser && currentUser.username ==school.creator.username ) { %> 
+
+<form action="/schoolimagedelete/<%= school._id%>" method="get">
+
+  <input type="text" name="image" id="image" value="<%=school.image %>" style="display:none" > <br/>
+  <button class="btn btn-danger" type="submit">Delete image</button>
+
+</form>
+<% } %> 
+<h1>Friendship</h1>
+
+
+  Friendship Request:
+
+
+<% for (let friendship of friendships.reverse()) {%> 
+  <ul style="list-style-type: none">
+   
+ 
+    <li>   By : <a href="/users/<%=friendship.friendrequesterId %>">  <%=friendship.friendrequestersname %>   </a> </h3></li>
+   
+    <li> <h3>Friendship confirmed: <%=friendship.confirmation  %> </h3> </li>
+    
+   <% if(currentUser && currentUser.username==school.creator.username) {%>
+    <%if(friendship.confirmation=="Waiting for confirmation"||friendship.confirmation=='NaN') { %>  
+     <a href="http:/friendshipconfirm/<%= friendship.id  %>/<%= school.id %> ">Confirm</a> <br>
+      
+   <% } %> 
+  
+<% } %> 
+  </ul>
+<% } %> 
+
+</ul>
+
+<% if(!currentUser || currentUser.username !=school.creator.username ) { %> 
+
+<br/>
+  <br/><a href="http:/users/<%= school.creator.id %>"> Creator</a><br/><br/>
+
+  
+   <a href="/requestfriendship/<%= school.id %>">Request Friendship with this School</a> <br> <br> 
+
+
+
+
+
+ <% } else {%> 
+  
+  <a href="http:/news/<%=school.id %>/edit ">Edit Information</a>
+
+<br/> <br/>
+
+
+<form action="/schooldeleteconfirm/<%=school._id %>" method="get">
+  
+
+  <button type="submit">delete</button>
+
+  </form> <br>
+
+   <% } %> 
+
+

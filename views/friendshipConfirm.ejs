@@ -1,0 +1,25 @@
+<% layout('layout/boilerplate') %> 
+<br/><br/>
+
+<form action="/friendshipconfirm/<%=donate._id %>?_method=PUT " method="POST">
+  
+   <h3>You have received friendship request <br/> from this  <a href="/users/<%=donate.friendrequesterId %>">School: </a> </h3>
+   
+     
+
+
+<h2> Press the button below to Confirm Friendship</h2>
+
+<!-- <input type="text" name="confirmation" id="confirmation" value="true"> -->
+
+
+<select name="confirmation" id="confirmation">
+    <option>Waiting for confirmation?</option>
+    <option  value='Yes' > Yes</option>
+    <option value='No' >No</option>
+    
+  </select>
+
+  <button type="submit">Answer</button> <br><br>
+  </form>
+ 

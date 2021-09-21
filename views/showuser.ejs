@@ -1,0 +1,30 @@
+<% layout('layout/boilerplate') %> 
+
+
+ <h1>Here is the user page of: <%= user.name %>! </h1>
+ Email: <%= user.username %> <br>
+ Name: <%= user.name %> <br>
+ 
+  Schools: <br>
+  <% for(let sch of school) {%> 
+  <a href="/news/<%=sch._id%> "><%= sch.schoolsname %></a> <br>
+      
+
+<% } %> 
+ 
+<br>
+ 
+<% if(currentUser && currentUser.username == user.username ) { %> 
+
+
+<a href="/newones">Register a School </a> <br/>
+<a href="/users/edit/<%=currentUser.id %>">Edit my Personal Information</a></a><br>
+<a href="/deleteuser/<%= currentUser.id %> ">ِDelete your Account</a><br>
+<% if(!currentUser.activated) { %> 
+<br>
+
+ <h4>You have not activated your account yet</h4>
+ <h4>Please login to your Email and activate your account</h4>
+<% } %> 
+<% } %> 
+
