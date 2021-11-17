@@ -1,26 +1,30 @@
 <% layout('layout/boilerplate') %> 
   <h1>Here you can edit information about backeries</h1>
-  <form action="/news/<%=school._id %>?_method=PUT " method="POST">
+  <form action="/news/<%=school._id %>?_method=PUT " method="POST" enctype="multipart/form-data">
     
     <label for="schoolsname">School's Name</label> <br/>
   <input type="text" name="schoolsname" id="schoolsname" value="<%=school.schoolsname %> "> <br/> <br/>
 
+ <label for="numberOfStudents">number Of Students</label> <br/>
+  <input type="number" name="numberOfStudents" id="numberOfStudents" value="<%=school.numberOfStudents%>" > <br/> <br/>
 
-<label for="ownersName">Owners's Name</label> <br/>
-  <input type="text" name="ownersName" id="ownersName" value="<%=school.ownersName%> "> <br/> <br/>
-  
- <label for="ownersFamily">Owners's Family</label> <br/>
-  <input type="text" name="ownersFamily" id="ownersFamily" value="<%=school.ownersFamily%>"><br/> <br/>
+        <label class="form-label" for="gender">Gender of students<br/>
+        
+          </label><br>
+          <select name="gender" id="gender" value="<%=school.gender%>">
+            <option><%=school.gender%></option>
+            <option  value="boys" > Boys</option>
+            <option value="girls" > Girlsr</option>
+            <option value="mixed">Mixed</option>
+          </select>
+</div>
+<br/> <br/>
 
- <label for="numberOfPoorPeople">  Average Monthly Incom Per Person</label><br/>
-  <input type="number" name="numberOfPoorPeople" id="numberOfPoorPeople" value="<%=school.numberOfPoorPeople%>"> <br><br>
-
- <label for="averageMonthlyIncomPerPerson">  Average Monthly Incom Per Person</label><br/>
-  <input type="number" name="averageMonthlyIncomPerPerson" id="averageMonthlyIncomPerPerson" value="<%=school.averageMonthlyIncomPerPerson%>"> <br><br>
-
-  
+ <label for="averageMonthlyIncomPerPerson">Average parents Income </label> <br/>
+  <input type="number" name="averageMonthlyIncomPerPerson" id="averageMonthlyIncomPerPerson" value="<%=school.averageMonthlyIncomPerPerson%>"  > <br/> <br/>
 
 
+ 
 
 
 
@@ -52,6 +56,7 @@
 <label for="location"> Schools Location</label><br/>
   <input type="text" name="location" id="location" value="<%=school.location%>"> <br><br>
   
+  <!-- <input type="file" name="image" id="image" value="<%=school.image%>" > <br/> <br/> -->
   <input type="file" name="image" id="image" > <br/> <br/>
 
  <!-- <label for="creator"> Schools Account creator</label><br/>

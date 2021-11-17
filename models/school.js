@@ -6,6 +6,12 @@ const schoolSchema = new mongoose.Schema({
     required: true,
   },
 
+  gender: {
+    type: String,
+    // enum: ["Boys", "Girls", "Mixed"],
+    required: true,
+  },
+
   numberOfStudents: {
     type: Number,
     required: true,

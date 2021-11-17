@@ -113,33 +113,33 @@ app.get("/newones", requiredLogin, (req, res) => {
 });
 
 app.post("/news", upload.single("image"), async (req, res) => {
-  // console.log(req.body, req.file)
+  // console.log(req.schoolody, req.file)
   const input = req.body;
-  const b = new Newschool(input);
-        b.city = req.body.city.toLowerCase();
-        b.provience = req.body.provience.toLowerCase();
-        b.district = req.body.district.toLowerCase();
-        b.Street = req.body.Street.toLowerCase();
-        b.line = req.body.line.toLowerCase();
-        b.image = req.file.path;
-        b.creator.username = req.user.username;
-        b.creator.name = req.user.name;
-        b.creator.id = req.user.id;
+  const school = new Newschool(input);
+        school.schoolsname = req.body.schoolsname.toLowerCase();
+        school.city = req.body.city.toLowerCase();
+        school.provience = req.body.provience.toLowerCase();
+        school.district = req.body.district.toLowerCase();
+        school.Street = req.body.Street.toLowerCase();
+        school.line = req.body.line.toLowerCase();
+        school.image = req.file.path;
+        school.creator.username = req.user.username;
+        school.creator.name = req.user.name;
+        school.creator.id = req.user.id;
 
-  await b.save();
+  await school.save();
   res.redirect("/");
 });
 
 app.put("/news/:id", upload.single("image"), async (req, res) => {
   const { id } = req.params;
-
+  
   const data = req.body;
     
-  const school = await Newschool.findByIdAndUpdate(id);
-  school.image = await req.file.path;
+  school = await Newschool.findByIdAndUpdate(id, data);
+  school.image = req.file.path;
 
-
-
+  school.save()
   res.redirect("/schools");
 });
 
@@ -169,34 +169,31 @@ app.get('/deleteconfirm/:id',async (req, res) => {
   res.render('schoolDelete',{id,school});
 })
 
-app.get("/new", (req, res) => {
-  req.session.returnTo = req.originalUrl;
-  res.render("newbackery");
-});
-
 app.get("/schools", async (req, res) => {
   const schools = await Newschool.find({});
 
   res.render("schools", { schools });
 });
 
-app.get("/backeryimagedelete/:id", async (req, res) => {
+app.get("/schoolimagedelete/:id", async (req, res) => {
   const { id } = req.params;
-  const backery = await Newschool.findById(id);
-  console.log(backery)
-  backery.image = req.file.path
+  const school = await Newschool.findById(id);
+
+  school.image = req.file.path;
   try {
     await cloudinary.v2.uploader.destroy(
-      image, { invalidate: true, resource_type: "path" }, async (error, result)=> {
-      if (error){
-        return res.status(400).json(error)
+      image,
+      { invalidate: true, resource_type: "path" },
+      async (error, result) => {
+        if (error) {
+          return res.status(400).json(error);
+        }
+        await Property.updateOne({ $pull: { pictures: img } });
+        res.json(result);
       }
-       await  Property.updateOne({$pull : { pictures: img }});
-      res.json(result)
-      })
-  }
-  catch (e) {
-    res.status(500).json('Something went wrong')
+    );
+  } catch (e) {
+    res.status(500).json("Something went wrong");
   }
 
   console.log(backery);
@@ -225,6 +222,7 @@ app.get("/register", (req, res) => {
 
 app.post("/register", async (req, res) => {
   let username = req.body.username;
+  
   let name = req.body.name;
   let role = req.body.role;
   let inputPassword = req.body.password;
@@ -244,7 +242,15 @@ app.post("/register", async (req, res) => {
     activated: false,
   });
 
-  await User.register(newUser, password);
+  let user = await User.findOne({ username: username });
+  const err = "User with the Email already exist!"
+  if (user) {
+    res.render("registererror", { err });
+
+  } else {
+    await User.register(newUser, password);
+  }
+
   // req.session.user_id = user._id;
   let { id } = await User.findOne({ username: username });
   mailer(
@@ -464,15 +470,24 @@ app.put("/friendshipconfirm/:id", async (req, res) => {
 });
 
 
-
-
-
 app.get("/search", (req, res) => {
   res.render("search");
 });
+app.get("/search/schoolname", (req, res) => {
+  res.render("searchschoolname");
+});
+
+app.post("/search/schoolname", async (req, res) => {
+  const input = req.body.schoolsname;
+  const search = input.toLowerCase();
+  const school = await Newschool.find({ 'schoolsname': search });
+  res.render("resultschoolname", {school});
+});
+
 app.get("/search/provience", (req, res) => {
   res.render("searchp");
 });
+
 app.post("/search/provience", async (req, res) => {
   const input = req.body.provience;
   const search = input.toLowerCase();
@@ -554,20 +569,7 @@ app.post("/search/economylevel", async (req, res) => {
   res.render("resultp", { school });
 });
 
-app.get("/search/numberpoor", (req, res) => {
-  res.render("searchNPP");
-});
-app.post("/search/numberpoor", async (req, res) => {
-  const input = req.body.searchKey;
 
-  console.log(input);
-
-  const school = await Newschool.find()
-    .where("numberOfPoorPeople")
-    .lte(input)
-    .exec();
-  res.render("resultp", { school });
-});
 
 app.post("/api/login", async (req, res, next) => {
   await passport.authenticate("local", (err, user, info) => {
