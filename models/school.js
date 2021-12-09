@@ -53,12 +53,24 @@ const schoolSchema = new mongoose.Schema({
   location: {
     type: String,
   },
+  message: {
+    type: String,
+  },
   frienship: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Friendship",
     },
   ],
+  requestedfriendto: {
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "NewSchool",
+    },
+    id: String,
+
+  },
+
   creator: {
     id: {
       type: mongoose.Schema.Types.ObjectId,

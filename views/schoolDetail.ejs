@@ -28,34 +28,31 @@
 
   <input type="text" name="image" id="image" value="<%=school.image %>" style="display:none" > <br/>
   <button class="btn btn-danger" type="submit">Delete image</button>
-
 </form>
-<% } %> 
-<h1>Friendship</h1>
+<% } %>  <br>
+<h3>Friendship</h3>
 
+<% if(currentUser && currentUser.username==school.creator.username) {%>
 
-  Friendship Request:
+<% for (let f of friendships.reverse()){ %> 
 
-
-<% for (let friendship of friendships.reverse()) {%> 
-  <ul style="list-style-type: none">
-   
  
-    <li>   By : <a href="/users/<%=friendship.friendrequesterId %>">  <%=friendship.friendrequestersname %>   </a> </h3></li>
+   By : <a href="/users/<%=f.friendrequesterid %>/<%=currentUser.id%>/school">  <%=f.friendshipRequestersSchoolsName  %>    </a> </h3>
    
-    <li> <h3>Friendship confirmed: <%=friendship.confirmation  %> </h3> </li>
-    
-   <% if(currentUser && currentUser.username==school.creator.username) {%>
-    <%if(friendship.confirmation=="Waiting for confirmation"||friendship.confirmation=='NaN') { %>  
-     <a href="http:/friendshipconfirm/<%= friendship.id  %>/<%= school.id %> ">Confirm</a> <br>
-      
-   <% } %> 
   
+        <%if(f.confirmation!="Yes") { %>  
+     <a href="http:/friendshipconfirm/<%= f.id  %>/<%= school.id %> ">Confirm</a> <br>
+          
+   <% } else{%> 
+  <h2>Confirmed</h2>
+    <% } %> 
 <% } %> 
-  </ul>
+
+ 
 <% } %> 
 
 </ul>
+ 
 
 <% if(!currentUser || currentUser.username !=school.creator.username ) { %> 
 
@@ -63,11 +60,6 @@
   <br/><a href="http:/users/<%= school.creator.id %>"> Creator</a><br/><br/>
 
   
-   <a href="/requestfriendship/<%= school.id %>">Request Friendship with this School</a> <br> <br> 
-
-
-
-
 
  <% } else {%> 
   
@@ -76,7 +68,7 @@
 <br/> <br/>
 
 
-<form action="/schooldeleteconfirm/<%=school._id %>" method="get">
+<form action="/deleteconfirm/<%=school._id %>" method="get">
   
 
   <button type="submit">delete</button>
@@ -86,3 +78,28 @@
    <% } %> 
 
 
+<% if(friendRequesterID !== undefined && currentUser.id === friendRequesterID &&currentUser.id !=school.creator.id ) { %> 
+  <h4>You have already sent friendship request to this school</h4>
+ 
+<%} else {%> 
+
+
+  <% if( currentUser.id != school.creator.id){ %> 
+    <% for (let friend of allFriendships) {%> 
+
+    <% } %> 
+  <a href="/requestfriendship/<%= school.id %>">Request Friendship with this School</a>
+  <% } %> 
+<% } %>
+
+<br>
+<br>
+<% for(let friend of allFriendships) {%>  <br>
+  <%=currentUser.id %> <br>
+ current user Id <%=friend.friendRequesterID %> <br>
+  <%=friend.confirmation %> 
+  <% if(currentUser.id === friend.friendRequesterID&& friend.confirmation==="Yes" && friend.schoolId ==school.id ){ %> 
+  <h4>  And you are friend</h4>
+ 
+    <% } %> 
+  <% } %>

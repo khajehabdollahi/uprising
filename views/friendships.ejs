@@ -1,0 +1,9 @@
+<% layout('layout/boilerplate') %> 
+
+<% for(let friend of friendship.reverse() ){ %> 
+  <ul><li>
+    <h5>Friendship Requester: <%=friend.friendshipRequestersSchoolsName %> </h5>
+    <h5>Friendship Requested: <%=friend.  friendshipRequestedsSchoolsName %> </h5>
+    <h5>confirmation: <%=friend.confirmation %> </h5>
+  </li></ul>
+  <% } %> 

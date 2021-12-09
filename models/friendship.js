@@ -1,9 +1,6 @@
 const mongoose = require("mongoose");
 
 const friendshipSchema = new mongoose.Schema({
-  friendrequesterId: {
-    type: String,
-  },
   schoolId: {
     type: String,
   },
@@ -12,6 +9,23 @@ const friendshipSchema = new mongoose.Schema({
     default: "Waiting for confirmation",
   },
   friendrequestersname: {
+    type: String,
+  },
+  friendrequestersschoolsname: {
+    type: String,
+  },
+  friendrequesterid: {
+    type: String,
+  },
+
+  friendshipRequestersSchoolsName: {
+    type: String,
+  },
+  friendshipRequestedsSchoolsName: {
+    type: String,
+  },
+
+  date: {
     type: String,
   },
 });

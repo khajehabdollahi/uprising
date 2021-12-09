@@ -75,6 +75,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
@@ -93,6 +94,7 @@ app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   next();
 });
+
 
 const requiredLogin = (req, res, next) => {
   if (!req.user) {
@@ -146,8 +148,37 @@ app.put("/news/:id", upload.single("image"), async (req, res) => {
 app.get("/news/:id", async (req, res) => {
   const { id } = req.params;
   const school = await Newschool.findById(id).populate("creatorbyId");
-  const friendships = await Friendship.find({ schoolId: id });
-  res.render("schoolDetail", { school, friendships });
+   const friendships = await Friendship.find({ schoolId: id });
+  
+  const uId = friendships.friendrequesterId;
+
+  const allFriendships = await Friendship.find({});
+  // for (let friend of allFriendships) {
+
+  // }
+
+  let friendRequesterID = undefined;
+  for (let f of allFriendships) {
+    
+    if (req.user) {
+      if (req.user.id === f.friendrequesterId) {
+        friendRequesterID = f.friendrequesterId;
+      } else {
+        friendRequesterID = undefined;
+      }
+    }
+  }
+
+  const schoolFriend = await Newschool.findOne({ "creator.id": uId });
+  
+  res.render("schoolDetail", {
+    school,
+    friendships,
+    schoolFriend,
+    uId,
+    allFriendships,
+    friendRequesterID
+  });
 });
 
 app.get("/news/:id/edit", requiredLogin, async (req, res) => {
@@ -202,8 +233,6 @@ app.get("/schoolimagedelete/:id", async (req, res) => {
 app.get("/", (req, res) => {
   res.render("home");
 });
-
-
 
 //CHECK STRING LENGTH
 const isValidData = (value, stringLength) => {
@@ -339,14 +368,6 @@ let tempid = uuid.v4();
   res.render("foreget", {tempid});
 });
 
-// app.post("/forgetpass", (req, res) => {
-//   const { username } = req.body
-//   const user = User.find({ "username": username });
-//   console.log("FOUND USER", user.name)
-// })
-
-
-  
 app.post("/forgetpass/:tempid", async (req, res) => {
   const {tempid}=await req.params;
   const { username } = req.body;
@@ -403,72 +424,83 @@ app.get("/users", async (req, res) => {
 
 app.get("/users/:id", async (req, res) => {
   const { id } = req.params;
-  console.log("id: ", id);
   const user = await User.findById(id);
   const school = await Newschool.find({ "creator.id": id });
-  console.log(school);
   res.render("showuser", { user, school});
 });
 
 app.get("/requestfriendship/:id", requiredLogin, async (req, res) => {
   const { id } = req.params;
   const school = await Newschool.findById(id);
+  res.render("friendship", { id, school});
+});
 
-  res.render("friendship", { id, school });
+app.post("/friend/:id", async (req, res) => {
+  const friended = new Friendship(req.body);
+  const id = req.params;
+  //finding the school which receive friendship request
+  const school = Newschool.findById(id);
+ 
+  // friendshipRequestedsSchoolsName = req.body.friendshipRequestedsSchoolsName;
+
+ 
+  console.log(req.body)
+  //finding the school which send friendship
+  const fschool = await Newschool.findOne({
+    "creator.id": req.body.friendrequesterid,
+  });
+
+  friended.friendshipRequestersSchoolsName = fschool.schoolsname;
+  friended.friendrequesterid = req.body.friendrequesterid;
+
+  const date = Date.now();
+  friended.date = date.toString();
+  friended.save();
+  res.redirect("/");
 });
 
 app.get("/users/:username", async (req, res) => {
   const { username } = req.params;
-  console.log("username: ", username);
   const user = await User.findById(username);
-  console.log(user);
   res.render("showuser", { user });
 });
 
-app.get("/donate/:id",  async (req, res) => {
-  const { id } = req.params;
-  const school = await Newschool.findById(id);
-  console.log(school);
-  res.render("donate", { id, school });
-});
-
-app.post("/friend", async (req, res) => {
-  // const donate=req.body
-  const friended = new Friendship(req.body);
-
-  friended.schoolId = req.body.schoolId;
-  // donated.donatorsname = req.body.doneatorId;
-
-  const friendRequester = await User.findById(req.body.friendrequesterId);
-
-  friended.friendrequestersname = friendRequester.name;
-  const date1 = Date.now();
-  friended.date = date1.toString();
-
-  await friended.save();;
-
-  res.redirect("/");
-  // res.render("donated", {id, donateAmount });
-});
-
-app.get("/friendshipconfirm/:id/:fid", async (req, res) => {
-  const { id } = req.params;
+app.get("/friendshipconfirm/:fid/:id", async (req, res) => {
   const { fid } = req.params;
-  const donate = await Friendship.findById(id);
-
-  res.render("friendshipconfirm", { donate });
+  const { id } = req.params;
+ 
+  const friendship = await Friendship.findById(fid);
+console.log(friendship);
+  const uid = friendship.friendrequesterid
+  
+  const fschool = await Newschool.findOne({ "creator.id": uid });
+  
+  const school = await Newschool.findById(id);
+  res.render("friendshipconfirm", {friendship, school,fschool});
 });
 
 app.put("/friendshipconfirm/:id", async (req, res) => {
   const { id } = req.params;
   const confirmation = req.body.confirmation;
-  const donate = await Friendship.findByIdAndUpdate(id);
-  donate.confirmation = confirmation;
-  console.log(donate);
-  donate.save();
-  res.redirect(`/schools`);
+  const friendship = await Friendship.findByIdAndUpdate(id);
+  friendship.confirmation = confirmation;
+  friendship.save();
+  res.redirect('/')
 });
 
+app.get("/friendship", async (req, res) => {
+  const friendship = await Friendship.find({})
+  res.render("friendships", {friendship} );
+});
+
+app.get('/users/:id/:uid/school', async (req, res) => {
+  const { id } = req.params;
+  const uid=req.params
+  const user = await User.findById(id)
+  const school = await Newschool.findOne({ "creator.id": id });
+  const schoolId = school.id
+  res.render('school',{school})
+})
 
 app.get("/search", (req, res) => {
   res.render("search");
@@ -491,9 +523,6 @@ app.get("/search/provience", (req, res) => {
 app.post("/search/provience", async (req, res) => {
   const input = req.body.provience;
   const search = input.toLowerCase();
-
-  console.log(search);
-
   let query = {
     $or: [{ provience: search }, { city: search }, { district: search }],
   };
@@ -508,9 +537,6 @@ app.get("/search/village", (req, res) => {
 app.post("/search/village", async (req, res) => {
   const input = req.body.vi;
   const search = input.toLowerCase();
-
-  console.log(search);
-
   let query = {
     $or: [{ village: search }],
   };
@@ -526,8 +552,6 @@ app.post("/search/street", async (req, res) => {
   const input = req.body.searchKey;
   const search = input.toLowerCase();
 
-  console.log(search);
-
   let query = {
     $or: [{ Street: search }, { line: search }],
   };
@@ -542,9 +566,6 @@ app.get("/search/mobilenumber", (req, res) => {
 
 app.post("/search/mobilenumber", async (req, res) => {
   const input = req.body.searchKey;
-
-  console.log(input);
-
   let query = {
     $or: [{ mobileNumber: input }, { postCode: input }],
   };
@@ -559,9 +580,6 @@ app.get("/search/economylevel", (req, res) => {
 
 app.post("/search/economylevel", async (req, res) => {
   const input = req.body.searchKey;
-
-  console.log(input);
-
   const school = await Newschool.find()
     .where("averageMonthlyIncomPerPerson")
     .lte(input)

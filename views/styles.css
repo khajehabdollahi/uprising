@@ -1,0 +1,9 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.home-header-text{
+  font-family: 'Ubuntu', sans-serif;
+}

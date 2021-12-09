@@ -3,19 +3,21 @@
 <h3>Welcome to Request Friendship Page</h3>
 <br/><br/>
 
-<form action="/friend " method="POST">
+<form action="/friend/<%=id%> " method="POST">
 
+ <h3>The Id of school wich friendship request is sent to</h3>
  
- 
-    <input type="text" name="schoolId" id="schoolId" value="<%=id %>" style="display:none">
+    <input type="text" name="schoolId" id="schoolId" value="<%=id %>" >
 
     <h2>Your friendship reqest will be sent to this School</h2>
 
     <a href="/news/<%=id %>"> <h2><%=school.schoolsname%> </a>
+
+      <input type="text" name="friendshipRequestedsSchoolsName" id="friendshipRequestedsSchoolsName" value="<%=school.schoolsname%>">
 <br/>
    
-  
-  <input type="text" name="friendrequesterId" id="friendrequesterId" value="<%=currentUser.id  %>" style="display: none">
+  <h3>The Id of user who send request</h3>
+  <input type="text" name="friendrequesterid" id="friendrequesterid" value="<%=currentUser.id  %>" >
 
 <br/><br/>
 

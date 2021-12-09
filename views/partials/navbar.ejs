@@ -1,42 +1,49 @@
- <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-primary ">
-  <a class="navbar-brand" href="/">School Friend</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav mx-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/newones">Register School <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href='/schools'>Schools</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href='/users'>Users</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href='/search'>Search</a>
-      </li>
-   
-      <% if(!currentUser){ %> 
-        <li class="nav-item"></li>
-          <a class="nav-link" href='/login'>Log In / create Account</a>
-        </li>
-      <% } else {%> 
-        </li>
-      <li style="margin-top: 8px; margin-left: 10px; margin-right: 10px" >
-         <a href="/users/<%= currentUser.id %>" style="color:white"><%=currentUser.name  %> </a> 
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href='/logout'>    Log Out </a>
-     </li>
-   <% } %> 
-     
-   
-      
-    
-      
-      
-    </ul>
+<div class="container-fluid px-0 bg-primary bg-gradient shadow border-bottom border-warning">
+  <div class="container">
+  <div class="row mx-auto">
+    <div class="col-lg-12">
+      <nav class="navbar sticky-top navbar-expand-lg navbar-dark mx-auto">
+        <a class="navbar-brand" href="/">School Friend</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item active">
+              <a class="nav-link" href="/newones">Register School <span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href='/schools'>Schools</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href='/friendship'>Friendship</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href='/search'>Search</a>
+            </li>
+        
+            <% if(!currentUser){ %> 
+              <li class="nav-item"></li>
+                <a class="nav-link" href='/login'>Log In / create Account</a>
+              </li>
+            <% } else {%> 
+            
+            <li style="margin-top: 8px; margin-left: 10px; margin-right: 10px" >
+              <a href="/users/<%= currentUser.id %>" style="color:white"><%=currentUser.name  %> </a> 
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href='/logout'>    Log Out </a>
+            </li>
+          <% } %> 
+          </ul>
+        </div>
+      </nav>
+    </div>
   </div>
-</nav>
+  </div>
+</div>
+
