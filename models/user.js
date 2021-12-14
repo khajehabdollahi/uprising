@@ -15,7 +15,7 @@ let userSchema = new mongoose.Schema({
   activated: {
     type: Boolean
   },
-  backries:{
+  achools:{
     type: Array,
   }
 });

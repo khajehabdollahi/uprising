@@ -58,8 +58,8 @@ const schoolSchema = new mongoose.Schema({
   },
   frienship: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Friendship",
+      type: String,
+      
     },
   ],
   requestedfriendto: {

@@ -1,105 +1,159 @@
-<% layout('layout/boilerplate') %> 
+<% layout('layout/boilerplate') %>
+<div class="container">
+  <div class="row mt-3">
+    <div class="col-lg-6">
+      <ul class="list-group">
+        <li class="list-group-item py-1"> 
+          <div class="row">
+            <div class="col-6 text-primary">
+              Schools name: 
+            </div>
+            <div class="col-6">
+              <%= school.schoolsname %> 
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item py-1"> 
+          <div class="row">
+            <div class="col-6 text-primary">
+              Number Of Poor People: 
+            </div>
+            <div class="col-6">
+              <%= school.numberOfStudents %> 
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item py-1"> 
+          <div class="row">
+            <div class="col-6 text-primary">
+              Gender of students : 
+            </div>
+            <div class="col-6">
+              <%= school.gender %> 
+            </div>
+          </div>
+        </li>
 
-<ul>
-<li> Schools name: <%= school.schoolsname %> </li>
+        <li class="list-group-item py-1"> 
+          <div class="row">
+            <div class="col-6 text-primary">
+              Average Monthly Incom: 
+            </div>
+            <div class="col-6">
+               <%= school.averageMonthlyIncomPerPerson %>
+            </div>
+          </div>
+        </li>
+       
 
-<li>Number Of Poor People: <%= school.numberOfStudents %> </li>
-<li>Gender of students : <%= school.gender %> </li>
-<li>Average Monthly parents Incom: <%= school.averageMonthlyIncomPerPerson %> </li>
-<li> provience: <%= school.provience %> </li>
-<li> City: <%= school.city %> </li>
-<li> district: <%= school.district %> </li>
-<li> Village: <%= school.village %> </li>
-<li> Street: <%= school.Street %> </li>
-<li> number: <%= school.number %> </li>
-<li> postCode: <%= school.postCode %> </li>
-<li> Mobile Number: <%= school.mobileNumber %> </li>
+        <li class="list-group-item py-1"> provience: <%= school.provience %> </li>
+        <li class="list-group-item py-1"> City: <%= school.city %> </li>
+        <li class="list-group-item py-1"> district: <%= school.district %> </li>
+        <li class="list-group-item py-1"> Village: <%= school.village %> </li>
+        <li class="list-group-item py-1"> Street: <%= school.Street %> </li>
+        <li class="list-group-item py-1"> number: <%= school.number %> </li>
+        <li class="list-group-item py-1"> postCode: <%= school.postCode %> </li>
+        <li class="list-group-item py-1"> Mobile Number: <%= school.mobileNumber %> </li>
+        <li class="list-group-item py-1"> Location: <%= school.location %> </li>
+      </ul>
+    </div>
 
-<li> Location: <%= school.location %> </li>
+    <div class="col-lg-6">
+      <div class="school-image border rounded">
+        <img class="rounded" src=<%=school.image %> alt="School Image" width="100%"> 
+      </div>
+    </div>
+  </div>
+  <hr/>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <% if(currentUser && currentUser.username ==school.creator.username ) { %> 
+        <form action="/schoolimagedelete/<%= school._id%>" method="get">
+
+          <input type="text" name="image" id="image" value="<%=school.image %>" style="display:none" > <br/>
+          <button class="btn btn-danger" type="submit">Delete image</button>
+        </form>
+      <% } %>
+      <h3>Friendship</h3>
+      <% if(currentUser && currentUser.username==school.creator.username) {%>
+        <% for (let f of friendships.reverse()){ %> 
+          By : <a href="/users/<%=f.friendrequesterid %>/<%=currentUser.id%>/school">  <%=f.friendshipRequestersSchoolsName  %></a> </h3>
+            <%if(f.confirmation!="Yes") { %>  
+              <a href="http:/friendshipconfirm/<%= f.id  %>/<%= school.id %> ">Confirm</a> <br>    
+            <% } else{%> 
+          <h2>Confirmed</h2>
+        <% } %> 
+        <% } %> 
+      <% } %> 
+
+      <% if(!currentUser || currentUser.username !=school.creator.username ) { %> 
+        <a href="http:/users/<%= school.creator.id %>"> Creator</a><br/><br/>
+      <% } else {%> 
+        <a href="http:/news/<%=school.id %>/edit ">Edit Information</a>
+        <form action="/deleteconfirm/<%=school._id %>" method="get">
+        <button type="submit">delete</button>
+        </form>
+      <% } %> 
+
+     <% for(let friend of allFriendships){ %> 
+       <% if(currentUser.id==friend.friendrequesterid && friend.schoolId==school.id){ %> 
+                                    <a href="/requestfriendship/<%= school.id %>">Request Friendship with this School</a>
+
+         <%} else  {%> 
+                                    <a href="/requestfriendship/<%= school.id %>">RRequest Friendship with this School</a>
+
+                    <% break %> 
+              <% } %> 
+        <% } %>
+     
 
   
+      <br>
+      <% for(let friend of friendships) { %>  
+        <% if(currentUser.id ===friend.friendrequesterid ){ %> 
+you have already sent friendship to this school
+<% if (friend.confirmation=="Yes") {%> 
+  and you are already friend 
+   <% break %> 
 
-
-<img src=<%=school.image %> alt="School Image" width="100%"> 
-
-<% if(currentUser && currentUser.username ==school.creator.username ) { %> 
-
-<form action="/schoolimagedelete/<%= school._id%>" method="get">
-
-  <input type="text" name="image" id="image" value="<%=school.image %>" style="display:none" > <br/>
-  <button class="btn btn-danger" type="submit">Delete image</button>
-</form>
-<% } %>  <br>
-<h3>Friendship</h3>
-
-<% if(currentUser && currentUser.username==school.creator.username) {%>
-
-<% for (let f of friendships.reverse()){ %> 
-
- 
-   By : <a href="/users/<%=f.friendrequesterid %>/<%=currentUser.id%>/school">  <%=f.friendshipRequestersSchoolsName  %>    </a> </h3>
-   
-  
-        <%if(f.confirmation!="Yes") { %>  
-     <a href="http:/friendshipconfirm/<%= f.id  %>/<%= school.id %> ">Confirm</a> <br>
-          
-   <% } else{%> 
-  <h2>Confirmed</h2>
-    <% } %> 
-<% } %> 
-
- 
-<% } %> 
-
-</ul>
- 
-
-<% if(!currentUser || currentUser.username !=school.creator.username ) { %> 
-
-<br/>
-  <br/><a href="http:/users/<%= school.creator.id %>"> Creator</a><br/><br/>
-
-  
-
- <% } else {%> 
-  
-  <a href="http:/news/<%=school.id %>/edit ">Edit Information</a>
-
-<br/> <br/>
-
-
-<form action="/deleteconfirm/<%=school._id %>" method="get">
-  
-
-  <button type="submit">delete</button>
-
-  </form> <br>
-
-   <% } %> 
-
-
-<% if(friendRequesterID !== undefined && currentUser.id === friendRequesterID &&currentUser.id !=school.creator.id ) { %> 
-  <h4>You have already sent friendship request to this school</h4>
- 
-<%} else {%> 
-
-
-  <% if( currentUser.id != school.creator.id){ %> 
-    <% for (let friend of allFriendships) {%> 
-
-    <% } %> 
-  <a href="/requestfriendship/<%= school.id %>">Request Friendship with this School</a>
   <% } %> 
-<% } %>
 
+   <% if(currentUser.id!=friend.friendrequesterid ){ %> 
+      <a href="/requestfriendship/<%= school.id %>">RBrrrrequest Friendship with this School</a
+  <% break %> 
+        <% } %>
+
+        <% } %>
+   
+
+      <% } %>
+
+
+       <% for(let friend of friendships) { %>  
+        
+        
+      <% } %>
+
+
+    </div>
+  </div>
+</div>
+
+333333333333333333333333333333333333333333333
+
+ <% if(friendRequesterID !== undefined && currentUser.id === friendRequesterID &&currentUser.id !=school.creator.id ) { %> 
+
+      <%} else {%> 
+
+        <% if( currentUser.id != school.creator.id){ %> 
+          <% for (let friend of allFriendships) {%> 
+
+          <% } %> 
+        <% } %>
+
+      <% } %>
 <br>
-<br>
-<% for(let friend of allFriendships) {%>  <br>
-  <%=currentUser.id %> <br>
- current user Id <%=friend.friendRequesterID %> <br>
-  <%=friend.confirmation %> 
-  <% if(currentUser.id === friend.friendRequesterID&& friend.confirmation==="Yes" && friend.schoolId ==school.id ){ %> 
-  <h4>  And you are friend</h4>
- 
-    <% } %> 
-  <% } %>
+     
+
+

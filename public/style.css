@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster+Two&family=Ubuntu&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  display: flex;
+  min-height: 99vh;
+  flex-direction: column; 
+}
+
+.footer {
+  flex: 1;
+}
+
+.footer-bottom {
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.home-header-text{
+  font-family: 'Ubuntu', cursive;
+  color: rgb(189, 44, 218);
+  text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.4), 0px 8px 13px rgba(0, 0, 0, 0.1),
+    0px 5px 10px rgba(0, 0, 0, 0.1);
+}

@@ -89,6 +89,7 @@ app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.use("/public", express.static("public"));
 
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
@@ -147,15 +148,16 @@ app.put("/news/:id", upload.single("image"), async (req, res) => {
 
 app.get("/news/:id", async (req, res) => {
   const { id } = req.params;
+  //finding the school
   const school = await Newschool.findById(id).populate("creatorbyId");
+  // Finding if there is a friendship with this school Id
    const friendships = await Friendship.find({ schoolId: id });
-  
+  // Finding users who sent friendship to
   const uId = friendships.friendrequesterId;
-
+//finding all friendsships
   const allFriendships = await Friendship.find({});
-  // for (let friend of allFriendships) {
 
-  // }
+
 
   let friendRequesterID = undefined;
   for (let f of allFriendships) {
@@ -170,7 +172,7 @@ app.get("/news/:id", async (req, res) => {
   }
 
   const schoolFriend = await Newschool.findOne({ "creator.id": uId });
-  
+
   res.render("schoolDetail", {
     school,
     friendships,
@@ -202,9 +204,98 @@ app.get('/deleteconfirm/:id',async (req, res) => {
 
 app.get("/schools", async (req, res) => {
   const schools = await Newschool.find({});
-
-  res.render("schools", { schools });
+  const currentUserId = req.user.id;
+  res.render("detailschool", { schools, currentUserId });
 });
+
+app.get("/schoolsssssssssss", async (req, res) => {
+  const schools = await Newschool.find({});
+  const currentUserId = req.user.id;
+  res.render("detailschool", { schools, currentUserId });
+});
+
+app.get('/newsss/:sid/:cuid', async (req, res) => {
+  //sid is the Id of this school
+  const sid = await req.params.sid;
+//cuid is the id of current user
+  const cuid =await req.params.cuid;
+//finding the school
+  const school = await Newschool.findById(sid);
+  const schoolCretorId=(school.creator.id)
+  // Finding if there is a friendship which is sent  to this school 
+  const friendship = await Friendship.find({ schoolId: sid });
+
+  //finding the user who created this schoolId
+ 
+   //Finding the School which is created by Current User
+  const schoolFriend = await Newschool.findOne({ "creator.id": cuid });
+
+//Finding friendshios which is sent to current user
+  const friendships = await Friendship.find({ schoolId: schoolFriend.id });
+
+//finding all friendships
+  const allFriendships = await Friendship.find({});
+  let youAreAlreadyFriends=undefined;
+   let ifYouAreAlreadyFriends = "No"
+  let isFriendshipRequestSent = undefined;
+  for (let friend of allFriendships) {
+    if (friend.schoolId == sid && friend.friendrequesterid == cuid) {
+      isFriendshipRequestSent = "Yes";
+      if (friend.confirmation == "Yes") {
+        ifYouAreAlreadyFriends = "Yes";
+        break
+      }
+    }
+  }
+  console.log(isFriendshipRequestSent, "isFriendshipRequestSent");
+  console.log(ifYouAreAlreadyFriends, "ifYouAreAlreadyFriends");
+  let youHaveAlreadySentFrienshipRequest = undefined
+
+
+  let shFriendship = school.frienship
+  
+  let haveYoureceivedFriendRequsestFromThisSchool = undefined
+  
+  for (let friend of allFriendships) {
+    if (
+      friend.friendrequesterid == schoolCretorId
+      &&
+      friend.schoolId === schoolFriend.id &&friend.confirmation=="Yes"
+    ) {
+haveYoureceivedFriendRequsestFromThisSchool="Yes"
+    }
+  }
+
+  console.log(
+    haveYoureceivedFriendRequsestFromThisSchool,
+    "haveYoureceivedFriendRequsestFromThisSchool"
+  );
+  let areYouAlreadyFriend = "No";
+  for (let friend of allFriendships) {
+    if (
+      friend.friendrequesterid === sid
+      &&
+      friend.schoolId === schoolFriend.id
+      &&friend.confirmation == "Yes"
+    ) {
+
+    }
+  }
+
+  console.log("Friendship",areYouAlreadyFriend);
+
+  res.render("schoolNewDetail", {
+    school,
+    friendships,
+    allFriendships,
+    isFriendshipRequestSent,
+    areYouAlreadyFriend,
+    youHaveAlreadySentFrienshipRequest,
+    youAreAlreadyFriends,
+    ifYouAreAlreadyFriends,
+    haveYoureceivedFriendRequsestFromThisSchool,
+  });
+})
 
 app.get("/schoolimagedelete/:id", async (req, res) => {
   const { id } = req.params;
@@ -437,24 +528,27 @@ app.get("/requestfriendship/:id", requiredLogin, async (req, res) => {
 
 app.post("/friend/:id", async (req, res) => {
   const friended = new Friendship(req.body);
-  const id = req.params;
+  const id = req.params.id;
   //finding the school which receive friendship request
-  const school = Newschool.findById(id);
+  const school =await Newschool.findById(id);
+
+  const uId = req.body.friendrequesterid;
  
   // friendshipRequestedsSchoolsName = req.body.friendshipRequestedsSchoolsName;
-
- 
-  console.log(req.body)
   //finding the school which send friendship
   const fschool = await Newschool.findOne({
     "creator.id": req.body.friendrequesterid,
   });
+ 
 
+  const friendshipRequesterSchoolId = fschool.id;
+  // let newfriend = school.frienship;
   friended.friendshipRequestersSchoolsName = fschool.schoolsname;
-  friended.friendrequesterid = req.body.friendrequesterid;
-
+  // friended.friendrequesterid = req.body.friendrequesterid;
+  school.frienship.push(friendshipRequesterSchoolId);
   const date = Date.now();
   friended.date = date.toString();
+  school.save();
   friended.save();
   res.redirect("/");
 });
@@ -468,20 +562,23 @@ app.get("/users/:username", async (req, res) => {
 app.get("/friendshipconfirm/:fid/:id", async (req, res) => {
   const { fid } = req.params;
   const { id } = req.params;
- 
+
   const friendship = await Friendship.findById(fid);
-console.log(friendship);
+
   const uid = friendship.friendrequesterid
-  
+
   const fschool = await Newschool.findOne({ "creator.id": uid });
   
+
   const school = await Newschool.findById(id);
+
   res.render("friendshipconfirm", {friendship, school,fschool});
 });
 
 app.put("/friendshipconfirm/:id", async (req, res) => {
   const { id } = req.params;
   const confirmation = req.body.confirmation;
+  
   const friendship = await Friendship.findByIdAndUpdate(id);
   friendship.confirmation = confirmation;
   friendship.save();
