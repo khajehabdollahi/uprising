@@ -138,29 +138,46 @@
                   </div>
           </div>
         </li>
-        <li class="list-group-item py-1"> </li>
+         <li class="list-group-item py-1"> 
+          <div class="row">
+            <div class="col-6 text-primary">
+         Registered By:
+            </div>
+            <div class="col-6">
+                 <a href="http:/users/<%= school.creator.id %>"> <%=school.creator.username %> </a> 
+                  </div>
+          </div>
+        </li>
+      
       </ul>
     </div>
 
     <div class="col-lg-6">
       <div class="school-image border rounded">
         <img class="rounded" src=<%=school.image %> alt="School Image" width="100%"> 
+
+<% if(currentUser && currentUser.username ==school.creator.username ) { %> 
+     
+      
         <form action="/schoolimagedelete/<%= school._id%>" method="get">
 
           <input type="text" name="image" id="image" value="<%=school.image %>" style="display:none" > <br/>
           <button class="btn btn-danger" type="submit">Delete image</button>
         </form>
+      <% } %> 
+
+     
       </div>
     </div>
   </div>
   <hr/>
 
-  <div class="row">
+  <div class="row" style="text-align:center">
     <div class="col-lg-12">
       <% if(currentUser && currentUser.username ==school.creator.username ) { %> 
         
       <% } %>
-      <h3>Friendship</h3>
+   
       <% if(currentUser && currentUser.username==school.creator.username) {%>
         <% for (let f of friendships.reverse()){ %> 
            <%if(f.confirmation!="Yes") { %>  
@@ -174,20 +191,21 @@
       <% } %> 
 
       <% if(!currentUser || currentUser.username !=school.creator.username ) { %> 
-        <a href="http:/users/<%= school.creator.id %>"> Creator</a><br/><br/>
+        <a href="http:/users/<%= school.creator.id %>"> <%=school.creator.username %> </a><br/><br/>
       <% } else {%> 
-        <a href="http:/news/<%=school.id %>/edit ">Edit Information</a>
+        <a href="http:/news/<%=school.id %>/edit ">Edit Information</a><br>
         <form action="/deleteconfirm/<%=school._id %>" method="get">
         <button class="btn btn-danger" type="submit">Delete your school</button>
         </form>
       <% } %> 
-
+<br><br>
 <h3>friends</h3>
 <% for (let friend of allFriendships) {%> 
 <% if(friend.schoolId==school.id && friend.confirmation=="Yes") {%> 
 <ul>
  
   <li><a href="/users/<%=friend.friendrequesterid %>/<%=currentUser.id %>/school"><%=friend.friendshipRequestersSchoolsName  %></a>  </li>
+ 
 </ul>
   <% } %> 
   <% } %> 
@@ -196,6 +214,9 @@
 <% if(friend.friendrequesterid==school.id && friend.confirmation=="Yes") {%> 
 <ul>
   <li><a href="/users/<%= friend.school.id %>/<%=currentUser.id %>/school"><%=friend.friendshipRequestedsSchoolsName %></a>  </li>
+ 
+  
+ 
 </ul>
   <% } %> 
   <% } %>

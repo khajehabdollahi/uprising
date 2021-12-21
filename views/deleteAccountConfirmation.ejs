@@ -1,9 +1,18 @@
 <% layout('layout/boilerplate') %> 
+
+<main style="text-align:center">
   <h1> Are you sure that You want to delete your Account? </h1>
 
 
   <form action="/deleteuserconfirm/<%= user.id %> %>  " method="get">
   <br>
-<button delete="delete">delete</button>
+<button  class="btn btn-danger" type="submit">Yes delete it</button>
 
   </form>
+</form> <br> <br>
+
+  <form action="/users/<%= currentUser.id %>" method="get">
+  <button class="btn btn-success">NO I want to keep my account</button>
+  
+  </form>
+  </main>

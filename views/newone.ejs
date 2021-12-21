@@ -6,24 +6,34 @@
       <div class="pl-0">
         <h4 class="text-primary pl-0 pr-2 py-1">Add your school information</h4>
       </div>
-      <hr>
+      <hr />
       <form action="/news" method="POST" enctype="multipart/form-data">
-
         <div class="row">
           <div class="col-lg-6">
             <label for="schoolsname">Schoolsname</label>
           </div>
           <div class="col-lg-6">
-            <input class="form-control" style="height:30px" type="text" name="schoolsname" id="schoolsname"/>
+            <input
+              class="form-control"
+              style="height: 30px"
+              type="text"
+              name="schoolsname"
+              id="schoolsname"
+            />
           </div>
         </div>
 
-        <div class="row rounded" style="background: rgb(244, 240, 252);">
+        <div class="row rounded" style="background: rgb(244, 240, 252)">
           <div class="col-lg-6">
             <label class="form-label" for="gender">Gender of students</label>
           </div>
           <div class="col-lg-6">
-             <select name="gender" id="gender" class="pb-1 pt-0 form-control" style="height:30px">
+            <select
+              name="gender"
+              id="gender"
+              class="pb-1 pt-0 form-control"
+              style="height: 30px"
+            >
               <option>Student's gender</option>
               <option value="boys">Boys</option>
               <option value="girls">Girlsr</option>
@@ -34,47 +44,65 @@
 
         <div class="row">
           <div class="col-lg-6">
-             <label for="numberOfStudents">Number of Students</label>
+            <label for="numberOfStudents">Number of Students</label>
           </div>
           <div class="col-lg-6">
-            <input class="form-control" style="height:30px" type="number" name="numberOfStudents" id="numberOfStudents" />
+            <input
+              class="form-control"
+              style="height: 30px"
+              type="number"
+              name="numberOfStudents"
+              id="numberOfStudents"
+            />
           </div>
         </div>
 
-        <div class="row" style="background: rgb(244, 240, 252);">
+        <div class="row" style="background: rgb(244, 240, 252)">
           <div class="col-lg-6">
-             <label for="averageMonthlyIncomPerPerson">Average Parents Income</label>
+            <label for="averageMonthlyIncomPerPerson"
+              >Average Parents Income</label
+            >
           </div>
           <div class="col-lg-6">
-            <input class="form-control" style="height:30px"
+            <input
+              class="form-control"
+              style="height: 30px"
               type="number"
               name="averageMonthlyIncomPerPerson"
               id="averageMonthlyIncomPerPerson"
             />
           </div>
         </div>
-       
+
         <div class="row">
           <div class="col-lg-6">
             <label for="location">Location</label>
           </div>
           <div class="col-lg-6">
-            <input class="form-control" style="height:30px" type="text" name="location" id="location" />
+            <input
+              class="form-control"
+              style="height: 30px"
+              type="text"
+              name="location"
+              id="location"
+            />
           </div>
         </div>
 
-        <div class="row" style="background: rgb(244, 240, 252);">
+        <div class="row" style="background: rgb(244, 240, 252)">
           <div class="col-lg-6">
             <label for="provience">Provience</label>
           </div>
           <div class="col-lg-6">
-            <input class="form-control" style="height:30px" type="text" name="provience" id="provience" />
+            <input
+              class="form-control"
+              style="height: 30px"
+              type="text"
+              name="provience"
+              id="provience"
+            />
           </div>
         </div>
-
-        
-       
-
 
         <label for="city">City</label> <br />
         <input type="text" name="city" id="city" />

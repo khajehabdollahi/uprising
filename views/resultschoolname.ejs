@@ -1,6 +1,6 @@
 <% layout('layout/boilerplate') %> 
 
-
+<div style="text-align:center">
 
 <h2>Here is the result:</h2>
 
@@ -10,26 +10,9 @@
         <div class="row">
           <div class="col-md-12">
             
- <a href="/news/<%= school.id %>"><%= sch.schoolsname %> </a>
-
-  <li>schools Name: <%= sch.schoolsname %> <br/> <br/> <br/>
-  <li>owners Name: <%= sch.ownersName %> <br/> <br/> <br/>
-  <li>owners Family: <%= sch.ownersFamily %> <br/> <br/> <br/>
-  <li>number Of Poor People: <%= sch.numberOfPoorPeople%> <br/> <br/> <br/>
-  <li>average Monthly Income Per Person: <%= sch.averageMonthlyIncomPerPerson %> <br/> <br/> <br/>
-  <li>location: <%= sch.location %> <br/> <br/> <br/>
-  <li>City: <%= sch.city %> <br/> <br/> <br/>
-  <li>Provience: <%= sch.provience %> <br/> <br/> <br/>
-  <li>district: <%= sch.district %> <br/> <br/> <br/>
-  <li>Street: <%= sch.Street %> <br/> <br/> <br/>
-  <li>Line: <%= sch.line %> <br/> <br/> <br/>
-      
+ <a href="/news/<%= sch.id %>"><%= sch.schoolsname %> </a>
 
 
-  
-    
-    
-    </li> 
           </div>
         </div>
       </div>
@@ -37,3 +20,4 @@
 
    <%} %>
   </ul>
+  </div>

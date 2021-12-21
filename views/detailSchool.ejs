@@ -1,25 +1,15 @@
 <% layout('layout/boilerplate') %> 
-  <h1>Here you can see all Schools</h1>
 
-  <ul style="list-style-type:none">
-
-    
-
-    <% for(let school of schools) { %>
-     
-        <div class="row">
-          <div class="col-md-12">
-        <li><h2>  <a href="/newsss/<%= school.id %>/<%=currentUser.id %> "><%= school.schoolsname %></a></h2></li>    
-
-   
-
-    </li> 
-          </div>
+<div class="container" style="text-align:center">
+  <h3>Here you can see all Schools</h3>
+    <div class="row">   
+      <% for(let school of schools) { %>
+        <div class="col-lg-4" style="border: 1px solid rgb(176, 203, 252);">
+          <h4><a href="/news/<%= school.id %>/<%=currentUser.id %> "><%= school.schoolsname %></a></h4>    
         </div>
+      <%} %>
+    </div>
+ 
+  </div>
 
-   
 
-   <%} %>
-  </ul>
-  <br> <br>
-  <a href="/newones"><h2> Add new Schools</h2></a>  <br> <br>

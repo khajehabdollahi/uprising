@@ -77,6 +77,7 @@ const schoolSchema = new mongoose.Schema({
       ref: "User",
     },
     username: String,
+    name: String,
   },
 });
 

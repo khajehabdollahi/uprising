@@ -1,15 +1,17 @@
 <% layout('layout/boilerplate') %> 
 
-
+<main class="card"; style="text-align:center">
  <h1>Here is the user page of: <%= user.name %>! </h1>
  Email: <%= user.username %> <br>
  Name: <%= user.name %> <br>
  
-  Schools: <br>
+  School:
   <% for(let sch of school) {%> 
-  <a href="/news/<%=sch._id%> "><%= sch.schoolsname %></a> <br>
-      
-
+ <% if(!sch){ %> 
+<a href="/newones">Register a School </a> <br/>
+ 
+     <% } %>  
+ <h2><a href="/news/<%= sch.id %>/<%=currentUser.id %> "><%= sch.schoolsname %></a></h2>
 <% } %> 
  
 <br>
@@ -17,9 +19,16 @@
 <% if(currentUser && currentUser.username == user.username ) { %> 
 
 
-<a href="/newones">Register a School </a> <br/>
+
 <a href="/users/edit/<%=currentUser.id %>">Edit my Personal Information</a></a><br>
-<a href="/deleteuser/<%= currentUser.id %> ">ِDelete your Account</a><br>
+
+<form action="/deleteuser/<%= currentUser.id %>   " method="get">
+  <br>
+<button  class="btn btn-danger" type="submit">ِDelete your Account</button>
+
+  </form>
+<br><br>
+
 <% if(!currentUser.activated) { %> 
 <br>
 
@@ -28,3 +37,4 @@
 <% } %> 
 <% } %> 
 
+</main>

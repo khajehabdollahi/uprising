@@ -15,9 +15,7 @@ let userSchema = new mongoose.Schema({
   activated: {
     type: Boolean
   },
-  achools:{
-    type: Array,
-  }
+ 
 });
 
 userSchema.plugin(passportLocalMongoose);
