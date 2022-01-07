@@ -62,19 +62,18 @@
       <div class="school-image border rounded">
         <img class="rounded" src=<%=school.image %> alt="School Image" width="100%"> 
       </div>
+           <% if(currentUser && currentUser.username ==school.creator.username ) { %> 
+        <form action="/schoolimagedelete/<%= school._id%>" method="get">
+          <button class="btn btn-danger" type="submit">Delete image</button>
+        </form>
+      <% } %>
     </div>
   </div>
   <hr/>
 
   <div class="row">
     <div class="col-lg-12">
-      <% if(currentUser && currentUser.username ==school.creator.username ) { %> 
-        <form action="/schoolimagedelete/<%= school._id%>" method="get">
-
-          <input type="text" name="image" id="image" value="<%=school.image %>" style="display:none" > <br/>
-          <button class="btn btn-danger" type="submit">Delete image</button>
-        </form>
-      <% } %>
+      
       <h3>Friendship</h3>
       <% if(currentUser && currentUser.username==school.creator.username) {%>
         <% for (let f of friendships.reverse()){ %> 
@@ -90,8 +89,8 @@
       <% if(!currentUser || currentUser.username !=school.creator.username ) { %> 
         <a href="http:/users/<%= school.creator.id %>"> Creator</a><br/><br/>
       <% } else {%> 
-        <a href="http:/news/<%=school.id %>/edit ">Edit Information</a>
+        <a href="http:/news/<%=school.id %>/edit ">Edit your school Information</a> <br><br>
         <form action="/deleteconfirm/<%=school._id %>" method="get">
-        <button type="submit">delete</button>
+          <button class="btn btn-danger" type="submit">Delete Your School</button>
         </form>
       <% } %> 

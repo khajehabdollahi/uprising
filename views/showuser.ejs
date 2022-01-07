@@ -1,19 +1,33 @@
 <% layout('layout/boilerplate') %> 
 
 <main class="card"; style="text-align:center">
- <h1>Here is the user page of: <%= user.name %>! </h1>
+ <h3>Here is the user page of: <%= user.name %>! </h3>
  Email: <%= user.username %> <br>
  Name: <%= user.name %> <br>
  
-  School:
-  <% for(let sch of school) {%> 
- <% if(!sch){ %> 
-<a href="/newones">Register a School </a> <br/>
+ <br>
+
+ <% if(!school){ %> 
+<a href="/newones"><h2> Register a School</h2> </a> <br/>
  
-     <% } %>  
- <h2><a href="/news/<%= sch.id %>/<%=currentUser.id %> "><%= sch.schoolsname %></a></h2>
+     <% } else {%>  
+ <h2> School: <a href="/news/<%= school.id %>/<%=currentUser.id %> "><%= school.schoolsname %></a></h2>
 <% } %> 
  
+ <h4>Users Texts</h4>
+<% for (let t of text){ %> 
+  <ul style="list-style: none;">
+    <li><h4><%=t.title %></h4>   </li>
+    <li><%=t.text %>  </li>
+    <% if(currentUser.id==t.author.id){ %> 
+  <a href="/edittext/<%=t.id %>">Edit</a>
+
+  <% } %> 
+  </ul>
+  
+<% } %> 
+ 
+
 <br>
  
 <% if(currentUser && currentUser.username == user.username ) { %> 

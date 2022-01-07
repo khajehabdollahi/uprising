@@ -1,0 +1,33 @@
+ <% layout('layout/boilerplate') %> 
+
+ <main style="text-align:center">
+
+<h1>Search according to students gender</h1>
+
+ 
+<div>
+<form  action="/search/gender" method="POST" class="validated-form novalidate ">
+
+  <div class="mb-3">
+
+
+   <select name="searchKey" id="searchKey" >
+            <option>Select gender</option>
+            <option  value="boys" > Boys</option>
+            <option value="girls" > Girls</option>
+            <option value="mixed">Mixed</option>
+          </select>
+  
+</div>
+
+
+
+
+<button type="submit" class="button-success">Search</button>
+</form>
+</div>
+<br/>
+
+
+
+ </main>

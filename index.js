@@ -20,6 +20,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
 
 const User = require("./models/User");
+const Text = require("./models/Text");
 const Newschool = require("./models/school");
 
 const MongoStore = require("connect-mongo");
@@ -30,6 +31,7 @@ const uuid = require("uuid");
 
 const { storage } = require("./cloudinary/index");
 const console = require("console");
+const { rawListeners } = require("./models/friendship");
 
 const upload = multer({ storage });
 
@@ -109,8 +111,15 @@ app.get("/secret", (req, res) => {
   res.render("secret");
 });
 
-app.get("/newones", requiredLogin, (req, res) => {
-  res.render("newone");
+app.get("/newones", requiredLogin,async (req, res) => {
+  const id = req.user.id;
+  const school = await Newschool.findOne({ "creator.id": id });
+
+ if(school){
+  res.send("You have already registered a school");
+ } else {
+    res.render("newone");  
+ }
 });
 
 app.post("/news", upload.single("image"), async (req, res) => {
@@ -183,6 +192,11 @@ app.get("/news/:id/edit", requiredLogin, async (req, res) => {
   const school = await Newschool.findById(id);
   res.render("edit", { school });
 });
+app.get("/news/:id/addimage", requiredLogin, async (req, res) => {
+  const { id } = req.params;
+  const school = await Newschool.findById(id);
+  res.render("addimage", { school });
+});
 
 app.delete("/news/:id", async (req, res) => {
   const { id } = req.params;
@@ -197,12 +211,12 @@ app.get("/deleteconfirm/:id", async (req, res) => {
   res.render("schoolDelete", { id, school });
 });
 
-app.get("/schools", async (req, res) => {
+app.get("/schools", requiredLogin, async (req, res) => {
   const schools = await Newschool.find({});
   const currentUserId = req.user.id;
   schools.sort(function (a, b) {
     var nameA = a.schoolsname.toUpperCase();
-    var nameB = b.schoolsname.toUpperCase(); 
+    var nameB = b.schoolsname.toUpperCase();
     if (nameA < nameB) {
       return -1;
     }
@@ -292,28 +306,38 @@ app.get("/news/:sid/:cuid", async (req, res) => {
   });
 });
 
-app.get("/schoolimagedelete/:id", async (req, res) => {
+// app.get("/schoolimagedelete/:id", async (req, res) => {
+//   const { id } = req.params;
+//   const school = await Newschool.findById(id);
+
+//   school.image = req.file.path;
+//   try {
+//     await cloudinary.v2.uploader.destroy(
+//       image,
+//       { invalidate: true, resource_type: "path" },
+//       async (error, result) => {
+//         if (error) {
+//           return res.status(400).json(error);
+//         }
+//         await Property.updateOne({ $pull: { pictures: img } });
+//         res.json(result);
+//       }
+//     );
+//   } catch (e) {
+//     res.status(500).json("Something went wrong");
+//   }
+
+//   console.log(backery);
+// });
+
+app.put("/schoolimagedelete/:id", async (req, res) => {
   const { id } = req.params;
-  const school = await Newschool.findById(id);
 
-  school.image = req.file.path;
-  try {
-    await cloudinary.v2.uploader.destroy(
-      image,
-      { invalidate: true, resource_type: "path" },
-      async (error, result) => {
-        if (error) {
-          return res.status(400).json(error);
-        }
-        await Property.updateOne({ $pull: { pictures: img } });
-        res.json(result);
-      }
-    );
-  } catch (e) {
-    res.status(500).json("Something went wrong");
-  }
+  console.log("DELETE")
+  const school = await Newschool.findByIdAndUpdate(id, { "image": "" });
+  school.save();
 
-  console.log(backery);
+  res.render("home");
 });
 
 app.get("/", (req, res) => {
@@ -321,14 +345,19 @@ app.get("/", (req, res) => {
 });
 
 //CHECK STRING LENGTH
-const isValidData = (value, stringLength) => {
-  let inValid = new RegExp("^[_A-z0-9]{1,}$");
-  let result = inValid.test(value);
-  if (result && value.length >= stringLength) {
-    return true;
-  }
-  return false;
-};
+// const isValidData = (value, stringLength) => {
+//   let inValid = new RegExp("^[_A-z0-9]{1,}$");
+//   let result = inValid.test(value);
+//   if (result && value.length >= stringLength) {
+//     return true;
+//   }
+//   return false;
+// };
+
+const isValidData = (str) => {
+  var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+  return re.test(str);
+}
 
 //REGISTER USER
 app.get("/register", (req, res) => {
@@ -341,11 +370,11 @@ app.post("/register", async (req, res) => {
   let name = req.body.name;
   let role = req.body.role;
   let inputPassword = req.body.password;
-  console.log("PASSWORD: ", username);
+  console.log("USERNAME: ", username);
   let password;
 
-  if (!isValidData(inputPassword, 6)) {
-    console.log("Password must be at least 6 characters without space!");
+  if (!isValidData(inputPassword)) {
+    res.render('invalidpass');
   } else {
     password = inputPassword;
   }
@@ -502,6 +531,59 @@ app.put("/resetpass/:tempid/:username", async (req, res) => {
   });
 });
 
+app.get('/writenewtext',requiredLogin, (req, res) => {
+  res.render('text')
+})
+
+app.post("/dialogue", requiredLogin, async (req, res) => {
+  const text = new Text(req.body);
+  const id = req.user.id;
+  const auth = await User.findById(id);
+  text.author.name = auth.name;
+  text.author.id = auth.id;
+  text.save();
+  const allText = await Text.find({});
+  res.redirect("/alldialogues");
+});
+
+app.get('/alldialogues',requiredLogin, async (req, res) => {
+  const id = req.user.id;
+  
+  const allText = await Text.find({});
+   res.render("dialogue", { allText, id });
+})
+app.get('/text/:id', async (req, res)=>{
+  const { id } = req.params;
+  const text=await Text.findById(id)
+  res.render('everytext',{text})
+})
+
+app.get("/edittext/:id", async (req, res) => {
+  const {id} = req.params;
+
+  const text =await Text.findById(id);
+   res.render("textedit", { text });
+});
+
+app.get("/deletetext/:id", async (req, res) => {
+  const { id } = req.params;
+  const text= await Text.findById(id);
+  res.render("deletetextconfirm",{text});
+});
+app.get("/deletetextconfirm/:id", async (req, res) => {
+  const { id } = req.params;
+  const text= await Text.findByIdAndDelete(id);
+  res.redirect("/");
+});
+
+app.put("/dialogue/:id", async (req, res) => {
+  const { id } = req.params;
+  const text = await Text.findByIdAndUpdate(id, req.body, {
+    runValidators: true,
+  })
+  res.redirect("/alldialogues");
+});
+
 app.get("/users", async (req, res) => {
   const allUsers = await User.find({});
   res.render("allUsers", { allUsers });
@@ -510,8 +592,10 @@ app.get("/users", async (req, res) => {
 app.get("/users/:id", async (req, res) => {
   const { id } = req.params;
   const user = await User.findById(id);
-  const school = await Newschool.find({ "creator.id": id });
-  res.render("showuser", { user, school });
+  const school = await Newschool.findOne({ "creator.id": id });
+  const text = await Text.find({ "author.id": id });
+  
+  res.render("showuser", { user, school,text });
 });
 
 app.get("/requestfriendship/:id", requiredLogin, async (req, res) => {
@@ -602,7 +686,7 @@ app.post("/search/schoolname", async (req, res) => {
   const input = req.body.schoolsname;
   const search = input.toLowerCase();
   const school = await Newschool.find({ schoolsname: search });
-  res.render("resultschoolname", { school });
+  res.render("resultp", { school });
 });
 
 app.get("/search/provience", (req, res) => {
@@ -614,6 +698,21 @@ app.post("/search/provience", async (req, res) => {
   const search = input.toLowerCase();
   let query = {
     $or: [{ provience: search }, { city: search }, { district: search }],
+  };
+
+  const school = await Newschool.find(query);
+  res.render("resultp", { school });
+});
+
+app.get("/search/gender", (req, res) => {
+  res.render("gender");
+});
+
+app.post("/search/gender", async (req, res) => {
+  const input = req.body.searchKey;
+  const search = input.toLowerCase();
+  let query = {
+    $or: [{ gender: search }],
   };
 
   const school = await Newschool.find(query);

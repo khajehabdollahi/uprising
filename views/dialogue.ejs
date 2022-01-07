@@ -1,0 +1,45 @@
+<% layout('layout/boilerplate') %> 
+
+<% layout('layout/boilerplate') %>
+
+  <body>
+    
+
+ </div>
+
+<div class="container pt-1 home-block text-center">
+  <div class="mt-2">
+
+  </div class="border rounded">
+    <img class="border rounded"
+      src="/public/images/friend.jpg"
+    />
+<div>
+  
+      <% for(let t of allText.reverse()){ %> 
+<ul style="list-style: none;">
+  <li><h4><a href="/text/<%=t.id %>"><%=t.title %></a></h4> </li> 
+
+  
+  <li><%=t.text %></li> 
+   <li>Written By:<a href="/users/<%=t.author.id %> "><%=t.author.name %></a></li>
+<% if(currentUser.id==t.author.id){ %> 
+  <a href="/edittext/<%=t.id %>">Edit</a>
+   <br>
+
+   <form action="/deletetext/<%= t.id %>   "method="get">
+  <br>
+<button  class="btn btn-danger" type="submit">ِDelete </button>
+
+  </form>
+ 
+
+  <% } %> 
+  <br>
+ <% } %> 
+    </div>
+  
+  </div>
+ 
+
+    

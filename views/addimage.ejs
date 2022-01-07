@@ -1,0 +1,67 @@
+<% layout('layout/boilerplate') %> 
+  <h1>Here you can add image to your school</h1>
+  <form action="/news/<%=school._id %>?_method=PUT " method="POST" enctype="multipart/form-data">
+    
+  
+  <input type="text" name="schoolsname" id="schoolsname" value="<%=school.schoolsname %> " style="display:none">
+
+
+  <input type="number" name="numberOfStudents" id="numberOfStudents" value="<%=school.numberOfStudents%>" style="display:none" > 
+
+       
+          <select name="gender" id="gender" value="<%=school.gender%>" style="display:none">
+            <option><%=school.gender%></option>
+            <option  value="boys" > Boys</option>
+            <option value="girls" > Girlsr</option>
+            <option value="mixed">Mixed</option>
+          </select>
+</div>
+
+
+
+  <input type="number" name="averageMonthlyIncomPerPerson" id="averageMonthlyIncomPerPerson" value="<%=school.averageMonthlyIncomPerPerson%>"style="display:none"  > <br/> <br/>
+
+
+ 
+
+
+
+
+
+  <input type="text" name="provience" id="provience" value="<%=school.provience%>" style="display:none"> 
+
+
+  <input type="text" name="city" id="city" value="<%=school.city%>"style="display:none">
+
+
+  <input type="text" name="district" id="district" value="<%=school.district%>"style="display:none">
+
+
+  <input type="text" name="village" id="village" value="<%=school.village%>"style="display:none"> 
+
+
+  <input type="text" name="Street" id="Street" value="<%=school.Street%>"style="display:none"> 
+
+
+  <input type="text" name="number" id="number" value="<%=school.number%>"style="display:none"> 
+
+
+  <input type="text" name="postCode" id="postCode" value="<%=school.postCode%>"style="display:none"> 
+
+
+  <input type="text" name="mobileNumber" id="mobileNumber" value="<%=school.mobileNumber%>"style="display:none"> 
+
+
+  <input type="text" name="location" id="location" value="<%=school.location%>"style="display:none"> 
+  
+  <!-- <input type="file" name="image" id="image" value="<%=school.image%>" > <br/> <br/> -->
+  <input type="file" name="image" id="image" > <br/> <br/>
+
+ <!-- <label for="creator"> Schools Account creator</label><br/>
+  <input type="text" name="creator" id="creator" value="<%=school.creator%>"> <br><br> -->
+
+
+ 
+  <button type="submit" class="btn btn-success">Add image</button>
+  </form>
+

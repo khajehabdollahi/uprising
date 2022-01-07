@@ -20,7 +20,7 @@ module.exports = async function main(to, subject, text) {
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: '"Backery Help " <noreplyiranbackery@gmail.com>"',
+    from: '"School Help " <noreplyiranbackery@gmail.com>"',
     to,
     subject,
     text,
