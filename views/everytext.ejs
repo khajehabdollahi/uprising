@@ -1,12 +1,10 @@
 <% layout('layout/boilerplate') %> 
 <div class="container" style="text-align:center">
-
-<ul style="list-style: none;">
-  <li><h4><%=text.title %></h4> </li> 
-  
-  
-  <li><%=text.text %></li> 
-</ul>
-
+  <div class="row d-flex justify-content-center">
+    <div class="col-lg-8 mt-3 border rounded py-1">
+      <h4 class="mt-3"><%=text.title %></h4> 
+      <p class="text-justify"><%=text.text %> </p>
     </div>
+  </div>
+</div>
   

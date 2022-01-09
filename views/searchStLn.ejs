@@ -1,21 +1,28 @@
- <% layout('layout/boilerplate') %> 
 
-  <container  class="d-flex column-justify-content-center">
-<div>
-<form  action="/search/street" method="POST" class="validated-form novalidate ">
+
+  <% layout('layout/boilerplate') %> 
+
+ <main style="text-align:center">
+
+<h2>Search according to name of street or alley</h2>
+
+ 
+<div><form  action="/search/street" method="POST" class="validated-form novalidate ">
 
   <div class="mb-3">
-  <label class="form-label" for="searchKey">Please write the name of street or allay</label><br>
+  <label class="form-label" for="searchKey">Please write the name of street or alley</label><br>
   <input type="text" name="searchKey" id='searchKey'>
   
 </div>
 
 
+<button type="submit" class="btn btn-primary">Search</button>
 
 
-<button type="submit" class="button-success">Search</button>
 </form>
 </div>
 <br/>
 
- </container>
+
+
+ </main>

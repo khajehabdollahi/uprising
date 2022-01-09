@@ -34,9 +34,9 @@
 .footer-bottom {
   flex-shrink: 0;
   text-align: center;
-    position:sticky;
-bottom: 0px;
-width: 100%;
+  position:sticky;
+  bottom: 0px;
+  width: 100%;
 }
 
 .home-header-text{
@@ -52,5 +52,12 @@ width: 100%;
   box-sizing: border-box;
 }
 
+.blog-text:nth-child(2n){
+  background-color: rgb(255, 254, 242);
+}
+
+.blog-text{
+  background-color: rgb(252, 252, 252);
+}
 
 

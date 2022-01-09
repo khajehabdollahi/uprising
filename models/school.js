@@ -59,7 +59,6 @@ const schoolSchema = new mongoose.Schema({
   frienship: [
     {
       type: String,
-      
     },
   ],
   requestedfriendto: {
@@ -68,7 +67,6 @@ const schoolSchema = new mongoose.Schema({
       ref: "NewSchool",
     },
     id: String,
-
   },
 
   creator: {
@@ -76,8 +74,8 @@ const schoolSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    username: String,
     name: String,
+    username: String,
   },
 });
 

@@ -81,6 +81,7 @@ app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+
   next();
 });
 
@@ -573,7 +574,7 @@ app.get("/deletetext/:id", async (req, res) => {
 app.get("/deletetextconfirm/:id", async (req, res) => {
   const { id } = req.params;
   const text= await Text.findByIdAndDelete(id);
-  res.redirect("/");
+ res.redirect("/alldialogues");
 });
 
 app.put("/dialogue/:id", async (req, res) => {

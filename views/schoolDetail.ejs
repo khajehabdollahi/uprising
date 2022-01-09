@@ -44,19 +44,111 @@
             </div>
           </div>
         </li>
-       
+     </li>
+        <li class="list-group-item py-1"> 
+          <div class="row">
+            <div class="col-6 text-primary">
+             provience:
+            </div>
+            <div class="col-6">
+             <%= school.provience %>      
+                  </div>
+          </div>
 
-        <li class="list-group-item py-1"> provience: <%= school.provience %> </li>
-        <li class="list-group-item py-1"> City: <%= school.city %> </li>
-        <li class="list-group-item py-1"> district: <%= school.district %> </li>
-        <li class="list-group-item py-1"> Village: <%= school.village %> </li>
-        <li class="list-group-item py-1"> Street: <%= school.Street %> </li>
-        <li class="list-group-item py-1"> number: <%= school.number %> </li>
-        <li class="list-group-item py-1"> postCode: <%= school.postCode %> </li>
-        <li class="list-group-item py-1"> Mobile Number: <%= school.mobileNumber %> </li>
-        <li class="list-group-item py-1"> Location: <%= school.location %> </li>
-      </ul>
-    </div>
+        </li>
+
+         <li class="list-group-item py-1"> 
+          <div class="row">
+            <div class="col-6 text-primary">
+           City:   
+            </div>
+            <div class="col-6">
+              <%= school.city %>      
+                  </div>
+          </div>
+        </li>
+
+           <li class="list-group-item py-1"> 
+          <div class="row">
+            <div class="col-6 text-primary">
+           district:   
+            </div>
+            <div class="col-6">
+              <%= school.district %>      
+                  </div>
+          </div>
+        </li>
+
+         <li class="list-group-item py-1"> 
+          <div class="row">
+            <div class="col-6 text-primary">
+           Village:    
+            </div>
+            <div class="col-6">
+              <%= school.village %>     
+                  </div>
+          </div>
+        </li>
+         <li class="list-group-item py-1"> 
+          <div class="row">
+            <div class="col-6 text-primary">
+           Street:   
+            </div>
+            <div class="col-6">
+               <%= school.Street %>     
+                  </div>
+          </div>
+        </li>
+         <li class="list-group-item py-1"> 
+          <div class="row">
+            <div class="col-6 text-primary">
+          number:  
+            </div>
+            <div class="col-6">
+               <%= school.number %>     
+                  </div>
+          </div>
+        </li>
+         <li class="list-group-item py-1"> 
+          <div class="row">
+            <div class="col-6 text-primary">
+          postCode: 
+            </div>
+            <div class="col-6">
+               <%= school.postCode %>    
+                  </div>
+          </div>
+        </li>
+         <li class="list-group-item py-1"> 
+          <div class="row">
+            <div class="col-6 text-primary">
+         Mobile Number:
+            </div>
+            <div class="col-6">
+               <%= school.mobileNumber %>   
+                  </div>
+          </div>
+        </li>
+         <li class="list-group-item py-1"> 
+          <div class="row">
+            <div class="col-6 text-primary">
+         Location:
+            </div>
+            <div class="col-6">
+                 <%= school.location %> 
+                  </div>
+          </div>
+        </li>
+         <li class="list-group-item py-1"> 
+          <div class="row">
+            <div class="col-6 text-primary">
+         Registered By:
+            </div>
+            <div class="col-6">
+                 <a href="http:/users/<%= school.creator.id %>"> <%=school.creator.username %> </a> 
+                  </div>
+          </div>
+        </li>
 
     <div class="col-lg-6">
       <div class="school-image border rounded">

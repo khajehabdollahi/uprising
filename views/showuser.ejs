@@ -17,7 +17,7 @@
  <h4>Users Texts</h4>
 <% for (let t of text){ %> 
   <ul style="list-style: none;">
-    <li><h4><%=t.title %></h4>   </li>
+    <li><h4><a href="/text/<%=t.id %>"><%=t.title %></a></h4> </li> 
     <li><%=t.text %>  </li>
     <% if(currentUser.id==t.author.id){ %> 
   <a href="/edittext/<%=t.id %>">Edit</a>
