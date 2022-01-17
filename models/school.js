@@ -16,6 +16,10 @@ const schoolSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  averagAge: {
+    type: Number,
+    required: true,
+  },
   averageMonthlyIncomPerPerson: {
     type: Number,
     required: true,
@@ -25,6 +29,10 @@ const schoolSchema = new mongoose.Schema({
   },
   provience: {
     type: String,
+  },
+  eMail: {
+    type: String,
+    required: true,
   },
   city: {
     type: String,

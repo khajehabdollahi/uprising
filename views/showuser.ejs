@@ -1,19 +1,47 @@
 <% layout('layout/boilerplate') %> 
-
-<main class="card"; style="text-align:center">
- <h3>Here is the user page of: <%= user.name %>! </h3>
+<br>
+<div class="d-flex justify-content-center">
+<main class="card col-6"; style="text-align:center">
+ <h3> <%= user.name %>'Page! </h3>
  Email: <%= user.username %> <br>
  Name: <%= user.name %> <br>
  
  <br>
+  
+<% if(currentUser && currentUser.username == user.username ) { %> 
 
+
+ <% if(!school){ %> 
+<a href="/newones"><h2> Register a School</h2> </a> <br/>
+ 
+     <% } else {%>  
+ <h2>My School: <a href="/news/<%= school.id %>/<%=currentUser.id %> "><%= school.schoolsname %></a></h2>
+<% } %> 
+
+<a href="/users/edit/<%=currentUser.id %>">Edit my Personal Information</a></a><br>
+
+<form action="/deleteuser/<%= currentUser.id %>   " method="get">
+  <br>
+<button  class="btn btn-danger" type="submit">ِDelete your Account</button>
+
+  </form>
+<br><br>
+
+<% if(!currentUser.activated) { %> 
+<br>
+
+ <h5>You have not activated your account yet,
+ Please login to your Email and activate your account</h5>
+<% } %> 
+<% } %> 
+<%if(!currentUser){ %> 
  <% if(!school){ %> 
 <a href="/newones"><h2> Register a School</h2> </a> <br/>
  
      <% } else {%>  
  <h2> School: <a href="/news/<%= school.id %>/<%=currentUser.id %> "><%= school.schoolsname %></a></h2>
 <% } %> 
- 
+ <% } %> 
  <h4>Users Texts</h4>
 <% for (let t of text){ %> 
   <ul style="list-style: none;">
@@ -28,27 +56,8 @@
 <% } %> 
  
 
-<br>
- 
-<% if(currentUser && currentUser.username == user.username ) { %> 
-
-
-
-<a href="/users/edit/<%=currentUser.id %>">Edit my Personal Information</a></a><br>
-
-<form action="/deleteuser/<%= currentUser.id %>   " method="get">
-  <br>
-<button  class="btn btn-danger" type="submit">ِDelete your Account</button>
-
-  </form>
-<br><br>
-
-<% if(!currentUser.activated) { %> 
-<br>
-
- <h4>You have not activated your account yet</h4>
- <h4>Please login to your Email and activate your account</h4>
-<% } %> 
-<% } %> 
-
 </main>
+
+
+</div>
+<br>

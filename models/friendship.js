@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const friendshipSchema = new mongoose.Schema({
+  //The Id of the school which receives friendship request
   schoolId: {
     type: String,
   },
@@ -23,6 +24,12 @@ const friendshipSchema = new mongoose.Schema({
   },
   friendshipRequestedsSchoolsName: {
     type: String,
+  },
+  friendshipRequesterSchoolId: {
+    type:String
+  },
+  userIdWhichReceivedFriendshipRequest: {
+    type:String
   },
 
   date: {

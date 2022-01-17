@@ -19,9 +19,10 @@
             <form action="/deletetext/<%= t.id %> "method="get">
               <button  class="btn btn-sm btn-outline-danger py-0" type="submit" style="text-decoration: none; height: 28px">ِDelete </button>
             </form>
-          </div>
-        <% } %> 
+          </div> <br>
+        <% }else{ %> 
         <p class="mt-1" style="font-size: 12px;">Written By: <a href="/users/<%=t.author.id %> "><span><%=t.author.name %></span></a></p>
+      <% } %> 
       </div>
       </div>
     <% } %>

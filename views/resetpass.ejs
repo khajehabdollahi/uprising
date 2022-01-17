@@ -1,4 +1,7 @@
  <% layout('layout/boilerplate') %> 
+<div class="d-flex justify-content-center">
+<main class="card col-8"; style="text-align:center">
+ 
 <h1>Here you can reset your password</h1>
 
 <form action="/resetpass/<%=tempid%>/<%=username%>?_method=PUT " method="POST"> 
@@ -12,3 +15,5 @@
   <input type="text" name="username" id="username" value="<%=username%>" style="display: none"> <br><br>
   <button type="submit">Submit</button>
 </form>
+</main>
+</div>

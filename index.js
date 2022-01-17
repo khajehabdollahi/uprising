@@ -137,33 +137,40 @@ app.post("/news", upload.single("image"), async (req, res) => {
   school.creator.username = req.user.username;
   school.creator.name = req.user.name;
   school.creator.id = req.user.id;
+ 
 
   await school.save();
   res.redirect("/");
 });
 
 app.put("/news/:id", upload.single("image"), async (req, res) => {
-  const { id } = req.params;
 
+  const { id } = req.params;
+  const cuId = req.user.id;
   const data = req.body;
 
   school = await Newschool.findByIdAndUpdate(id, data);
   school.image = req.file.path;
-
   school.save();
-  res.redirect("/schools");
+  res.redirect("/news/"+id+"/"+cuId);
 });
 
 app.get("/news/:id", async (req, res) => {
   const { id } = req.params;
   //finding the school
-  const school = await Newschool.findById(id).populate("creatorbyId");
+  const school = await Newschool.findById(id)
+
   // Finding if there is a friendship with this school Id
   const friendships = await Friendship.find({ schoolId: id });
+  const userId=friendships.friendRequesterID
+  const user = await User.findById(userId);
+
   // Finding users who sent friendship to
   const uId = friendships.friendrequesterId;
   //finding all friendsships
   const allFriendships = await Friendship.find({});
+
+ 
 
   let friendRequesterID = undefined;
   for (let f of allFriendships) {
@@ -190,9 +197,12 @@ app.get("/news/:id", async (req, res) => {
 
 app.get("/news/:id/edit", requiredLogin, async (req, res) => {
   const { id } = req.params;
+
+  
   const school = await Newschool.findById(id);
   res.render("edit", { school });
 });
+
 app.get("/news/:id/addimage", requiredLogin, async (req, res) => {
   const { id } = req.params;
   const school = await Newschool.findById(id);
@@ -213,8 +223,29 @@ app.get("/deleteconfirm/:id", async (req, res) => {
 });
 
 app.get("/schools", requiredLogin, async (req, res) => {
-  const schools = await Newschool.find({});
   const currentUserId = req.user.id;
+  const currenUsersSchool = await Newschool.findOne({
+    "creator.id": currentUserId,
+  });
+
+  if (!currenUsersSchool) {
+    const schools = await Newschool.find({});
+
+    schools.sort(function (a, b) {
+      var nameA = a.schoolsname.toUpperCase();
+      var nameB = b.schoolsname.toUpperCase();
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    });
+    res.render("allschools1", { schools, currentUserId, currenUsersSchool });
+  }
+  const schools = await Newschool.find({});
+  
   schools.sort(function (a, b) {
     var nameA = a.schoolsname.toUpperCase();
     var nameB = b.schoolsname.toUpperCase();
@@ -226,7 +257,7 @@ app.get("/schools", requiredLogin, async (req, res) => {
     }
     return 0;
   });
-  res.render("detailschool", { schools, currentUserId });
+  res.render("allschools", { schools, currentUserId  });
 });
 
 
@@ -238,16 +269,24 @@ app.get("/news/:sid/:cuid", async (req, res) => {
   const cuid = await req.params.cuid;
   //finding the school
   const school = await Newschool.findById(sid);
+
   const schoolCretorId = school.creator.id;
   // Finding if there is a friendship which is sent  to this school
-  const friendship = await Friendship.find({ schoolId: sid });
+  const recivedFriendship = await Friendship.find({ schoolId: sid });
 
   //finding the user who created this schoolId
+  const user = school.creator;
+  const schoolCreatorId = user.id;
 
+  const friendshipReqestSent = await Friendship.find({
+    friendrequesterid: schoolCreatorId,
+  });
+ 
+  
   //Finding the School which is created by Current User
   const schoolFriend = await Newschool.findOne({ "creator.id": cuid });
 
-  //Finding friendshios which is sent to current user
+  //Finding friendships which is sent to current user
   const friendships = await Friendship.find({ schoolId: schoolFriend.id });
 
   //finding all friendships
@@ -266,10 +305,12 @@ app.get("/news/:sid/:cuid", async (req, res) => {
   }
 
   let youHaveAlreadySentFrienshipRequest = undefined;
+  let haveYoureceivedFriendRequsestFromThisSchoolNotConfirmed = "No";
 
   let shFriendship = school.frienship;
 
   let haveYoureceivedFriendRequsestFromThisSchool = undefined;
+ 
 
   for (let friend of allFriendships) {
     if (
@@ -279,8 +320,9 @@ app.get("/news/:sid/:cuid", async (req, res) => {
     ) {
       haveYoureceivedFriendRequsestFromThisSchool = "Yes";
     }
-  }
-
+    
+     }
+  
 
   let areYouAlreadyFriend = "No";
   for (let friend of allFriendships) {
@@ -288,15 +330,28 @@ app.get("/news/:sid/:cuid", async (req, res) => {
       friend.friendrequesterid === sid &&
       friend.schoolId === schoolFriend.id &&
       friend.confirmation == "Yes"
-    ) {
+    ) {areYouAlreadyFriend = "Yes";
     }
   }
 
-  
+  for (let friend of allFriendships) {
+    if (
+       friend.userIdWhichReceivedFriendshipRequest == cuid &&
+      friend.friendshipRequesterSchoolId == sid
+      && friend.confirmation == "Waiting for confirmation"
+    ) {
+      haveYoureceivedFriendRequsestFromThisSchoolNotConfirmed = "Yes";
+    }
+  }
+ 
+
+  console.log(haveYoureceivedFriendRequsestFromThisSchoolNotConfirmed);
 
   res.render("schoolNewDetail", {
     school,
     friendships,
+    recivedFriendship,
+    friendshipReqestSent,
     allFriendships,
     isFriendshipRequestSent,
     areYouAlreadyFriend,
@@ -304,6 +359,7 @@ app.get("/news/:sid/:cuid", async (req, res) => {
     youAreAlreadyFriends,
     ifYouAreAlreadyFriends,
     haveYoureceivedFriendRequsestFromThisSchool,
+    haveYoureceivedFriendRequsestFromThisSchoolNotConfirmed,
   });
 });
 
@@ -371,8 +427,7 @@ app.post("/register", async (req, res) => {
   let name = req.body.name;
   let role = req.body.role;
   let inputPassword = req.body.password;
-  console.log("USERNAME: ", username);
-  let password;
+ 
 
   if (!isValidData(inputPassword)) {
     res.render('invalidpass');
@@ -435,7 +490,7 @@ app.put("/users/edit/:id", async (req, res) => {
     new: true,
   });
   user.save();
-  res.send(user);
+  res.redirect('/users/'+id)
 });
 
 app.get("/deleteuser/:id", async (req, res) => {
@@ -471,7 +526,7 @@ app.post("/login", async (req, res, next) => {
       if (err) {
         return next(err);
       }
-      return res.redirect("/");
+      return res.redirect("/schools");
     });
   })(req, res, next);
 });
@@ -484,23 +539,27 @@ app.get("/forgetpass", (req, res) => {
 app.post("/forgetpass/:tempid", async (req, res) => {
   const { tempid } = await req.params;
   const { username } = req.body;
-
-  await User.find({ username }, function (err, user) {
+   let user1 = await User.findOne({ username: username });
+  if (!user1) {
+     res.render("nouser", { username });
+   } else
+{
+  const user = await User.find({ username }, function (err, user) {
     if (err) {
       console.log(err);
     } else {
-      res.send(user);
       mailerForget(
         username,
-        "Welcome to web",
-        "Yes you are very welcome now \n please activate ur account by clicking this link\n \n (http://localhost:3000/resetpass/" +
+        "Hve you forgatten your pass",
+        " please on the bellow link to reset your password\n \n (http://localhost:3000/resetpass/" +
           tempid +
           "/" +
           username
       );
-      //Detta lokal host ska ändras till domänen
+      res.redirect("/");
     }
   });
+}
 });
 
 //RESET PASSWORD
@@ -601,6 +660,7 @@ app.get("/users/:id", async (req, res) => {
 
 app.get("/requestfriendship/:id", requiredLogin, async (req, res) => {
   const { id } = req.params;
+   const currentUserId = req.user.id;
   const school = await Newschool.findById(id);
   res.render("friendship", { id, school });
 });
@@ -610,25 +670,32 @@ app.post("/friend/:id", async (req, res) => {
   const id = req.params.id;
   //finding the school which receive friendship request
   const school = await Newschool.findById(id);
-
   const uId = req.body.friendrequesterid;
 
-  // friendshipRequestedsSchoolsName = req.body.friendshipRequestedsSchoolsName;
+  
   //finding the school which send friendship
-  const fschool = await Newschool.findOne({
-    "creator.id": req.body.friendrequesterid,
+  const fschool = await Newschool.findOne({"creator.id": uId,
   });
+ 
 
   const friendshipRequesterSchoolId = fschool.id;
+  const userIdWhichReceivedFriendshipRequest = school.creator.id
+
   // let newfriend = school.frienship;
   friended.friendshipRequestersSchoolsName = fschool.schoolsname;
+  friended.userIdWhichReceivedFriendshipRequest =
+    userIdWhichReceivedFriendshipRequest;
+  friended.friendshipRequesterSchoolId = fschool.id;
   // friended.friendrequesterid = req.body.friendrequesterid;
   school.frienship.push(friendshipRequesterSchoolId);
   const date = Date.now();
   friended.date = date.toString();
   school.save();
+
   friended.save();
-  res.redirect("/");
+
+
+  res.redirect("/news/"+id+'/'+uId);
 });
 
 app.get("/users/:username", async (req, res) => {
@@ -657,9 +724,11 @@ app.put("/friendshipconfirm/:id", async (req, res) => {
   const confirmation = req.body.confirmation;
 
   const friendship = await Friendship.findByIdAndUpdate(id);
+  
   friendship.confirmation = confirmation;
+
   friendship.save();
-  res.redirect("/");
+  res.redirect("/schools");
 });
 
 app.get("/friendship", async (req, res) => {
@@ -676,7 +745,7 @@ app.get("/users/:id/:uid/school", async (req, res) => {
   res.render("school", { school });
 });
 
-app.get("/search", (req, res) => {
+app.get("/search", requiredLogin, (req, res) => {
   res.render("search");
 });
 app.get("/search/schoolname", (req, res) => {
