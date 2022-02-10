@@ -11,11 +11,13 @@ let userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
- 
+
   activated: {
-    type: Boolean
+    type: Boolean,
   },
- 
+  proficiency: {
+    type: String,
+  }
 });
 
 userSchema.plugin(passportLocalMongoose);

@@ -10,7 +10,9 @@ let textSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-
+  language: {
+    type: String,
+  },
   author: {
     id: {
       type: mongoose.Schema.Types.ObjectId,

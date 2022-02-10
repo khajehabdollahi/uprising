@@ -33,31 +33,38 @@ const { storage } = require("./cloudinary/index");
 const console = require("console");
 const { rawListeners } = require("./models/friendship");
 
+const MongoDBStore = require("connect-mongo");
+// I changed it to not get Error
+// const MongoDBStore= require("connect-mongo")(session)
+
+
 const upload = multer({ storage });
 
-const dbUrl = "mongodb://localhost:27017/backery";
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/backery";
 
 mongoose.connect(dbUrl, {
   useNewUrlParser: true,
+  useCreateIndex:true,
   useUnifiedTopology: true,
   useFindAndModify: false,
 });
-
-const store = MongoStore.create({
+const secret = process.env.SECRET;
+const store = MongoDBStore.create({
+  //it is written url but it mackes error here
   mongoUrl: dbUrl,
+  secret,
   touchAfter: 24 * 60 * 60,
-  crypto: {
-    secret: "squirrel",
-  },
 });
 
 store.on("error", function (e) {
   console.log("Error to save to dataBase", e);
 });
 
+
+
 const sessionConfig = {
   store,
-  secret: "thisshouldbeabettersecret!",
+  secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -112,304 +119,65 @@ app.get("/secret", (req, res) => {
   res.render("secret");
 });
 
-app.get("/newones", requiredLogin,async (req, res) => {
-  const id = req.user.id;
-  const school = await Newschool.findOne({ "creator.id": id });
 
- if(school){
-  res.send("You have already registered a school");
- } else {
-    res.render("newone");  
- }
-});
-
-app.post("/news", upload.single("image"), async (req, res) => {
-  // console.log(req.schoolody, req.file)
-  const input = req.body;
-  const school = new Newschool(input);
-  school.schoolsname = req.body.schoolsname.toLowerCase();
-  school.city = req.body.city.toLowerCase();
-  school.provience = req.body.provience.toLowerCase();
-  school.district = req.body.district.toLowerCase();
-  school.Street = req.body.Street.toLowerCase();
-  school.line = req.body.line.toLowerCase();
-  school.image = req.file.path;
-  school.creator.username = req.user.username;
-  school.creator.name = req.user.name;
-  school.creator.id = req.user.id;
- 
-
-  await school.save();
-  res.redirect("/");
-});
-
-app.put("/news/:id", upload.single("image"), async (req, res) => {
-
-  const { id } = req.params;
-  const cuId = req.user.id;
-  const data = req.body;
-
-  school = await Newschool.findByIdAndUpdate(id, data);
-  school.image = req.file.path;
-  school.save();
-  res.redirect("/news/"+id+"/"+cuId);
-});
-
-app.get("/news/:id", async (req, res) => {
-  const { id } = req.params;
-  //finding the school
-  const school = await Newschool.findById(id)
-
-  // Finding if there is a friendship with this school Id
-  const friendships = await Friendship.find({ schoolId: id });
-  const userId=friendships.friendRequesterID
-  const user = await User.findById(userId);
-
-  // Finding users who sent friendship to
-  const uId = friendships.friendrequesterId;
-  //finding all friendsships
-  const allFriendships = await Friendship.find({});
-
- 
-
-  let friendRequesterID = undefined;
-  for (let f of allFriendships) {
-    if (req.user) {
-      if (req.user.id === f.friendrequesterId) {
-        friendRequesterID = f.friendrequesterId;
-      } else {
-        friendRequesterID = undefined;
-      }
-    }
+app.get("/", async (req, res) => {
+  if (!req.user) {
+    const allText = await Text.find({});
+    const id = allText.id;
+    res.render("home1", { allText, id });
+  } else {
+    const id = req.user.id;
+    const allText = await Text.find({});
+    res.render("home", { allText, id });
   }
-
-  const schoolFriend = await Newschool.findOne({ "creator.id": uId });
-
-  res.render("schoolDetail", {
-    school,
-    friendships,
-    schoolFriend,
-    uId,
-    allFriendships,
-    friendRequesterID,
-  });
 });
-
-app.get("/news/:id/edit", requiredLogin, async (req, res) => {
-  const { id } = req.params;
-
+app.get("/persian", async (req, res) => {
+  if (!req.user) {
+    const allText = await Text.find({ language: "Persian" });
+    const id = allText.id;
+    res.render("home1", { allText, id });
+  } else {
+    const id = req.user.id;
+    const allText = await Text.find({ language: "Persian" });
   
-  const school = await Newschool.findById(id);
-  res.render("edit", { school });
-});
-
-app.get("/news/:id/addimage", requiredLogin, async (req, res) => {
-  const { id } = req.params;
-  const school = await Newschool.findById(id);
-  res.render("addimage", { school });
-});
-
-app.delete("/news/:id", async (req, res) => {
-  const { id } = req.params;
-  await Newschool.findByIdAndDelete(id);
-  //  req.flash("mes", "Yes deleted a backery");
-  res.redirect("/");
-});
-
-app.get("/deleteconfirm/:id", async (req, res) => {
-  const { id } = req.params;
-  const school = await Newschool.findById(id);
-  res.render("schoolDelete", { id, school });
-});
-
-app.get("/schools", requiredLogin, async (req, res) => {
-  const currentUserId = req.user.id;
-  const currenUsersSchool = await Newschool.findOne({
-    "creator.id": currentUserId,
-  });
-
-  if (!currenUsersSchool) {
-    const schools = await Newschool.find({});
-
-    schools.sort(function (a, b) {
-      var nameA = a.schoolsname.toUpperCase();
-      var nameB = b.schoolsname.toUpperCase();
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-      return 0;
-    });
-    res.render("allschools1", { schools, currentUserId, currenUsersSchool });
+    res.render("home", { allText, id });
   }
-  const schools = await Newschool.find({});
-  
-  schools.sort(function (a, b) {
-    var nameA = a.schoolsname.toUpperCase();
-    var nameB = b.schoolsname.toUpperCase();
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
-    return 0;
-  });
-  res.render("allschools", { schools, currentUserId  });
 });
 
-
-
-app.get("/news/:sid/:cuid", async (req, res) => {
-  //sid is the Id of this school
-  const sid = await req.params.sid;
-  //cuid is the id of current user
-  const cuid = await req.params.cuid;
-  //finding the school
-  const school = await Newschool.findById(sid);
-
-  const schoolCretorId = school.creator.id;
-  // Finding if there is a friendship which is sent  to this school
-  const recivedFriendship = await Friendship.find({ schoolId: sid });
-
-  //finding the user who created this schoolId
-  const user = school.creator;
-  const schoolCreatorId = user.id;
-
-  const friendshipReqestSent = await Friendship.find({
-    friendrequesterid: schoolCreatorId,
-  });
- 
-  
-  //Finding the School which is created by Current User
-  const schoolFriend = await Newschool.findOne({ "creator.id": cuid });
-
-  //Finding friendships which is sent to current user
-  const friendships = await Friendship.find({ schoolId: schoolFriend.id });
-
-  //finding all friendships
-  const allFriendships = await Friendship.find({});
-  let youAreAlreadyFriends = undefined;
-  let ifYouAreAlreadyFriends = "No";
-  let isFriendshipRequestSent = undefined;
-  for (let friend of allFriendships) {
-    if (friend.schoolId == sid && friend.friendrequesterid == cuid) {
-      isFriendshipRequestSent = "Yes";
-      if (friend.confirmation == "Yes") {
-        ifYouAreAlreadyFriends = "Yes";
-        break;
-      }
-    }
-  }
-
-  let youHaveAlreadySentFrienshipRequest = undefined;
-  let haveYoureceivedFriendRequsestFromThisSchoolNotConfirmed = "No";
-
-  let shFriendship = school.frienship;
-
-  let haveYoureceivedFriendRequsestFromThisSchool = undefined;
- 
-
-  for (let friend of allFriendships) {
-    if (
-      friend.friendrequesterid == schoolCretorId &&
-      friend.schoolId === schoolFriend.id &&
-      friend.confirmation == "Yes"
-    ) {
-      haveYoureceivedFriendRequsestFromThisSchool = "Yes";
-    }
+app.get("/swedish", async (req, res) => {
+  if (!req.user) {
+   
+    const allText = await Text.find({ language: "ُSwedish" });
     
-     }
+     const id = allText.id;
+     res.render("home1", { allText, id });
   
-
-  let areYouAlreadyFriend = "No";
-  for (let friend of allFriendships) {
-    if (
-      friend.friendrequesterid === sid &&
-      friend.schoolId === schoolFriend.id &&
-      friend.confirmation == "Yes"
-    ) {areYouAlreadyFriend = "Yes";
-    }
+  } else {
+  
+    const id = req.user.id;
+    const allText = await Text.find({ language: "ُSwedish" });
+    res.render("home", { allText, id });
   }
+});
+app.get("/english", async (req, res) => {
+  if (!req.user) {
+    const allText = await Text.find({ language: "English" });
 
-  for (let friend of allFriendships) {
-    if (
-       friend.userIdWhichReceivedFriendshipRequest == cuid &&
-      friend.friendshipRequesterSchoolId == sid
-      && friend.confirmation == "Waiting for confirmation"
-    ) {
-      haveYoureceivedFriendRequsestFromThisSchoolNotConfirmed = "Yes";
-    }
+    const id = allText.id;
+    res.render("home1", { allText, id });
+  } else {
+    const id = req.user.id;
+    const allText = await Text.find({ language: "English" });
+    res.render("home", { allText, id });
   }
- 
-
-  console.log(haveYoureceivedFriendRequsestFromThisSchoolNotConfirmed);
-
-  res.render("schoolNewDetail", {
-    school,
-    friendships,
-    recivedFriendship,
-    friendshipReqestSent,
-    allFriendships,
-    isFriendshipRequestSent,
-    areYouAlreadyFriend,
-    youHaveAlreadySentFrienshipRequest,
-    youAreAlreadyFriends,
-    ifYouAreAlreadyFriends,
-    haveYoureceivedFriendRequsestFromThisSchool,
-    haveYoureceivedFriendRequsestFromThisSchoolNotConfirmed,
-  });
 });
 
-// app.get("/schoolimagedelete/:id", async (req, res) => {
-//   const { id } = req.params;
-//   const school = await Newschool.findById(id);
-
-//   school.image = req.file.path;
-//   try {
-//     await cloudinary.v2.uploader.destroy(
-//       image,
-//       { invalidate: true, resource_type: "path" },
-//       async (error, result) => {
-//         if (error) {
-//           return res.status(400).json(error);
-//         }
-//         await Property.updateOne({ $pull: { pictures: img } });
-//         res.json(result);
-//       }
-//     );
-//   } catch (e) {
-//     res.status(500).json("Something went wrong");
-//   }
-
-//   console.log(backery);
-// });
-
-app.put("/schoolimagedelete/:id", async (req, res) => {
-  const { id } = req.params;
-
-  console.log("DELETE")
-  const school = await Newschool.findByIdAndUpdate(id, { "image": "" });
-  school.save();
-
-  res.render("home");
+app.get("/textnotinlogd/:id", async (req, res) => {
+  const id = req.params.id;
+  const everyText = await Text.findById(id)
+  res.render('everyTextnotinlogd',{ everyText})
 });
 
-app.get("/", (req, res) => {
-  res.render("home");
-});
-
-//CHECK STRING LENGTH
-// const isValidData = (value, stringLength) => {
-//   let inValid = new RegExp("^[_A-z0-9]{1,}$");
-//   let result = inValid.test(value);
-//   if (result && value.length >= stringLength) {
-//     return true;
-//   }
-//   return false;
-// };
 
 const isValidData = (str) => {
   var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
@@ -418,14 +186,15 @@ const isValidData = (str) => {
 
 //REGISTER USER
 app.get("/register", (req, res) => {
-  res.render("registerr");
+  res.render("register");
 });
 
 app.post("/register", async (req, res) => {
   let username = req.body.username;
 
   let name = req.body.name;
-  let role = req.body.role;
+  // let role = req.body.role;
+  let proficiency = req.body.proficiency;
   let inputPassword = req.body.password;
  
 
@@ -438,7 +207,7 @@ app.post("/register", async (req, res) => {
   const newUser = new User({
     username,
     name,
-    role,
+    proficiency,
     activated: false,
   });
 
@@ -500,6 +269,9 @@ app.get("/deleteuser/:id", async (req, res) => {
 });
 app.get("/deleteuserconfirm/:id", async (req, res) => {
   const { id } = await req.params;
+  
+  const text= await Text.find({'author.id':id})
+ 
   await User.findByIdAndDelete(id);
   res.redirect("/");
 });
@@ -526,7 +298,7 @@ app.post("/login", async (req, res, next) => {
       if (err) {
         return next(err);
       }
-      return res.redirect("/schools");
+      return res.redirect("/");
     });
   })(req, res, next);
 });
@@ -591,19 +363,22 @@ app.put("/resetpass/:tempid/:username", async (req, res) => {
   });
 });
 
+
+
 app.get('/writenewtext',requiredLogin, (req, res) => {
   res.render('text')
 })
 
 app.post("/dialogue", requiredLogin, async (req, res) => {
   const text = new Text(req.body);
+  
   const id = req.user.id;
   const auth = await User.findById(id);
   text.author.name = auth.name;
   text.author.id = auth.id;
   text.save();
   const allText = await Text.find({});
-  res.redirect("/alldialogues");
+  res.redirect("/");
 });
 
 app.get('/alldialogues',requiredLogin, async (req, res) => {
@@ -620,16 +395,27 @@ app.get('/text/:id', async (req, res)=>{
 
 app.get("/edittext/:id", async (req, res) => {
   const {id} = req.params;
-
-  const text =await Text.findById(id);
+  const text = await Text.findById(id);
+ 
    res.render("textedit", { text });
 });
+
+app.put("/edittext/:id", async (req, res) => {
+  const id = req.params.id
+  const text = await Text.findByIdAndUpdate(id, req.body, {
+    runValidators: true,
+  })
+  res.redirect('/');
+});
+
 
 app.get("/deletetext/:id", async (req, res) => {
   const { id } = req.params;
   const text= await Text.findById(id);
   res.render("deletetextconfirm",{text});
 });
+
+
 app.get("/deletetextconfirm/:id", async (req, res) => {
   const { id } = req.params;
   const text= await Text.findByIdAndDelete(id);
@@ -638,11 +424,17 @@ app.get("/deletetextconfirm/:id", async (req, res) => {
 
 app.put("/dialogue/:id", async (req, res) => {
   const { id } = req.params;
+  // const text = req.body.text
+  // res.send(text)
   const text = await Text.findByIdAndUpdate(id, req.body, {
     runValidators: true,
   })
   res.redirect("/alldialogues");
 });
+
+app.get('/art', (req, res) => {
+  res.render('art')
+})
 
 app.get("/users", async (req, res) => {
   const allUsers = await User.find({});
@@ -658,45 +450,6 @@ app.get("/users/:id", async (req, res) => {
   res.render("showuser", { user, school,text });
 });
 
-app.get("/requestfriendship/:id", requiredLogin, async (req, res) => {
-  const { id } = req.params;
-   const currentUserId = req.user.id;
-  const school = await Newschool.findById(id);
-  res.render("friendship", { id, school });
-});
-
-app.post("/friend/:id", async (req, res) => {
-  const friended = new Friendship(req.body);
-  const id = req.params.id;
-  //finding the school which receive friendship request
-  const school = await Newschool.findById(id);
-  const uId = req.body.friendrequesterid;
-
-  
-  //finding the school which send friendship
-  const fschool = await Newschool.findOne({"creator.id": uId,
-  });
- 
-
-  const friendshipRequesterSchoolId = fschool.id;
-  const userIdWhichReceivedFriendshipRequest = school.creator.id
-
-  // let newfriend = school.frienship;
-  friended.friendshipRequestersSchoolsName = fschool.schoolsname;
-  friended.userIdWhichReceivedFriendshipRequest =
-    userIdWhichReceivedFriendshipRequest;
-  friended.friendshipRequesterSchoolId = fschool.id;
-  // friended.friendrequesterid = req.body.friendrequesterid;
-  school.frienship.push(friendshipRequesterSchoolId);
-  const date = Date.now();
-  friended.date = date.toString();
-  school.save();
-
-  friended.save();
-
-
-  res.redirect("/news/"+id+'/'+uId);
-});
 
 app.get("/users/:username", async (req, res) => {
   const { username } = req.params;
@@ -704,37 +457,7 @@ app.get("/users/:username", async (req, res) => {
   res.render("showuser", { user });
 });
 
-app.get("/friendshipconfirm/:fid/:id", async (req, res) => {
-  const { fid } = req.params;
-  const { id } = req.params;
 
-  const friendship = await Friendship.findById(fid);
-
-  const uid = friendship.friendrequesterid;
-
-  const fschool = await Newschool.findOne({ "creator.id": uid });
-
-  const school = await Newschool.findById(id);
-
-  res.render("friendshipconfirm", { friendship, school, fschool });
-});
-
-app.put("/friendshipconfirm/:id", async (req, res) => {
-  const { id } = req.params;
-  const confirmation = req.body.confirmation;
-
-  const friendship = await Friendship.findByIdAndUpdate(id);
-  
-  friendship.confirmation = confirmation;
-
-  friendship.save();
-  res.redirect("/schools");
-});
-
-app.get("/friendship", async (req, res) => {
-  const friendship = await Friendship.find({});
-  res.render("friendships", { friendship });
-});
 
 app.get("/users/:id/:uid/school", async (req, res) => {
   const { id } = req.params;
@@ -744,107 +467,6 @@ app.get("/users/:id/:uid/school", async (req, res) => {
   const schoolId = school.id;
   res.render("school", { school });
 });
-
-app.get("/search", requiredLogin, (req, res) => {
-  res.render("search");
-});
-app.get("/search/schoolname", (req, res) => {
-  res.render("searchschoolname");
-});
-
-app.post("/search/schoolname", async (req, res) => {
-  const input = req.body.schoolsname;
-  const search = input.toLowerCase();
-  const school = await Newschool.find({ schoolsname: search });
-  res.render("resultp", { school });
-});
-
-app.get("/search/provience", (req, res) => {
-  res.render("searchp");
-});
-
-app.post("/search/provience", async (req, res) => {
-  const input = req.body.provience;
-  const search = input.toLowerCase();
-  let query = {
-    $or: [{ provience: search }, { city: search }, { district: search }],
-  };
-
-  const school = await Newschool.find(query);
-  res.render("resultp", { school });
-});
-
-app.get("/search/gender", (req, res) => {
-  res.render("gender");
-});
-
-app.post("/search/gender", async (req, res) => {
-  const input = req.body.searchKey;
-  const search = input.toLowerCase();
-  let query = {
-    $or: [{ gender: search }],
-  };
-
-  const school = await Newschool.find(query);
-  res.render("resultp", { school });
-});
-
-app.get("/search/village", (req, res) => {
-  res.render("searchv");
-});
-app.post("/search/village", async (req, res) => {
-  const input = req.body.vi;
-  const search = input.toLowerCase();
-  let query = {
-    $or: [{ village: search }],
-  };
-
-  const school = await Newschool.find(query);
-  res.render("resultP", { school });
-});
-
-app.get("/search/street", (req, res) => {
-  res.render("searchStLn");
-});
-app.post("/search/street", async (req, res) => {
-  const input = req.body.searchKey;
-  const search = input.toLowerCase();
-
-  let query = {
-    $or: [{ Street: search }, { line: search }],
-  };
-
-  const school = await Newschool.find(query);
-  res.render("resultp", { school });
-});
-
-app.get("/search/mobilenumber", (req, res) => {
-  res.render("searchMnPc");
-});
-
-app.post("/search/mobilenumber", async (req, res) => {
-  const input = req.body.searchKey;
-  let query = {
-    $or: [{ mobileNumber: input }, { postCode: input }],
-  };
-
-  const school = await Newschool.find(query);
-  res.render("resultp", { school });
-});
-
-app.get("/search/economylevel", (req, res) => {
-  res.render("searchel");
-});
-
-app.post("/search/economylevel", async (req, res) => {
-  const input = req.body.searchKey;
-  const school = await Newschool.find()
-    .where("averageMonthlyIncomPerPerson")
-    .lte(input)
-    .exec();
-  res.render("resultp", { school });
-});
-
 app.post("/api/login", async (req, res, next) => {
   await passport.authenticate("local", (err, user, info) => {
     if (err) {

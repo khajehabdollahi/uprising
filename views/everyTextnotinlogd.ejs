@@ -1,0 +1,11 @@
+<% layout('layout/boilerplate') %> 
+<div class="row d-flex justify-content-center mt-2">
+      <div class="col-lg-8 px-3 border rounded blog-text pt-2">
+      <h4 class="text-center text-justify"><%=everyText.title %></h4> 
+      <p class="text-center text-justify"><%=everyText.text %> </p>
+    
+                <p class="mt-1" style="font-size: 12px; text-align: center">Written By: <a href="/users/<%=everyText.author.id %> "><span><%=everyText.author.name %></span></a></p>
+
+    </div>
+  </div>
+</div>
