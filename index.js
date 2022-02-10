@@ -497,6 +497,8 @@ app.use((req, res) => {
   res.status(404).send(`<h1>The page is not defined</h1>`);
 });
 
-app.listen(3000, () => {
-  console.log("School SERVER RUNNING!");
+const port=process.env.PORT || 3000;
+
+app.listen(port, () => {
+  console.log(`IranianSE Serv on ${port}`);
 });
