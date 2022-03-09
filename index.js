@@ -19,9 +19,9 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
 
-const User = require("./models/User");
-const Text = require("./models/Text");
-const Newschool = require("./models/school");
+const User = require("./models/user");
+const Text = require("./models/text");
+
 
 const MongoStore = require("connect-mongo");
 
@@ -469,14 +469,7 @@ app.get("/users/:username", async (req, res) => {
 
 
 
-app.get("/users/:id/:uid/school", async (req, res) => {
-  const { id } = req.params;
-  const uid = req.params;
-  const user = await User.findById(id);
-  const school = await Newschool.findOne({ "creator.id": id });
-  const schoolId = school.id;
-  res.render("school", { school });
-});
+
 app.post("/api/login", async (req, res, next) => {
   await passport.authenticate("local", (err, user, info) => {
     if (err) {
