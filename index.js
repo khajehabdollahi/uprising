@@ -12,7 +12,7 @@ const nodemailer = require("nodemailer");
 const mailer = require("./views/mailer");
 const mailerForget = require("./views/mailerForget");
 
-const Friendship = require("./models/friendship");
+
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
 const passport = require("passport");
@@ -31,7 +31,7 @@ const uuid = require("uuid");
 
 const { storage } = require("./cloudinary/index");
 const console = require("console");
-const { rawListeners } = require("./models/friendship");
+
 
 const MongoDBStore = require("connect-mongo");
 // I changed it to not get Error
@@ -40,7 +40,7 @@ const MongoDBStore = require("connect-mongo");
 
 const upload = multer({ storage });
 
-const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/backery";
+const dbUrl =  "mongodb://localhost:27017/iranianse";
 
 mongoose.connect(dbUrl, {
   useNewUrlParser: true,
@@ -122,6 +122,7 @@ app.get("/secret", (req, res) => {
 
 app.get("/", async (req, res) => {
   if (!req.user) {
+  
     const allText = await Text.find({});
     const id = allText.id;
     res.render("home1", { allText, id });
@@ -159,6 +160,7 @@ app.get("/swedish", async (req, res) => {
     res.render("home", { allText, id });
   }
 });
+
 app.get("/english", async (req, res) => {
   if (!req.user) {
     const allText = await Text.find({ language: "English" });
@@ -369,22 +371,30 @@ app.get('/writenewtext',requiredLogin, (req, res) => {
   res.render('text')
 })
 
-app.post("/dialogue", requiredLogin, async (req, res) => {
+app.post("/", async (req, res) => {
   const text = new Text(req.body);
-  
   const id = req.user.id;
   const auth = await User.findById(id);
+
   text.author.name = auth.name;
   text.author.id = auth.id;
-  text.save();
-  const allText = await Text.find({});
-  res.redirect("/");
+  text.save()
+ 
+  
+  res.redirect('/')
 });
+
+app.get('/', (req, res) => {
+  allText = Text.find({});
+  res.render('home', { allText });
+
+})
 
 app.get('/alldialogues',requiredLogin, async (req, res) => {
   const id = req.user.id;
   
   const allText = await Text.find({});
+ 
    res.render("dialogue", { allText, id });
 })
 app.get('/text/:id', async (req, res)=>{
@@ -444,10 +454,10 @@ app.get("/users", async (req, res) => {
 app.get("/users/:id", async (req, res) => {
   const { id } = req.params;
   const user = await User.findById(id);
-  const school = await Newschool.findOne({ "creator.id": id });
-  const text = await Text.find({ "author.id": id });
   
-  res.render("showuser", { user, school,text });
+  const text = await Text.find({ "author.id": id });
+
+  res.render("showuser", { user, text });
 });
 
 

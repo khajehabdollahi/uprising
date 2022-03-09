@@ -10,14 +10,6 @@
   
 <% if(currentUser && currentUser.username == user.username ) { %> 
 
-
- <% if(!school){ %> 
-<a href="/newones"><h2> Register a School</h2> </a> <br/>
- 
-     <% } else {%>  
- <h2>My School: <a href="/news/<%= school.id %>/<%=currentUser.id %> "><%= school.schoolsname %></a></h2>
-<% } %> 
-
 <a href="/users/edit/<%=currentUser.id %>">Edit my Personal Information</a></a><br>
 
 <form action="/deleteuser/<%= currentUser.id %>   " method="get">
@@ -34,27 +26,18 @@
  Please login to your Email and activate your account</h5>
 <% } %> 
 <% } %> 
-<%if(!currentUser){ %> 
- <% if(!school){ %> 
-<a href="/newones"><h2> Register a School</h2> </a> <br/>
- 
-     <% } else {%>  
- <h2> School: <a href="/news/<%= school.id %>/<%=currentUser.id %> "><%= school.schoolsname %></a></h2>
-<% } %> 
- <% } %> 
- <h4>Users Texts</h4>
-<% for (let t of text){ %> 
-  <ul style="list-style: none;">
-    <li><h4><a href="/text/<%=t.id %>"><%=t.title %></a></h4> </li> 
-    <li><%=t.text %>  </li>
-    <% if(currentUser.id==t.author.id){ %> 
-  <a href="/edittext/<%=t.id %>">Edit</a>
+<h1>Users Text</h1>
+<% for(let t of text){ %> 
+<ul>
+      <li><h4><a href="/text/<%=t.id %>"><%=t.title %></a></h4> </li> 
+  <li><%=t.text %> </li>
+  <% if(currentUser && currentUser.id==t.author.id){ %>  
+ <a href="/edittext/<%=t.id %>">Edit</a>
 
   <% } %> 
-  </ul>
-  
-<% } %> 
- 
+
+</ul>
+ <% } %> 
 
 </main>
 
