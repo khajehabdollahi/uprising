@@ -1,6 +1,4 @@
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
-}
+// c
 
 const express = require("express");
 const app = express();
@@ -22,8 +20,7 @@ const flash = require("connect-flash");
 const User = require("./models/user");
 const Text = require("./models/text");
 
-
-const MongoStore = require("connect-mongo");
+const MongoStore = require("connect-mongo")(session);
 
 const multer = require("multer");
 
@@ -31,11 +28,6 @@ const uuid = require("uuid");
 
 const { storage } = require("./cloudinary/index");
 const console = require("console");
-
-
-const MongoDBStore = require("connect-mongo");
-// I changed it to not get Error
-// const MongoDBStore= require("connect-mongo")(session)
 
 
 const upload = multer({ storage });
@@ -49,34 +41,47 @@ mongoose.connect(dbUrl, {
   useUnifiedTopology: true,
   useFindAndModify: false,
 });
-const secret = process.env.SECRET;
-const store = MongoDBStore.create({
-  //it is written url but it mackes error here
-  mongoUrl: dbUrl,
-  secret,
-  touchAfter: 24 * 60 * 60,
-});
 
-store.on("error", function (e) {
-  console.log("Error to save to dataBase", e);
-});
+app.use(
+  session({
+    secret: "mriduava",
+    saveUninitialized: false,
+    resave: false,
+    store: new MongoStore({
+      url: dbUrl,
+      touchAfter: 24 * 3600,
+    }),
+  })
+);
+
+// const secret = process.env.SECRET;
+// const store = MongoDBStore.create({
+//   //it is written url but it mackes error here
+//   mongoUrl: dbUrl,
+//   secret,
+//   touchAfter: 24 * 60 * 60,
+// });
+
+// store.on("error", function (e) {
+//   console.log("Error to save to dataBase", e);
+// });
 
 
 
-const sessionConfig = {
-  store,
-  secret,
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    httpOnly: true,
-    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-    maxAge: 1000 * 60 * 60 * 24 * 7,
-  },
-};
+// const sessionConfig = {
+//   store,
+//   secret,
+//   resave: false,
+//   saveUninitialized: true,
+//   cookie: {
+//     httpOnly: true,
+//     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+//     maxAge: 1000 * 60 * 60 * 24 * 7,
+//   },
+// };
 
-app.use(session(sessionConfig));
-app.use(flash());
+// app.use(session(sessionConfig));
+// app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -87,8 +92,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
-  res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
+  // res.locals.success = req.flash("success");
+  // res.locals.error = req.flash("error");
 
   next();
 });
