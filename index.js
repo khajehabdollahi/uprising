@@ -40,7 +40,8 @@ const MongoDBStore = require("connect-mongo");
 
 const upload = multer({ storage });
 
-const dbUrl =  "mongodb://localhost:27017/iranianse";
+const dbUrl =
+  "mongodb+srv://HassanIranSe:TFFA1HzQN5LxTzd9@cluster0.tsith.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 mongoose.connect(dbUrl, {
   useNewUrlParser: true,
