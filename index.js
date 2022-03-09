@@ -377,7 +377,7 @@ app.get('/writenewtext',requiredLogin, (req, res) => {
   res.render('text')
 })
 
-app.post("/", async (req, res) => {
+app.post("/writenewtext", async (req, res) => {
   const text = new Text(req.body);
   const id = req.user.id;
   const auth = await User.findById(id);
@@ -385,8 +385,6 @@ app.post("/", async (req, res) => {
   text.author.name = auth.name;
   text.author.id = auth.id;
   text.save()
- 
-  
   res.redirect('/')
 });
 
