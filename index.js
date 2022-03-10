@@ -400,7 +400,7 @@ app.post("/writenewtex", async (req, res) => {
 app.get('/', (req, res) => {
   allText = Text.find({});
  
-  res.render('home', { allText });
+  res.render('home1', { allText });
 })
 
 app.get('/alldialogues',requiredLogin, async (req, res) => {
