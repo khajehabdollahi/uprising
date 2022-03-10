@@ -377,17 +377,17 @@ app.get('/writenewtext',requiredLogin, (req, res) => {
   res.render('text')
 })
 
-app.post("/", async (req, res) => {
+app.post("/writenewtex", async (req, res) => {
   const text = new Text(req.body);
   const id = req.user.id;
-  console.log(text)
-  const auth =  User.findById(id);
-    text.author.name = auth.name;
+  console.log(text);
+  const auth = User.findById(id);
+  text.author.name = auth.name;
   text.author.id = auth.id;
-  
+
   text.save();
 
-  res.redirect('/')
+  res.redirect("/");
 });
 
 app.get('/', (req, res) => {
