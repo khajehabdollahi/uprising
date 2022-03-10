@@ -33,7 +33,7 @@ const console = require("console");
 const upload = multer({ storage });
 
 const dbUrl =
-  "mongodb+srv://HassanIranSe:TFFA1HzQN5LxTzd9@cluster0.tsith.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+  "mongodb+srv://hassan:hassan@cluster0.echkd.mongodb.net/mnews?retryWrites=true&w=majority";
 
 mongoose.connect(dbUrl, {
   useNewUrlParser: true,
@@ -377,14 +377,16 @@ app.get('/writenewtext',requiredLogin, (req, res) => {
   res.render('text')
 })
 
-app.post("/writenewtext", async (req, res) => {
+app.post("/", async (req, res) => {
   const text = new Text(req.body);
   const id = req.user.id;
-  const auth = await User.findById(id);
-
-  text.author.name = auth.name;
+  console.log(text)
+  const auth =  User.findById(id);
+    text.author.name = auth.name;
   text.author.id = auth.id;
-  text.save()
+  
+  text.save();
+
   res.redirect('/')
 });
 
