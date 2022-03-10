@@ -17,8 +17,8 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
 
-const User = require("./models/User");
-const Text = require("./models/Text");
+const User = require("./models/user");
+const Text = require("./models/text");
 
 const MongoStore = require("connect-mongo")(session);
 
