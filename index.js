@@ -22,18 +22,18 @@ const Text = require("./models/text");
 
 const MongoStore = require("connect-mongo")(session);
 
-const multer = require("multer");
+
 
 const uuid = require("uuid");
 
-const { storage } = require("./cloudinary/index");
+
 const console = require("console");
 
 
 
 
 const dbUrl =
-  "mongodb+srv://hassan:hassan@cluster0.echkd.mongodb.net/mnews?retryWrites=true&w=majority";
+  "mongodb+srv://hassan:hassan@cluster0.echkd.mongodb.net/news?retryWrites=true&w=majority";
 
 mongoose.connect(dbUrl, {
   useNewUrlParser: true,
