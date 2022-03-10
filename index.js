@@ -226,7 +226,7 @@ app.post("/register", async (req, res) => {
     await User.register(newUser, password);
   }
 
-  req.session.user_id = user._id;
+  // req.session.user_id = user._id;
   let { id } = await User.findOne({ username: username });
   
   res.render("registerSuccess", { newUser });
