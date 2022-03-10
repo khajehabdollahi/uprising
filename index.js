@@ -17,8 +17,8 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
 
-const User = require("./models/user");
-const Text = require("./models/text");
+const User = require("./models/User");
+const Text = require("./models/Text");
 
 const MongoStore = require("connect-mongo")(session);
 
@@ -128,10 +128,9 @@ app.get("/secret", (req, res) => {
 
 app.get("/", async (req, res) => {
   if (!req.user) {
-  
     const allText = await Text.find({});
-    const id = allText.id;
-    res.render("home1", { allText, id });
+
+    res.render("home1", { allText });
   } else {
     const id = req.user.id;
     const allText = await Text.find({});
@@ -378,20 +377,30 @@ app.get('/writenewtext',requiredLogin, (req, res) => {
 })
 
 app.post("/writenewtex", async (req, res) => {
+
+   const id = req.user.id;
+   const user = await User.findById(id);
+
   const text = new Text(req.body);
-  const id = req.user.id;
-  console.log(text);
-  const auth = User.findById(id);
+ 
+ 
+  const auth = await User.findById( id );
+ 
+ 
   text.author.name = auth.name;
   text.author.id = auth.id;
 
   text.save();
+
+  allText = await Text.find({})
+ 
 
   res.redirect("/");
 });
 
 app.get('/', (req, res) => {
   allText = Text.find({});
+  res.send(allText);
   res.render('home', { allText });
 
 })
