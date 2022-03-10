@@ -226,14 +226,9 @@ app.post("/register", async (req, res) => {
     await User.register(newUser, password);
   }
 
-  // req.session.user_id = user._id;
+  req.session.user_id = user._id;
   let { id } = await User.findOne({ username: username });
-  mailer(
-    username,
-    "Welcome to web",
-    "Yes you are very welcome now \n please activate ur account by clicking this link\n \n http://localhost:3000/activate/" +
-      id
-  ); //Detta lokal host ska ändras till domänen
+  
   res.render("registerSuccess", { newUser });
   // res.render('login', {user})
 });
@@ -403,13 +398,7 @@ app.get('/', (req, res) => {
   res.render('home1', { allText });
 })
 
-app.get('/alldialogues',requiredLogin, async (req, res) => {
-  const id = req.user.id;
-  
-  const allText = await Text.find({});
- 
-   res.render("dialogue", { allText, id });
-})
+
 app.get('/text/:id', async (req, res)=>{
   const { id } = req.params;
   const text=await Text.findById(id)
