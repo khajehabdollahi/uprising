@@ -6,7 +6,7 @@ const session = require("express-session");
 const path = require("path");
 const mongoose = require("mongoose");
 
-const nodemailer = require("nodemailer");
+// const nodemailer = require("nodemailer");
 const mailer = require("./views/mailer");
 const mailerForget = require("./views/mailerForget");
 
@@ -30,7 +30,7 @@ const { storage } = require("./cloudinary/index");
 const console = require("console");
 
 
-const upload = multer({ storage });
+
 
 const dbUrl =
   "mongodb+srv://hassan:hassan@cluster0.echkd.mongodb.net/mnews?retryWrites=true&w=majority";
@@ -379,7 +379,7 @@ app.get('/writenewtext',requiredLogin, (req, res) => {
 app.post("/writenewtex", async (req, res) => {
 
    const id = req.user.id;
-   const user = await User.findById(id);
+  
 
   const text = new Text(req.body);
  
@@ -394,15 +394,13 @@ app.post("/writenewtex", async (req, res) => {
 
   allText = await Text.find({})
  
-
-  res.redirect("/");
+  res.render('home',{id,allText})
 });
 
 app.get('/', (req, res) => {
   allText = Text.find({});
-  res.send(allText);
+ 
   res.render('home', { allText });
-
 })
 
 app.get('/alldialogues',requiredLogin, async (req, res) => {
