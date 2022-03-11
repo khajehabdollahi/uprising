@@ -389,7 +389,7 @@ app.post("/writenewtex", async (req, res) => {
 
   allText = await Text.find({})
  
-  res.render('home',{id,allText})
+ res.redirect('/')
 });
 
 app.get('/', (req, res) => {
@@ -432,6 +432,14 @@ app.get("/deletetextconfirm/:id", async (req, res) => {
   const { id } = req.params;
   const text= await Text.findByIdAndDelete(id);
  res.redirect("/alldialogues");
+});
+
+app.get("/alldialogues", requiredLogin, async (req, res) => {
+  const id = req.user.id;
+
+  const allText = await Text.find({});
+
+  res.render("dialogue", { allText, id });
 });
 
 app.put("/dialogue/:id", async (req, res) => {
