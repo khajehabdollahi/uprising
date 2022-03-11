@@ -6,7 +6,7 @@ const session = require("express-session");
 const path = require("path");
 const mongoose = require("mongoose");
 
-// const nodemailer = require("nodemailer");
+const nodemailer = require("nodemailer");
 const mailer = require("./views/mailer");
 const mailerForget = require("./views/mailerForget");
 
@@ -386,6 +386,7 @@ app.post("/writenewtex", async (req, res) => {
   text.author.id = auth.id;
 
   text.save();
+  res.send (text)
 
   allText = await Text.find({})
  
