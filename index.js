@@ -386,18 +386,18 @@ app.post("/writenewtex", async (req, res) => {
   text.author.id = auth.id;
 
   text.save();
-  res.send (text)
+ 
 
-  allText = await Text.find({})
+ 
  
  res.redirect('/')
 });
 
-app.get('/', (req, res) => {
-  allText = Text.find({});
+// app.get('/', (req, res) => {
+//   allText = Text.find({});
  
-  res.render('home1', { allText });
-})
+//   res.render('home1', { allText });
+// })
 
 
 app.get('/text/:id', async (req, res)=>{
