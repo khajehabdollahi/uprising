@@ -1,5 +1,3 @@
-// c
-
 const express = require("express");
 const app = express();
 const session = require("express-session");
@@ -80,7 +78,7 @@ const sessionConfig = {
   },
 };
 
-app.use(session(sessionConfig));
+// app.use(session(sessionConfig));
 // app.use(flash());
 
 app.use(passport.initialize());
