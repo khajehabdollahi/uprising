@@ -68,19 +68,19 @@ app.use(
 
 
 
-// const sessionConfig = {
-//   store,
-//   secret,
-//   resave: false,
-//   saveUninitialized: true,
-//   cookie: {
-//     httpOnly: true,
-//     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-//     maxAge: 1000 * 60 * 60 * 24 * 7,
-//   },
-// };
+const sessionConfig = {
 
-// app.use(session(sessionConfig));
+  
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
+};
+
+app.use(session(sessionConfig));
 // app.use(flash());
 
 app.use(passport.initialize());
@@ -386,10 +386,7 @@ app.post("/writenewtex", async (req, res) => {
   text.author.id = auth.id;
 
   text.save();
- 
-
- 
- 
+  
  res.redirect('/')
 });
 
