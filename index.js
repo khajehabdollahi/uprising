@@ -1,3 +1,5 @@
+// c
+
 const express = require("express");
 const app = express();
 const session = require("express-session");
@@ -7,7 +9,6 @@ const mongoose = require("mongoose");
 const nodemailer = require("nodemailer");
 const mailer = require("./views/mailer");
 const mailerForget = require("./views/mailerForget");
-
 
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
@@ -20,25 +21,27 @@ const Text = require("./models/text");
 
 const MongoStore = require("connect-mongo")(session);
 
-
-
 const uuid = require("uuid");
-
 
 const console = require("console");
 
-
-
-
 const dbUrl =
-  "mongodb+srv://hassan:hassan@cluster0.echkd.mongodb.net/news?retryWrites=true&w=majority";
+  "mongodb+srv://admin:admin@fairnews.ynril.mongodb.net/mynews?retryWrites=true&w=majority";
 
 mongoose.connect(dbUrl, {
   useNewUrlParser: true,
-  useCreateIndex:true,
+  useCreateIndex: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
 });
+
+// const db = "news";
+// mongoose.connect("mongodb://localhost:27017/" + db, {
+//   useNewUrlParser: true,
+//   useCreateIndex: true,
+//   useUnifiedTopology: true,
+//   useFindAndModify: false,
+// });
 
 app.use(
   session({
@@ -64,11 +67,7 @@ app.use(
 //   console.log("Error to save to dataBase", e);
 // });
 
-
-
 const sessionConfig = {
-
-  
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -78,7 +77,7 @@ const sessionConfig = {
   },
 };
 
-// app.use(session(sessionConfig));
+app.use(session(sessionConfig));
 // app.use(flash());
 
 app.use(passport.initialize());
@@ -123,7 +122,6 @@ app.get("/secret", (req, res) => {
   res.render("secret");
 });
 
-
 app.get("/", async (req, res) => {
   if (!req.user) {
     const allText = await Text.find({});
@@ -143,21 +141,18 @@ app.get("/persian", async (req, res) => {
   } else {
     const id = req.user.id;
     const allText = await Text.find({ language: "Persian" });
-  
+
     res.render("home", { allText, id });
   }
 });
 
 app.get("/swedish", async (req, res) => {
   if (!req.user) {
-   
     const allText = await Text.find({ language: "ُSwedish" });
-    
-     const id = allText.id;
-     res.render("home1", { allText, id });
-  
+
+    const id = allText.id;
+    res.render("home1", { allText, id });
   } else {
-  
     const id = req.user.id;
     const allText = await Text.find({ language: "ُSwedish" });
     res.render("home", { allText, id });
@@ -179,15 +174,14 @@ app.get("/english", async (req, res) => {
 
 app.get("/textnotinlogd/:id", async (req, res) => {
   const id = req.params.id;
-  const everyText = await Text.findById(id)
-  res.render('everyTextnotinlogd',{ everyText})
+  const everyText = await Text.findById(id);
+  res.render("everyTextnotinlogd", { everyText });
 });
-
 
 const isValidData = (str) => {
   var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
   return re.test(str);
-}
+};
 
 //REGISTER USER
 app.get("/register", (req, res) => {
@@ -201,10 +195,9 @@ app.post("/register", async (req, res) => {
   // let role = req.body.role;
   let proficiency = req.body.proficiency;
   let inputPassword = req.body.password;
- 
 
   if (!isValidData(inputPassword)) {
-    res.render('invalidpass');
+    res.render("invalidpass");
   } else {
     password = inputPassword;
   }
@@ -226,7 +219,7 @@ app.post("/register", async (req, res) => {
 
   // req.session.user_id = user._id;
   // let { id } = await User.findOne({ username: username });
-  
+
   res.render("registerSuccess", { newUser });
   // res.render('login', {user})
 });
@@ -259,7 +252,7 @@ app.put("/users/edit/:id", async (req, res) => {
     new: true,
   });
   user.save();
-  res.redirect('/users/'+id)
+  res.redirect("/users/" + id);
 });
 
 app.get("/deleteuser/:id", async (req, res) => {
@@ -269,9 +262,9 @@ app.get("/deleteuser/:id", async (req, res) => {
 });
 app.get("/deleteuserconfirm/:id", async (req, res) => {
   const { id } = await req.params;
-  
-  const text= await Text.find({'author.id':id})
- 
+
+  const text = await Text.find({ "author.id": id });
+
   await User.findByIdAndDelete(id);
   res.redirect("/");
 });
@@ -311,27 +304,26 @@ app.get("/forgetpass", (req, res) => {
 app.post("/forgetpass/:tempid", async (req, res) => {
   const { tempid } = await req.params;
   const { username } = req.body;
-   let user1 = await User.findOne({ username: username });
+  let user1 = await User.findOne({ username: username });
   if (!user1) {
-     res.render("nouser", { username });
-   } else
-{
-  const user = await User.find({ username }, function (err, user) {
-    if (err) {
-      console.log(err);
-    } else {
-      mailerForget(
-        username,
-        "Hve you forgatten your pass",
-        " please on the bellow link to reset your password\n \n (http://localhost:3000/resetpass/" +
-          tempid +
-          "/" +
-          username
-      );
-      res.redirect("/");
-    }
-  });
-}
+    res.render("nouser", { username });
+  } else {
+    const user = await User.find({ username }, function (err, user) {
+      if (err) {
+        console.log(err);
+      } else {
+        mailerForget(
+          username,
+          "Hve you forgatten your pass",
+          " please on the bellow link to reset your password\n \n (http://localhost:3000/resetpass/" +
+            tempid +
+            "/" +
+            username
+        );
+        res.redirect("/");
+      }
+    });
+  }
 });
 
 //RESET PASSWORD
@@ -363,71 +355,66 @@ app.put("/resetpass/:tempid/:username", async (req, res) => {
   });
 });
 
-
-
-app.get('/writenewtext',requiredLogin, (req, res) => {
-  res.render('text')
-})
+app.get("/writenewtext", requiredLogin, (req, res) => {
+  res.render("text");
+});
 
 app.post("/writenewtex", async (req, res) => {
-
-   const id = req.user.id;
-  
-
-  const text = new Text(req.body);
- 
- 
-  const auth = await User.findById( id );
- 
- 
-  text.author.name = auth.name;
-  text.author.id = auth.id;
-
-  text.save();
-  
- res.redirect('/')
+  try {
+    let id = req.user.id;
+    let user = await User.findById(id);
+    await Text.create(req.body, (err, text) => {
+      if (err) {
+        console.log(err);
+      } else {
+        text.author.name = user.name;
+        text.author.id = user.id;
+        text.save();
+        res.redirect("/");
+      }
+    });
+  } catch (e) {
+    return res.status(404).send("SOMETHING WRONG!");
+  }
 });
 
 // app.get('/', (req, res) => {
 //   allText = Text.find({});
- 
+
 //   res.render('home1', { allText });
 // })
 
-
-app.get('/text/:id', async (req, res)=>{
+app.get("/text/:id", async (req, res) => {
   const { id } = req.params;
-  const text=await Text.findById(id)
-  res.render('everytext',{text})
-})
+  const text = await Text.findById(id);
+  res.render("everytext", { text });
+});
 
 app.get("/edittext/:id", async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   const text = await Text.findById(id);
- 
-   res.render("textedit", { text });
+
+  res.render("textedit", { text });
 });
 
 app.put("/edittext/:id", async (req, res) => {
-  const id = req.params.id
+  const id = req.params.id;
   const text = await Text.findByIdAndUpdate(id, req.body, {
     runValidators: true,
-  })
-  res.redirect('/');
+  });
+  res.redirect("/");
 });
-
 
 app.get("/deletetext/:id", async (req, res) => {
   const { id } = req.params;
-  const text= await Text.findById(id);
-  res.render("deletetextconfirm",{text});
+  const text = await Text.findById(id);
+  res.render("deletetextconfirm", { text });
 });
-
 
 app.get("/deletetextconfirm/:id", async (req, res) => {
   const { id } = req.params;
-  const text= await Text.findByIdAndDelete(id);
- res.redirect("/alldialogues");
+  const text = await Text.findByIdAndDelete(id);
+  res.redirect("/alldialogues");
 });
 
 app.get("/alldialogues", requiredLogin, async (req, res) => {
@@ -444,13 +431,13 @@ app.put("/dialogue/:id", async (req, res) => {
   // res.send(text)
   const text = await Text.findByIdAndUpdate(id, req.body, {
     runValidators: true,
-  })
+  });
   res.redirect("/alldialogues");
 });
 
-app.get('/art', (req, res) => {
-  res.render('art')
-})
+app.get("/art", (req, res) => {
+  res.render("art");
+});
 
 app.get("/users", async (req, res) => {
   const allUsers = await User.find({});
@@ -460,21 +447,17 @@ app.get("/users", async (req, res) => {
 app.get("/users/:id", async (req, res) => {
   const { id } = req.params;
   const user = await User.findById(id);
-  
+
   const text = await Text.find({ "author.id": id });
 
   res.render("showuser", { user, text });
 });
-
 
 app.get("/users/:username", async (req, res) => {
   const { username } = req.params;
   const user = await User.findById(username);
   res.render("showuser", { user });
 });
-
-
-
 
 app.post("/api/login", async (req, res, next) => {
   await passport.authenticate("local", (err, user, info) => {
@@ -506,7 +489,7 @@ app.use((req, res) => {
   res.status(404).send(`<h1>The page is not defined</h1>`);
 });
 
-const port=process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   console.log(`IranianSE Serv on ${port}`);

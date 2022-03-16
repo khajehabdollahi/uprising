@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const passportLocalMongoose = require("passport-local-mongoose");
 
 let textSchema = new mongoose.Schema({
   title: {
@@ -20,8 +19,7 @@ let textSchema = new mongoose.Schema({
     },
     username: String,
     name: String,
-  },
+  }
 });
 
-textSchema.plugin(passportLocalMongoose);
 module.exports = mongoose.model("Text", textSchema);
