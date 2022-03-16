@@ -15,7 +15,16 @@
       <div class="col-lg-8 px-3 border rounded blog-text pt-2">
         <h4><a href="/text/<%=t.id %>"><%=t.title %></a></h4>
         <p class="text-center text-justify"><%=t.text.substring(1, 250) %></p>
-       
+        <% if(currentUser.id==t.author.id){ %> 
+          <div class="d-flex justify-content-center">
+            <button class="btn btn-sm btn-outline-success mr-2 py-0" style="text-decoration: none; height: 28px"><a style="text-decoration: none;" href="/edittext/<%=t.id %>">Edit</a></button>
+            <form action="/deletetext/<%= t.id %> "method="get">
+              <button  class="btn btn-sm btn-outline-danger py-0" type="submit" style="text-decoration: none; height: 28px">ِDelete </button>
+            </form>
+          </div> <br>
+        <% }else{ %> 
+        <p class="mt-1" style="font-size: 12px;">Written By: <a href="/users/<%=t.author.id %> "><%=t.author.name %>  </a>
+        <% } %> 
       </div>
       </div>
     <% } %>
@@ -27,5 +36,6 @@
 </Row>
 </div>
  
+
 
 
