@@ -9,6 +9,9 @@ let textSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  file: {
+   type:Object
+  },
   language: {
     type: String,
   },

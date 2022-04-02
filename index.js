@@ -5,6 +5,8 @@ const app = express();
 const session = require("express-session");
 const path = require("path");
 const mongoose = require("mongoose");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 const nodemailer = require("nodemailer");
 const mailer = require("./views/mailer");
@@ -367,6 +369,7 @@ app.post("/writenewtex", async (req, res) => {
       if (err) {
         console.log(err);
       } else {
+        text.file=req.body.f
         text.author.name = user.name;
         text.author.id = user.id;
         text.save();
