@@ -1,12 +1,14 @@
-// c
+require("dotenv").config();
 
 const express = require("express");
 const app = express();
 const session = require("express-session");
 const path = require("path");
 const mongoose = require("mongoose");
+
 const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+const { storage } = require("./cloudinary/index");
+const upload = multer({ storage });
 
 const nodemailer = require("nodemailer");
 const mailer = require("./views/mailer");
@@ -361,7 +363,7 @@ app.get("/writenewtext", requiredLogin, (req, res) => {
   res.render("text");
 });
 
-app.post("/writenewtex", async (req, res) => {
+app.post("/writenewtex", upload.single("f"), async (req, res) => {
   try {
     let id = req.user.id;
     let user = await User.findById(id);
@@ -369,10 +371,11 @@ app.post("/writenewtex", async (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        text.file=req.body.f
+        text.file = req.file.path;
         text.author.name = user.name;
         text.author.id = user.id;
         text.save();
+        console.log(text);
         res.redirect("/");
       }
     });

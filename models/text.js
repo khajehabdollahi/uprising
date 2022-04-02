@@ -10,7 +10,7 @@ let textSchema = new mongoose.Schema({
     required: true,
   },
   file: {
-   type:Object
+   type:String
   },
   language: {
     type: String,
