@@ -1,34 +1,27 @@
 <% layout('layout/boilerplate') %>
 
-  <div class="d-flex justify-content-center">
-    <Row class="row">
-      <Col1 class="card col -4 d-flex justify-content-center text-center">
-        <h1>hi</h1>
-        </Col1>
-<main class="card col-8"; style="text-align:center">
-<Row class="row card col -4 d-flex justify-content-center text-center ">
-<h5>اخبار روز <br>
-   Dagens Nyhete  Daily News</h5>
-</Row>
-  <div class="row card col -4 d-flex justify-content-center text-center ">
-   <% for(let t of allText.reverse()){ %>
-    <div class="row d-flex justify-content-center mt-2">
-      <div class="col-lg-8 px-3 border rounded blog-text pt-2">
+<div class="container-fluid px-0 mx-0">
+  <div class="row">
+    <div class="col-lg-3">
+      <h1>ADVERTIZE</h1>
+    </div>
+
+    <div class="col-lg-6">
+      <% for(let t of allText.reverse()){ %>
         <h4><a href="/text/<%=t.id %>"><%-t.title %></a></h4>
         <p class="text-center text-justify"><%- t.text %></p>
-        <!-- <p class="text-center text-justify"><%- t.file %></p> -->
-        <img src="<%= t.file %> " alt="hassan">
-     
+
+          <img src="<%= t.file %> " alt="hassan" width="100%" />
+        </div>
+       
+          Written By:
+            <a href="/users/<%=t.author.id %> "><%=t.author.name %> </a>
+             <% } %>
       </div>
-    <% } %>
+
+      <div class="col-lg-3">
+        <h1>ADVERTIZE</h1>
+      </div>
     </div>
-</main>
-         <Col3 class="card col -4 d-flex justify-content-center text-center">
-        <h1>hi</h1>
-        </Col3>
-
-</Row>
+  </div>
 </div>
- 
-
-
