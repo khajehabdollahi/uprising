@@ -16,7 +16,12 @@
               style="text-decoration: none; height: 28px">
               <a style="text-decoration: none" href="/edittext/<%=text.id %>">Edit</a>
             </div>
-            <form action="/deletetext/<%= text.id %> " method="get">
+
+              <form action="/deletetext/<%=text.id %>" method="get">
+          <button class="btn btn-danger" type="submit">Delete image</button>
+        </form>
+
+            <form action="/deletetext/<%=text.id %> " method="get">
               <div
                 class="btn btn-sm btn-outline-danger py-0"
                 type="submit"

@@ -13,6 +13,11 @@
  
 <textarea  id="text" name="text" rows="15" cols="66"> <%=text.text%>
 
+  <img src="<%= text.file %> " alt="hassan" width="100%" style="border-radius: 5px;"/>
+<br>
+      <form action="/deleteimage/<%=text.id %>" method="get">
+          <button class="btn btn-danger" type="submit">Delete image</button>
+        </form>
 </textarea> <br>
 
 <label for="language">Language:</label>  

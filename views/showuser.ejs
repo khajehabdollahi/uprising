@@ -27,10 +27,10 @@
 <% } %> 
 <% } %> 
 <h1>Users Text</h1>
-<% for(let t of text){ %> 
+<% for(let t of text.reverse()){ %> 
 <ul>
       <li><h4><a href="/text/<%=t.id %>"><%=t.title %></a></h4> </li> 
-  <li><%=t.text %> </li>
+  
   <% if(currentUser && currentUser.id==t.author.id){ %>  
  <a href="/edittext/<%=t.id %>">Edit</a>
 

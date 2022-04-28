@@ -130,7 +130,7 @@ app.get("/", async (req, res) => {
   if (!req.user) {
     const allText = await Text.find({});
 
-    res.render("home1", { allText });
+    res.render("home", { allText });
   } else {
     const id = req.user.id;
     const allText = await Text.find({});
@@ -413,6 +413,7 @@ app.put("/edittext/:id", async (req, res) => {
 
 app.get("/deletetext/:id", async (req, res) => {
   const { id } = req.params;
+ 
   const text = await Text.findById(id);
   res.render("deletetextconfirm", { text });
 });
@@ -420,7 +421,13 @@ app.get("/deletetext/:id", async (req, res) => {
 app.get("/deletetextconfirm/:id", async (req, res) => {
   const { id } = req.params;
   const text = await Text.findByIdAndDelete(id);
-  res.redirect("/alldialogues");
+  res.redirect("/");
+});
+
+app.get("/deleteimage",  (req, res)=>{
+  const { id } = req.params;
+  res.send(id)
+res.render('deleteimage')
 });
 
 app.get("/alldialogues", requiredLogin, async (req, res) => {

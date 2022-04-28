@@ -16,13 +16,17 @@
             <img src="<%= t.file %> " alt="hassan" width="100%" style="border-radius: 5px;"/>
           </div>
         
-          <% if(currentUser.id==t.author.id){ %>
+          <% if(currentUser && currentUser.id==t.author.id){ %>
           <div class="d-flex justify-content-center mt-5">
             <div
               class="btn btn-sm btn-outline-success mr-2 py-0"
               style="text-decoration: none; height: 28px">
               <a style="text-decoration: none" href="/edittext/<%=t.id %>">Edit</a>
             </div>
+     <form action="/deletetext/<%=t.id %>" method="get">
+          <button class="btn btn-danger" type="submit">Delete Text </button>
+        </form>
+
             <form action="/deletetext/<%= t.id %> " method="get">
               <div
                 class="btn btn-sm btn-outline-danger py-0"
