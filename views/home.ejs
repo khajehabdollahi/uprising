@@ -10,6 +10,7 @@
     <div class="col-lg-6">
       <% for(let t of allText.reverse()){ %>
           <h4><a href="/text/<%=t.id %>"><%-t.title %></a></h4>
+          
           <p class="text-justify"><%- t.text %></p>
 
           <div class="rounded" style="height:400px; overflow:hidden">

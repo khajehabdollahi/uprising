@@ -444,11 +444,11 @@ app.put("/deleteimage/:id", async (req, res) => {
   res.redirect("/");
 });
 
-app.post("/addimage/:id", upload.single("image"), async (req, res) => {
+app.put("/addimage/:id", upload.single("image"), async (req, res) => {
   const { id } = req.params;
-  res.send(id);
-  const text = await Text.findById(id);
-  text.file = req.body.file;
+  
+  const text = await Text.findByIdAndUpdate(id);
+  text.file = req.file.path;
   text.save();
   res.redirect("/");
 });
