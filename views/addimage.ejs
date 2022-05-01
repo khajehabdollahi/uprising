@@ -1,0 +1,11 @@
+ <% layout('layout/boilerplate') %> 
+
+ <h1>Please select the image to be added</h1>
+ 
+ <form action="/addimage/<%=text.id %> method="POST" enctype='multipart/form-data'>  
+
+
+       <input type="file" name="f" id="image"><br/> <br/>
+      <button type="submit" class="btn btn-success">Add image</button> </form>
+    </form> 
+    

@@ -405,11 +405,24 @@ app.get("/edittext/:id", async (req, res) => {
 
 app.put("/edittext/:id", async (req, res) => {
   const id = req.params.id;
-  const text = await Text.findByIdAndUpdate(id, req.body, {
-    runValidators: true,
-  });
+
+  const text = await Text.findByIdAndUpdate(id, req.body);
+ 
+  text.save()
   res.redirect("/");
 });
+
+
+// app.put("/news/:id", upload.single("image"), async (req, res) => {
+//   const { id } = req.params;
+//   const cuId = req.user.id;
+//   const data = req.body;
+
+//   school = await Newschool.findByIdAndUpdate(id, data);
+//   school.image = req.file.path;
+//   school.save();
+//   res.redirect("/news/" + id + "/" + cuId);
+// });
 
 app.get("/deletetext/:id", async (req, res) => {
   const { id } = req.params;
@@ -424,11 +437,27 @@ app.get("/deletetextconfirm/:id", async (req, res) => {
   res.redirect("/");
 });
 
-app.get("/deleteimage",  (req, res)=>{
+app.put("/deleteimage/:id", async (req, res) => {
   const { id } = req.params;
-  res.send(id)
-res.render('deleteimage')
+  const text = await Text.findByIdAndUpdate(id, { "file": "" });
+  text.save();
+  res.redirect("/");
 });
+
+app.post("/addimage/:id", upload.single("image"), async (req, res) => {
+  const { id } = req.params;
+  res.send(id);
+  const text = await Text.findById(id);
+  text.file = req.body.file;
+  text.save();
+  res.redirect("/");
+});
+
+app.get("/addimage/:id", async (req, res) => {
+  const { id } = req.params;
+  const text = await Text.findById(id)
+  res.render('addimage',{text})
+})
 
 app.get("/alldialogues", requiredLogin, async (req, res) => {
   const id = req.user.id;

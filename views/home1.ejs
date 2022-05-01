@@ -11,7 +11,9 @@
         <h4><a href="/text/<%=t.id %>"><%-t.title %></a></h4>
         <p class="text-center text-justify"><%- t.text %></p>
 
-          <img src="<%= t.file %> " alt="hassan" width="100%" />
+          <% if(t.file !=" ") {%> 
+            <img src="<%= t.file %> " alt="hassan" width="100%" style="border-radius: 5px;"/>
+            <% } %>
         </div>
        
           Written By:

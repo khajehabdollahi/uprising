@@ -1,35 +1,33 @@
  <% layout('layout/boilerplate') %> 
-
  <div style="text-align:center">
-
- 
   <form action="/edittext/<%=text._id %>?_method=PUT " method="POST" >
- 
+    <label for="title">Title:</label> <br>
+    <input type="text" name="title" id="title" value="<%=text.title %> ">
+    <label for="text">Text:</label> <br>
+    <textarea  id="text" name="text" rows="15" cols="66"> <%=text.text%></textarea>
 <br>
- <label for="title">Title:</label> <br>
-<input type="text" name="title" id="title" value="<%=text.title %> ">
 
- <label for="text">Text:</label> <br>
- 
-<textarea  id="text" name="text" rows="15" cols="66"> <%=text.text%>
-
-  <img src="<%= text.file %> " alt="hassan" width="100%" style="border-radius: 5px;"/>
+    <label for="language">Language:</label>  
+    <select name="language" id="language"  placeholder>
+      <option value="<%=text.language%>" ><%=text.language%>  </option>
+      <option value="English">ٍEnglish</option>
+      <option value="Persian">فارسی</option>
+      <option value="ُSwedish">Svenska</option>
+      <option value="Mixed">mixed</option>
+    </select> <br>
+    <button type="submit" class="btn btn-success">Save Edit</button>
+  </form>
 <br>
-      <form action="/deleteimage/<%=text.id %>" method="get">
-          <button class="btn btn-danger" type="submit">Delete image</button>
-        </form>
-</textarea> <br>
-
-<label for="language">Language:</label>  
-<select name="language" id="language"  placeholder>
-  <option value="<%=text.language%>" ><%=text.language%>  </option>
-  <option value="English">ٍEnglish</option>
-  <option value="Persian">فارسی</option>
-  <option value="ُSwedish">Svenska</option>
-  <option value="Mixed">mixed</option>
-</select> <br/>
-
-<br>
-<button type="submit" class="btn btn-success">Save Edit</button> <br><br>
-</form>
+  <% if (text.file==""){ %> 
+    <form action="/addimage/<%=text.id %>" method="get">  
+     
+      <button type="submit" class="btn btn-success">Add image</button> </form>
+    </form> <br>
+     
+  <% }  else{%>
+    <img src="<%= text.file %> " alt="hassan" width="100%" style="border-radius: 5px;"/> <br> <br>
+    <form action="/deleteimage/<%=text.id %>?_method=PUT " method="POST" enctype="multipart/form-data">
+      <button class="btn btn-danger" type="submit">Delete image</button>
+    </form><br>
+  <% } %> 
 </div>
