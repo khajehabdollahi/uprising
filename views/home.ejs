@@ -10,11 +10,11 @@
     <div class="col-lg-6">
       <% for(let t of allText.reverse()){ %>
           <h4><a href="/text/<%=t.id %>"><%-t.title %></a></h4>
-          
-          <p class="text-justify"><%- t.text %></p>
-
+          <textarea>
+          <p class="text-justify" style="width: 100%" ><%- t.text %></p>
+</textarea> 
           <div class="rounded" style="height:400px; overflow:hidden">
-            <% if(t.file !=" ") {%> 
+            <% if(t.file !="") {%> 
             <img src="<%= t.file %> " alt="hassan" width="100%" style="border-radius: 5px;"/>
             <% } %> 
           </div>

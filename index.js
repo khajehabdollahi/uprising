@@ -371,11 +371,11 @@ app.post("/writenewtex", upload.single("f"), async (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        text.file = req.file.path;
+        text.file = req.file.path; 
         text.author.name = user.name;
         text.author.id = user.id;
         text.save();
-        console.log(text);
+      
         res.redirect("/");
       }
     });
@@ -384,11 +384,7 @@ app.post("/writenewtex", upload.single("f"), async (req, res) => {
   }
 });
 
-// app.get('/', (req, res) => {
-//   allText = Text.find({});
 
-//   res.render('home1', { allText });
-// })
 
 app.get("/text/:id", async (req, res) => {
   const { id } = req.params;
@@ -413,16 +409,6 @@ app.put("/edittext/:id", async (req, res) => {
 });
 
 
-// app.put("/news/:id", upload.single("image"), async (req, res) => {
-//   const { id } = req.params;
-//   const cuId = req.user.id;
-//   const data = req.body;
-
-//   school = await Newschool.findByIdAndUpdate(id, data);
-//   school.image = req.file.path;
-//   school.save();
-//   res.redirect("/news/" + id + "/" + cuId);
-// });
 
 app.get("/deletetext/:id", async (req, res) => {
   const { id } = req.params;
