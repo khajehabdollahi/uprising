@@ -367,16 +367,15 @@ app.post("/writenewtex", upload.single("f"), async (req, res) => {
   try {
     let id = req.user.id;
     let user = await User.findById(id);
-    res.send(user);
     await Text.create(req.body, (err, text) => {
       if (err) {
         console.log(err);
       } else {
-        text.file = req.file.path; 
+        text.file = req.file.path;
         text.author.name = user.name;
         text.author.id = user.id;
         text.save();
-      res.send(text);
+       
         res.redirect("/");
       }
     });
