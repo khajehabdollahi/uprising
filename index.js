@@ -28,6 +28,7 @@ const MongoStore = require("connect-mongo")(session);
 const uuid = require("uuid");
 
 const console = require("console");
+const { log } = require("console");
 
 const dbUrl =
   "mongodb+srv://admin:admin@fairnews.ynril.mongodb.net/mynews?retryWrites=true&w=majority";
@@ -365,13 +366,19 @@ app.get("/writenewtext", requiredLogin, (req, res) => {
 
 app.post("/writenewtex", upload.single("f"), async (req, res) => {
   try {
+ 
     let id = req.user.id;
     let user = await User.findById(id);
     await Text.create(req.body, (err, text) => {
       if (err) {
         console.log(err);
       } else {
-        text.file = req.file.path;
+        // text.file = req.file.path;
+        if (req.file === undefined) {
+           text.file = "";
+         } else {
+            text.file = req.file.path;
+         }
         text.author.name = user.name;
         text.author.id = user.id;
         text.save();

@@ -10,7 +10,8 @@ let textSchema = new mongoose.Schema({
     required: true,
   },
   file: {
-   type:String
+    type: String,
+    required: false
   },
   language: {
     type: String,
@@ -22,7 +23,7 @@ let textSchema = new mongoose.Schema({
     },
     username: String,
     name: String,
-  }
+  },
 });
 
 module.exports = mongoose.model("Text", textSchema);

@@ -1,7 +1,5 @@
 <% layout('layout/boilerplate') %>
-
 <div class="container-fluid px-0 mx-0">
-
   <div class="row">
     <div class="col-lg-3">
       <h1>ADVERTIZE</h1>
@@ -9,46 +7,52 @@
 
     <div class="col-lg-6">
       <% for(let t of allText.reverse()){ %>
-          <h4><a href="/text/<%=t.id %>"><%-t.title %></a></h4>
-        
-          <p class="text-justify" style="width: 100%" ><%- t.text %></p>
+      <h4><a href="/text/<%=t.id %>"><%-t.title %></a></h4>
+      <div>
+        <%- t.text %>
+      </div>
+      <% if(t.file !="") {%>
+      <div class="rounded" style="height: 400px; overflow: hidden">
+        <img
+          src="<%= t.file %> "
+          alt="hassan"
+          width="100%"
+          style="border-radius: 5px"
+        />
+      </div>
+      <% } else { %>
+      <div class="rounded" style="height: 2px; overflow: hidden"></div>
+      <% } %> <% if(currentUser && currentUser.id==t.author.id){ %>
+      <div class="d-flex justify-content-center mt-5">
+        <div
+          class="btn btn-sm btn-outline-success mr-2 py-0"
+          style="text-decoration: none; height: 28px"
+        >
+          <a style="text-decoration: none" href="/edittext/<%=t.id %>">Edit</a>
+        </div>
+        <!-- <form action="/deletetext/<%=t.id %>" method="get">
+            <button class="btn btn-danger" type="submit">Delete Text </button>
+          </form> -->
 
-          <div class="rounded" style="height:400px; overflow:hidden">
-            <% if(t.file !="") {%> 
-            <img src="<%= t.file %> " alt="hassan" width="100%" style="border-radius: 5px;"/>
-            <% } %> 
+        <form action="/deletetext/<%= t.id %> " method="get">
+          <div
+            class="btn btn-sm btn-outline-danger py-0"
+            type="submit"
+            style="text-decoration: none; height: 28px"
+          >
+            ِDelete
           </div>
-        
-          <% if(currentUser && currentUser.id==t.author.id){ %>
-          <div class="d-flex justify-content-center mt-5">
-            <div
-              class="btn btn-sm btn-outline-success mr-2 py-0"
-              style="text-decoration: none; height: 28px">
-              <a style="text-decoration: none" href="/edittext/<%=t.id %>">Edit</a>
-            </div>
-     <form action="/deletetext/<%=t.id %>" method="get">
-          <button class="btn btn-danger" type="submit">Delete Text </button>
         </form>
+      </div>
+      <hr />
 
-            <form action="/deletetext/<%= t.id %> " method="get">
-              <div
-                class="btn btn-sm btn-outline-danger py-0"
-                type="submit"
-                style="text-decoration: none; height: 28px"
-              >
-                ِDelete
-              </div>
-            </form>
-          </div>
-          <hr>
-
-          <% }else{ %>
-          <p class="mt-1" style="font-size: 12px">
-            Written By:
-            <a href="/users/<%=t.author.id %> "><%=t.author.name %> </a>
-            <% } %>
-          </p>
+      <% }else{ %>
+      <p class="mt-1" style="font-size: 12px">
+        Written By:
+        <a href="/users/<%=t.author.id %> "><%=t.author.name %> </a>
         <% } %>
+      </p>
+      <% } %>
     </div>
 
     <div class="col-lg-3">
