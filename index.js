@@ -127,6 +127,19 @@ app.get("/secret", (req, res) => {
   res.render("secret");
 });
 
+app.get('/about', (req, res) => {
+  res.render("about");
+})
+
+app.get("/admin", requiredLogin, (req, res) => {
+  const currentUser = req.user;
+  if (currentUser.username == "admin@admin") {
+    res.render("admin");
+  } else {
+    res.send("MMMM");
+  }
+});
+
 app.get("/", async (req, res) => {
   if (!req.user) {
     const allText = await Text.find({});
