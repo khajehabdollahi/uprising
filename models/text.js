@@ -16,6 +16,10 @@ let textSchema = new mongoose.Schema({
   language: {
     type: String,
   },
+  confirmed: {
+    type: Boolean,
+    value: false,
+  },
   author: {
     id: {
       type: mongoose.Schema.Types.ObjectId,

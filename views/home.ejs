@@ -9,6 +9,7 @@
     <div class="col-lg-6">
       <h2><a href="/about">About us در باره ما om Oss</a></h2>
       <% for(let t of allText.reverse()){ %>
+        <% if(t.confirmed != false){ %> 
       <h4><a href="/text/<%=t.id %>"><%-t.title %></a></h4>
       <div><%- t.text %></div>
       <% if(t.file !="") {%>
@@ -50,6 +51,7 @@
       <p class="mt-1" style="font-size: 12px">
         Written By:
         <a href="/users/<%=t.author.id %> "><%=t.author.name %> </a>
+        <% } %> 
         <% } %>
       </p>
       <% } %>
