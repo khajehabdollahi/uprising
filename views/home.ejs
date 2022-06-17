@@ -3,13 +3,14 @@
   <div class="row">
     <div class="col-lg-3">
       <h1>ADVERTIZE</h1>
-      <h1>ADVERTIZE</h1>
+      
     </div>
 
     <div class="col-lg-6">
       <h2><a href="/about">About us در باره ما om Oss</a></h2>
       <% for(let t of allText.reverse()){ %>
-        <% if(t.confirmed != false){ %> 
+        <!-- there is problem here -->
+        <% if(t.confirmed != true){ %> 
       <h4><a href="/text/<%=t.id %>"><%-t.title %></a></h4>
       <div><%- t.text %></div>
       <% if(t.file !="") {%>
@@ -48,14 +49,21 @@
             ِDelete
           </div>
         </form>
+        <br>
+        
       </div>
+      <% if(currentUser.username == "admin@admin" && t.confirmed !=true){ %> 
+       <h2> <a href="/confirmtext/<%= t.id %>">Confirm text</a></h2>
+        
+          <% } %> 
       <hr />
 
       <% }else{ %>
       
         <% } %> 
-        <% } %>
-    
+       
+        
+     <% } %>
       <% } %>
     </div>
 

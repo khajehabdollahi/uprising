@@ -386,6 +386,7 @@ app.post("/writenewtex", upload.single("f"), async (req, res) => {
       if (err) {
         console.log(err);
       } else {
+        
         // text.file = req.file.path;
         if (req.file === undefined) {
            text.file = "";
@@ -394,8 +395,8 @@ app.post("/writenewtex", upload.single("f"), async (req, res) => {
          }
         text.author.name = user.name;
         text.author.id = user.id;
-        // if (text.language === "undefined") {
-        //   res.send("please select the language of your text")
+        // if (text.language == "undefined") {
+        //   res.send("please select the language of your text");
         // }
         text.save();
        
@@ -407,6 +408,15 @@ app.post("/writenewtex", upload.single("f"), async (req, res) => {
   }
 });
 
+app.get("/confirmtext/:id",async (req, res) => {
+  const {id} = req.params
+  const text = await Text.findById(id)
+  text.confirmed=true;
+ 
+  
+  text.save()
+  res.redirect("/")
+});
 
 
 app.get("/text/:id", async (req, res) => {
