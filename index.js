@@ -394,6 +394,9 @@ app.post("/writenewtex", upload.single("f"), async (req, res) => {
          }
         text.author.name = user.name;
         text.author.id = user.id;
+        // if (text.language === "undefined") {
+        //   res.send("please select the language of your text")
+        // }
         text.save();
        
         res.redirect("/");

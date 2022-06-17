@@ -9,7 +9,7 @@
             <img src="<%= text.file %> " alt="hassan" width="100%" style="border-radius: 5px;"/>
           </div>
         
-          <% if(currentUser && currentUser.id==text.author.id){ %>
+          <% if(currentUser && currentUser.id==text.author.id || currentUser &&currentUser.username == "admin@admin"){ %>
           <div class="d-flex justify-content-center mt-5">
             <div
               class="btn btn-sm btn-outline-success mr-2 py-0"

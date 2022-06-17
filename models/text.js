@@ -11,10 +11,11 @@ let textSchema = new mongoose.Schema({
   },
   file: {
     type: String,
-    required: false
+    required: false,
   },
   language: {
     type: String,
+    value: "undefined",
   },
   confirmed: {
     type: Boolean,
