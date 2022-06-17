@@ -131,10 +131,12 @@ app.get('/about', (req, res) => {
   res.render("about");
 })
 
-app.get("/admin", requiredLogin, (req, res) => {
+app.get("/admin", requiredLogin, async (req, res) => {
   const currentUser = req.user;
   if (currentUser.username == "admin@admin") {
-    res.render("admin");
+    let text =await  Text.find({})
+   
+    res.render("admin",{text});
   } else {
     res.send("MMMM");
   }
