@@ -18,8 +18,8 @@ let textSchema = new mongoose.Schema({
     value: "undefined",
   },
   confirmed: {
-    type: Boolean,
-    value: false,
+    type: String,
+    value: "no",
   },
   author: {
     id: {

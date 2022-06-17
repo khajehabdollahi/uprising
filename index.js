@@ -411,7 +411,7 @@ app.post("/writenewtex", upload.single("f"), async (req, res) => {
 app.get("/confirmtext/:id",async (req, res) => {
   const {id} = req.params
   const text = await Text.findById(id)
-  text.confirmed=true;
+  text.confirmed="yes";
  
   
   text.save()

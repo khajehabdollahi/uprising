@@ -10,7 +10,7 @@
       <h2><a href="/about">About us در باره ما om Oss</a></h2>
       <% for(let t of allText.reverse()){ %>
         <!-- there is problem here -->
-        <% if(t.confirmed != true){ %> 
+        <% if(t.confirmed == "yes"){ %> 
       <h4><a href="/text/<%=t.id %>"><%-t.title %></a></h4>
       <div><%- t.text %></div>
       <% if(t.file !="") {%>
@@ -52,7 +52,7 @@
         <br>
         
       </div>
-      <% if(currentUser.username == "admin@admin" && t.confirmed !=true){ %> 
+      <% if(currentUser.username == "admin@admin" && t.confirmed !="yes"){ %> 
        <h2> <a href="/confirmtext/<%= t.id %>">Confirm text</a></h2>
         
           <% } %> 
