@@ -11,15 +11,18 @@ module.exports = async function main(to, subject, text) {
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: "noreplayschoolnoreplay@gmail.com",
-      pass: "Asdfg!4321",
+      user: "noreplyiranianse@gmail.com",
+      pass: "dewywmpxlurswjtg",
     },
+    tls: {
+      rejectUnauthorized: false
+  }
   });
   //noreplybackeryhelper@gmail.com
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: '"Backery Help " <noreplyiranbackery@gmail.com>"',
+    from: '"Iranian SE " <noreplyiranianse@gmail.com>"',
     to,
     subject,
     text,

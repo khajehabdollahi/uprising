@@ -324,11 +324,12 @@ app.get("/forgetpass", (req, res) => {
 app.post("/forgetpass/:tempid", async (req, res) => {
   const { tempid } = await req.params;
   const { username } = req.body;
+  
   let user1 = await User.findOne({ username: username });
   if (!user1) {
     res.render("nouser", { username });
   } else {
-    const user = await User.find({ username }, function (err, user) {
+       const user = await User.find({ username }, function (err, user) {
       if (err) {
         console.log(err);
       } else {
@@ -402,7 +403,7 @@ app.post("/writenewtex", upload.single("f"), async (req, res) => {
         // }
         text.save();
        
-        res.redirect("/");
+        res.render("tnx");
       }
     });
   } catch (e) {
