@@ -1,8 +1,12 @@
  <% layout('layout/boilerplate') %> 
+ <br><br>
 <div class="d-flex justify-content-center">
 <main class="card col-8"; style="text-align:center">
  
 <h1>Here you can reset your password</h1>
+<h1>Please write your new password</h1>
+ <h4>Password should be at least 6 characters and contain letters, Capital letters, symboles and numbers</h4>
+<br>
 
 <form action="/resetpass/<%=tempid%>/<%=username%>?_method=PUT " method="POST"> 
   <label>Password</label>
@@ -12,8 +16,8 @@
   <input type="Password" placeholder="Enter Confirm Password" name="confirmPassword">
   <p style="color: red;"><%=(typeof errors!='undefined' && typeof errors.confirmPassword!='undefined' )? errors.confirmPassword.msg:''%></p>  -->
   <br>
-  <input type="text" name="username" id="username" value="<%=username%>" style="display: none"> <br><br>
-  <button type="submit">Submit</button>
+  <input type="text" name="username" id="username" value="<%=username%>" style="display: none"> 
+  <button type="submit" class="btn btn-success">Reset Your Password</button><br><br>
 </form>
 </main>
 </div>

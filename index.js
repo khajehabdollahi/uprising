@@ -335,13 +335,14 @@ app.post("/forgetpass/:tempid", async (req, res) => {
       } else {
         mailerForget(
           username,
-          "Hve you forgatten your pass",
-          " please on the bellow link to reset your password\n \n (http://localhost:3000/resetpass/" +
+          "Have you forgatten your pass",
+          " please on the bellow link to enter your new password\n \n (/resetpass/" +
             tempid +
             "/" +
             username
         );
-        res.redirect("/");
+
+        res.render('resetpasslinksent',{username});
       }
     });
   }
@@ -356,22 +357,22 @@ app.get("/resetpass/:tempid/:username", async (req, res) => {
 
 app.put("/resetpass/:tempid/:username", async (req, res) => {
   const { username } = req.body;
-  console.log(username.substring(username.indexOf("/") + 1));
+  
   const { password } = req.body;
 
   await User.findOne({ username }, (err, user) => {
     if (err) {
       res.send("Password reset Failed");
     } else {
-      console.log("USER:", user);
+     
       user.setPassword(password, (error, returnedUser) => {
         if (error) {
-          console.log(error);
+          res.render("invalidpass");
         } else {
           returnedUser.save();
         }
       });
-      res.send(username);
+      res.render('resetpasssuccess');
     }
   });
 });
