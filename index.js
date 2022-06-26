@@ -243,7 +243,7 @@ app.post("/register", async (req, res) => {
   mailer(
     username,
     "Welcome to Iranian SE",
-    "Yes you are very welcome now \n please activate ur account by clicking this link\n \n http://iranianse/activate/" +
+    "Yes you are very welcome now \n please activate ur account by clicking this link\n \n http://iranianse.com/activate/" +
       id
   ); //Detta lokal host ska ändras till domänen
 
@@ -260,7 +260,7 @@ app.get("/activate/:id", async (req, res) => {
     user.activated = true;
     await user.save();
     res.send("Account is activated now");
-    res.redirect("http://localhost:3000/welcomeuser?id=" + req.params.id).end();
+    res.redirect("http://iranianse.com/welcomeuser?id=" + req.params.id).end();
     res.render("loginWelcome");
   } else {
     res.send("Activation Failed");
@@ -346,7 +346,7 @@ app.post("/forgetpass/:tempid", async (req, res) => {
         mailerForget(
           username,
           "Iranian SE",
-          "Have you forgatten your password?\n please click on the bellow link to enter your new password\n \n (http://iranianse/resetpass/" +
+          "Have you forgatten your password?\n please click on the bellow link to enter your new password\n \n (http://iranianse.com/resetpass/" +
             tempid +
             "/" +
             username
