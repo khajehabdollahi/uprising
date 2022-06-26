@@ -239,13 +239,13 @@ app.post("/register", async (req, res) => {
 
   
 
-  let { id } = await User.findOne({ username: username });
-  mailer(
-    username,
-    "Welcome to Iranian SE",
-    "Yes you are very welcome now \n please activate ur account by clicking this link\n \n http://iranianse.com/activate/" +
-      id
-  ); //Detta lokal host ska ändras till domänen
+  // let { id } = await User.findOne({ username: username });
+  // mailer(
+  //   username,
+  //   "Welcome to Iranian SE",
+  //   "Yes you are very welcome now \n please activate ur account by clicking this link\n \n http://iranianse.com/activate/" +
+  //     id
+  // ); //Detta lokal host ska ändras till domänen
 
   // req.session.user_id = user._id;
   // let { id } = await User.findOne({ username: username });
