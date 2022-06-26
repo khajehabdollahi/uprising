@@ -336,7 +336,7 @@ app.post("/forgetpass/:tempid", async (req, res) => {
         mailerForget(
           username,
           "Have you forgatten your pass",
-          " please on the bellow link to enter your new password\n \n (/resetpass/" +
+          " please on the bellow link to enter your new password\n \n (http://iranianse/resetpass/" +
             tempid +
             "/" +
             username
