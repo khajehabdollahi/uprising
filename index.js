@@ -241,7 +241,7 @@ app.post("/register", async (req, res) => {
   // let { id } = await User.findOne({ username: username });
 
   res.render("registerSuccess", { newUser });
-  // res.render('login', {user})
+ 
 });
 
 app.get("/activate/:id", async (req, res) => {
@@ -336,8 +336,7 @@ app.post("/forgetpass/:tempid", async (req, res) => {
         mailerForget(
           username,
           "Iranian SE",
-          "Have you forgatten your pass",
-          " please on the bellow link to enter your new password\n \n (http://iranianse/resetpass/" +
+          "Have you forgatten your password?\n please click on the bellow link to enter your new password\n \n (http://iranianse/resetpass/" +
             tempid +
             "/" +
             username
