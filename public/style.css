@@ -60,4 +60,15 @@
   background-color: rgb(252, 252, 252);
 }
 
+.nav-link{
+
+ color:white !important;
+}
+
+.nav-link:hover{
+
+color:#d8eaff !important;
+
+}
+
 

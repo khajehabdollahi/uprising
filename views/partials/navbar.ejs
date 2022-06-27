@@ -1,4 +1,4 @@
-<div class="container-fluid px-0 bg-primary bg-gradient shadow border-bottom border-warning">
+  <div style="background-color:#1c98c4 !important" class="container-fluid px-0 bg-primary bg-gradient shadow border-bottom border-warning">
   <div class="container">
   <div class="row mx-auto">
     <div class="col-lg-12">
@@ -6,16 +6,16 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ml-auto ">
-<Row class="row">
+        <div  class="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <ul class="navbar-nav  ">
+      <Row class="row">
            
           <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Language/انتخاب زبان
+          Language | انتخاب زبان
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item link" href="/persian">فارسی</a>
+        <div  class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a style ="background-color: '#d8eaff';" class="dropdown-item link" href="/persian">فارسی</a>
           <a class="dropdown-item link" href="/swedish">Svenska</a>
           <a class="dropdown-item link" href="/english">English</a>
           <a class="dropdown-item link" href="/">Mixed</a>
@@ -33,13 +33,13 @@
 
            
             <li class="nav-item">
-              <a class="nav-link" href='/writenewtext'>Writ in dialouge</a>
+              <a class="nav-link" href='/writenewtext'>Write in dialouge</a>
             </li>
           
         
             <% if(!currentUser){ %> 
               <li class="nav-item"></li>
-                <a class="nav-link" href='/login'>Log In / create Account</a>
+                <a class="nav-link" href='/login'>Log In | signup</a>
               </li>
             <% } else {%> 
             
@@ -51,7 +51,7 @@
             </li>
           <% } %> 
             <li class="nav-item">
-                          <Row class="d-flex justify-content-center text-center">  <a class="navbar-brand" href="/">Iranian SE  ارتباط علمی فرهنگی ایرانیان در سوئد</a>
+                          <Row class="d-flex justify-content-center text-center">  <a  class="nav-link" href="/">Iranian SE  ارتباط علمی فرهنگی ایرانیان در سوئد</a>
 </Row>
        </li>
                  </ul>
