@@ -235,22 +235,27 @@ app.post("/register", async (req, res) => {
     res.render("registererror", { err });
   } else {
     await User.register(newUser, password);
+     
+   //  let { id } = await User.findOne({ username: username });
+   mailer(
+     username,
+     "Welcome to Iranian SE",
+     "You are very welcome now \n please activate ur account by clicking this link\n \n http://iranianse.com/activate/" +
+     id
+   ); //Detta lokal host ska ändras till domänen
+
+  // req.session.user_id = user._id;
+  // let { idd } = await User.findOne({ username: username });
+
+  res.render("registerSuccess", { newUser });
+       
+ 
+ 
+ 
   }
 
   
 
-  // let { id } = await User.findOne({ username: username });
-  // mailer(
-  //   username,
-  //   "Welcome to Iranian SE",
-  //   "You are very welcome now \n please activate ur account by clicking this link\n \n http://iranianse.com/activate/" +
-  //     id
-  // ); //Detta lokal host ska ändras till domänen
-
-  // req.session.user_id = user._id;
-  // let { id } = await User.findOne({ username: username });
-
-  res.render("registerSuccess", { newUser });
  
 });
 
