@@ -235,7 +235,7 @@ app.post("/register", async (req, res) => {
     res.render("registererror", { err });
   } else {
     await User.register(newUser, password);
-     
+  }
      let { id } = await User.findOne({ username: username });
    mailer(
      username,
@@ -252,7 +252,7 @@ app.post("/register", async (req, res) => {
  
  
  
-  }
+  
 
   
 
