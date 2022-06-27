@@ -233,10 +233,11 @@ app.post("/register", async (req, res) => {
   const err = "User with the Email already exist!";
   if (user) {
     res.render("registererror", { err });
-  } else {
+  } else { 
     await User.register(newUser, password);
   }
      let { id } = await User.findOne({ username: username });
+     console.log(id);
    mailer(
      username,
      "Welcome to Iranian SE",
@@ -247,7 +248,7 @@ app.post("/register", async (req, res) => {
   // req.session.user_id = user._id;
   // let { idd } = await User.findOne({ username: username });
 
-  res.render("registerSuccess", { newUser });
+  // res.render("registerSuccess", { newUser });
        
  
  
