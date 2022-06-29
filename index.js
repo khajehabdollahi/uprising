@@ -292,8 +292,10 @@ app.put("/users/edit/:id", async (req, res) => {
 });
 
 app.get("/deleteuser/:id", async (req, res) => {
-  const { id } = await req.params;
+  const { id } =await req.params;
+  
   const user = await User.findById(id);
+
   res.render("deleteAccountconfirmation", { user });
 });
 app.get("/deleteuserconfirm/:id", async (req, res) => {
