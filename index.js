@@ -232,7 +232,7 @@ app.post("/register", async (req, res) => {
   let user = await User.findOne({ username: username });
   const err = "User with the Email already exist!";
   if (user) {
-    res.render("registererror", { err });
+    res.render("registererror", { err, user });
   } else { 
     await User.register(newUser, password);
   }
@@ -245,10 +245,10 @@ app.post("/register", async (req, res) => {
      id
    ); //Detta lokal host ska ändras till domänen
 
-  // req.session.user_id = user._id;
-  // let { idd } = await User.findOne({ username: username });
+  req.session.user_id = user._id;
+  let { idd } = await User.findOne({ username: username });
 
-  // res.render("registerSuccess", { newUser });
+  res.render("registerSuccess", { newUser });
        
  
  
@@ -473,8 +473,25 @@ app.get("/deletetext/:id", async (req, res) => {
 app.get("/deletetextconfirm/:id", async (req, res) => {
   const { id } = req.params;
   const text = await Text.findByIdAndDelete(id);
+   
   res.redirect("/");
 });
+// app.get("/deletetextconfirm/:id", async (req, res) => {
+//   const uid = req.user.id;
+//   const user1 = await User.findById({ uid });
+//   res.send(user1);
+//   const { id } = req.params;
+//   const text = await Text.findByIdAndDelete(id);
+ 
+   
+//   res.send(user1);
+//   if (user1.username == 'admin@admin') {
+//       res.redirect("/admin");
+//   }
+//   res.redirect("/");
+// });
+
+
 
 app.put("/deleteimage/:id", async (req, res) => {
   const { id } = req.params;

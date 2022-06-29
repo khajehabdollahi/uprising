@@ -7,7 +7,7 @@
     </div>
 
     <div class="col-lg-6">
-      <h2><a href="/about">About us در باره ما om Oss</a></h2>
+      <h2><a href="/about">About us در باره ما Om oss</a></h2>
       <% for(let t of allText.reverse()){ %>
         <!-- there is problem here -->
         <% if(t.confirmed == "yes"){ %> 
@@ -36,18 +36,12 @@
         >
           <a style="text-decoration: none" href="/edittext/<%=t.id %>">Edit</a>
         </div>
-        <!-- <form action="/deletetext/<%=t.id %>" method="get">
-            <button class="btn btn-danger" type="submit">Delete Text </button>
-          </form> -->
+     
 
         <form action="/deletetext/<%= t.id %> " method="get">
-          <div
-            class="btn btn-sm btn-outline-danger py-0"
-            type="submit"
-            style="text-decoration: none; height: 28px"
-          >
-            ِDelete
-          </div>
+          <button class="btn btn-sm btn-outline-danger py-0" type="submit"
+           style="text-decoration: none; height: 28px" >Delete Text </button>
+          
         </form>
         <br>
         
