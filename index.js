@@ -245,8 +245,8 @@ app.post("/register", async (req, res) => {
      id
    ); //Detta lokal host ska ändras till domänen
 
-  req.session.user_id = user._id;
-  let { idd } = await User.findOne({ username: username });
+  // req.session.user_id = user._id;
+  // let { idd } = await User.findOne({ username: username });
 
   res.render("registerSuccess", { newUser });
        
