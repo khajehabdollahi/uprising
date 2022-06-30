@@ -237,16 +237,14 @@ app.post("/register", async (req, res) => {
     await User.register(newUser, password);
   }
      let { id } = await User.findOne({ username: username });
-     console.log(id);
+   
    mailer(
      username,
      "Welcome to Iranian SE",
-     "You are very welcome now \n please activate ur account by clicking this link\n \n http://iranianse.com/activate/" +
-     id
-   ); //Detta lokal host ska ändras till domänen
-
-  // req.session.user_id = user._id;
-  // let { idd } = await User.findOne({ username: username });
+     "You are very welcome now \n please activate ur account by clicking this link\n \n (http://iranianse.com/activate/" +
+       id
+   );
+  
 
   res.render("registerSuccess", { newUser });
        
@@ -265,9 +263,8 @@ app.get("/activate/:id", async (req, res) => {
   if (user) {
     user.activated = true;
     await user.save();
-    res.render("loginWelcome");
-    res.redirect("http://iranianse.com/welcomeuser?id=" + req.params.id).end();
-    res.render("loginWelcome");
+    res.render("loginWelcome",{ user});
+ 
   } else {
     res.send("Activation Failed");
   }
@@ -298,6 +295,7 @@ app.get("/deleteuser/:id", async (req, res) => {
 
   res.render("deleteAccountconfirmation", { user });
 });
+
 app.get("/deleteuserconfirm/:id", async (req, res) => {
   const { id } = await req.params;
 
