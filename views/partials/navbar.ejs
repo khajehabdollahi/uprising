@@ -1,67 +1,41 @@
+
   <div style="background-color:#1c98c4 !important" class="container-fluid px-0 bg-primary bg-gradient shadow border-bottom border-warning">
   <div class="container">
   <div class="row mx-auto">
-    <div class="col-lg-12">
+    
       <nav class="navbar sticky-top navbar-expand-lg navbar-dark mx-auto">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div  class="collapse navbar-collapse justify-content-center" id="navbarNav">
-          <ul class="navbar-nav  ">
-      <Row class="row">
+        <ul>
+      
+              <Row class="d-flex justify-content-center text-center">  <a  class="nav-link" href="/">Iranian SE  ارتباط علمی فرهنگی ایرانیان در سوئد</a>
+</Row> 
+<Row class="d-flex justify-content-center text-center">
            
-          <!-- <li class="nav-item dropdown"> -->
-        <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Language | انتخاب زبان
-        </a>
-        <div  class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a style ="background-color: '#d8eaff';" class="dropdown-item link" href="/persian">فارسی</a>
-          <a class="dropdown-item link" href="/swedish">Svenska</a>
-          <a class="dropdown-item link" href="/english">English</a>
-          <a class="dropdown-item link" href="/">Mixed</a>
-        </div>
-      </li> -->
-
-          
-         
-          
-          
-
-           
-
-           
-            <li class="nav-item">
-              <a class="nav-link" href='/writenewtext'>Write</a>
-            </li>
-          
+              <a  style="color:white"  href='/writenewtext'>Write</a>
+             
         
+                  
             <% if(!currentUser){ %> 
-              <li class="nav-item"></li>
-                <a class="nav-link" href='/login'>Log In | signup</a>
-              </li>
+            
+                <a  style="color:white" class="mx-auto" href='/login'>Log In | signup</a>
+          
             <% } else {%> 
             
-            <li style="margin-top: 8px; margin-left: 10px; margin-right: 10px" >
+          
               <a href="/users/<%= currentUser.id %> " style="color:white"><%=currentUser.name %></a> 
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href='/logout'>    Log Out </a>
-            </li>
+          
+            
+              <a  style="color:white" href='/logout'>    Log Out </a>
+          
           <% } %> 
-            <li class="nav-item">
-                          <Row class="d-flex justify-content-center text-center">  <a  class="nav-link" href="/">Iranian SE  ارتباط علمی فرهنگی ایرانیان در سوئد</a>
-</Row>
-       </li>
-                 </ul>
-                    </Row>
-                   </div>
+             <a  style="color:white" href='/about'>About us</a>
+         
+        </ul>
+        </Row>
+        </Row>    
                        
                    </nav>
                </div>
-
-    
-    
-  </div>
+ 
   </div>
 </div>
 
