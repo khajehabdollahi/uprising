@@ -1,16 +1,33 @@
 <% layout('layout/boilerplate') %>
 <div class="container-fluid px-0 mx-0">
   <div class="row">
-    <div class="col-lg-3">
-      <h1>ADVERTIZE</h1>
-      
+
+    <div class="col-lg-3 ">
+      <div class="row bg-warning mt-2 text-center p-2 " style="height:100px ">
+       <h3>Your dvertizement can be pulished here</h3> 
+      </div>
+ <div class="row bg-info mt-2 text-center text-white p-2" style="height:100px ">
+       <h3>Your dvertizement can be pulished here</h3> 
+      </div>  
+    <div class="row bg-primary mt-2 text-center text-white p-2" style="height:100px ">
+       <h3>Your dvertizement can be pulished here</h3> 
+      </div>
+    <div class="row bg-secondary mt-2 text-center text-white p-2" style="height:100px ">
+       <h3>Your dvertizement can be pulished here</h3> 
+      </div>
+    <div class="row bg-danger mt-2 text-center text-white p-2" style="height:100px ">
+       <h3>Your dvertizement can be pulished here</h3> 
+      </div>
+    <div class="row bg-success mt-2 text-center text-white p-2" style="height:100px ">
+       <h3>Your dvertizement can be pulished here</h3> 
+      </div>
     </div>
 
-    <div class="col-lg-6">
-      <h2><a href="/about">About us در باره ما Om oss</a></h2>
+    <div class="col-lg-6 ">
+      <!-- <h2><a href="/about">About us در باره ما Om oss</a></h2> -->
       <% for(let t of allText.reverse()){ %>
-        <!-- there is problem here -->
-        <% if(t.confirmed == "yes"){ %> 
+      <!-- there is problem here -->
+      <% if(t.confirmed == "yes"){ %>
       <h4><a href="/text/<%=t.id %>"><%-t.title %></a></h4>
       <div><%- t.text %></div>
       <% if(t.file !="") {%>
@@ -21,14 +38,15 @@
           width="100%"
           style="border-radius: 5px"
         />
-            </div>
-              <p class="mt-1" style="font-size: 20px">
+      </div>
+      <p class="mt-1" style="font-size: 20px">
         Written By:
         <a href="/users/<%=t.author.id %> "><%=t.author.name %> </a>
-          </p>
+      </p>
       <% } else { %>
       <div class="rounded" style="height: 2px; overflow: hidden"></div>
-      <% } %> <% if(currentUser && currentUser.id==t.author.id || currentUser &&currentUser.username == "admin@admin"){ %>
+      <% } %> <% if(currentUser && currentUser.id==t.author.id || currentUser
+      &&currentUser.username == "admin@admin"){ %>
       <div class="d-flex justify-content-center mt-5">
         <div
           class="btn btn-sm btn-outline-success mr-2 py-0"
@@ -36,33 +54,47 @@
         >
           <a style="text-decoration: none" href="/edittext/<%=t.id %>">Edit</a>
         </div>
-     
 
         <form action="/deletetext/<%= t.id %> " method="get">
-          <button class="btn btn-sm btn-outline-danger py-0" type="submit"
-           style="text-decoration: none; height: 28px" >Delete Text </button>
-          
+          <button
+            class="btn btn-sm btn-outline-danger py-0"
+            type="submit"
+            style="text-decoration: none; height: 28px"
+          >
+            Delete Text
+          </button>
         </form>
-        <br>
-        
+        <br />
       </div>
-      <% if(currentUser.username == "admin@admin" && t.confirmed !="yes"){ %> 
-       <h2> <a href="/confirmtext/<%= t.id %>">Confirm text</a></h2>
-        
-          <% } %> 
+      <% if(currentUser.username == "admin@admin" && t.confirmed !="yes"){ %>
+      <h2><a href="/confirmtext/<%= t.id %>">Confirm text</a></h2>
+
+      <% } %>
       <hr />
 
-      <% }else{ %>
-      
-        <% } %> 
-       
-        
-     <% } %>
-      <% } %>
+       <% }else{ %> <% } %> <% } %> <% } %>
     </div>
 
-    <div class="col-lg-3">
-      <h1>ADVERTIZE</h1>
+    
+    <div class="col-lg-3 ">
+      <div class="row bg-warning mt-2 text-center p-2" style="height:100px ">
+       <h3>Your dvertizement can be pulished here</h3> 
+      </div>
+ <div class="row bg-info mt-2 text-center text-white p-2" style="height:100px ">
+       <h3>Your dvertizement can be pulished here</h3> 
+      </div>  
+    <div class="row bg-primary mt-2 text-center text-white p-2" style="height:100px ">
+       <h3>Your dvertizement can be pulished here</h3> 
+      </div>
+       <div class="row bg-danger mt-2 text-center text-white p-2" style="height:100px ">
+       <h3>Your dvertizement can be pulished here</h3> 
+      </div>
+    <div class="row bg-success mt-2 text-center text-white p-2" style="height:100px ">
+       <h3>Your dvertizement can be pulished here</h3> 
+      </div>
+      <div class="row bg-secondary mt-2 text-center text-white p-2" style="height:100px ">
+       <h3>Your dvertizement can be pulished here</h3> 
+      </div>
     </div>
   </div>
 </div>

@@ -22,10 +22,14 @@
             
           
               <a href="/users/<%= currentUser.id %> " style="color:white"class="mx-auto" ><%=currentUser.name %></a> 
-          
+             <% if (currentUser.username==('admin@admin')){%> 
+              
+               <a  style="color:white" class="mx-auto"  href='/admin'> Manage </a>
+              <% } %> 
             
               <a  style="color:white" class="mx-auto"  href='/logout'>    Log Out </a>
-          
+              
+                  
           <% } %> 
              <a  style="color:white" class="mx-auto"  href='/about'>About us</a>
          

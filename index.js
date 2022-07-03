@@ -22,6 +22,7 @@ const flash = require("connect-flash");
 
 const User = require("./models/user");
 const Text = require("./models/text");
+const Ads = require("./models/ads");
 
 const MongoStore = require("connect-mongo")(session);
 
