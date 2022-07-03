@@ -15,8 +15,57 @@
     <link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
   </head>
   <body class="d-flex flex-column min-vh-100 bg-light bg-image">
+    
     <%- include('../partials/navbar') %>
-    <main class="container"><%- body %></main>
+    <main class="container">
+      <div class="row">
+        <div class="col-lg-3 ">
+          <div class="row bg-warning mt-2 text-center p-2 " style="height:100px ">
+          <h3>Your dvertizement can be pulished here</h3> 
+          </div>
+          <div class="row bg-info mt-2 text-center text-white p-2" style="height:100px">
+            <h3>Your dvertizement can be pulished here</h3> 
+          </div>  
+          <div class="row bg-primary mt-2 text-center text-white p-2" style="height:100px ">
+          <h3>Your dvertizement can be pulished here</h3> 
+          </div>
+          <div class="row bg-secondary mt-2 text-center text-white p-2 d-sm-none d-lg-block" style="height:100px ">
+            <h3>Your dvertizement can be pulished here</h3> 
+          </div>
+          <div class="row bg-danger mt-2 text-center text-white p-2 d-sm-none d-lg-block" style="height:100px ">
+            <h3>Your dvertizement can be pulished here</h3> 
+          </div>
+          <div class="row bg-success mt-2 text-center text-white p-2 d-sm-none d-lg-block" style="height:100px ">
+            <h3>Your dvertizement can be pulished here</h3> 
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <%- body %>
+        </div>
+
+        <div class="col-lg-3 ">
+          <div class="row bg-warning mt-2 text-center p-2 " style="height:100px ">
+          <h3>Your dvertizement can be pulished here</h3> 
+          </div>
+          <div class="row bg-info mt-2 text-center text-white p-2" style="height:100px">
+            <h3>Your dvertizement can be pulished here</h3> 
+          </div>  
+          <div class="row bg-primary mt-2 text-center text-white p-2" style="height:100px ">
+          <h3>Your dvertizement can be pulished here</h3> 
+          </div>
+          <div class="row bg-secondary mt-2 text-center text-white p-2 d-sm-none d-lg-block" style="height:100px ">
+            <h3>Your dvertizement can be pulished here</h3> 
+          </div>
+          <div class="row bg-danger mt-2 text-center text-white p-2 d-sm-none d-lg-block" style="height:100px ">
+            <h3>Your dvertizement can be pulished here</h3> 
+          </div>
+          <div class="row bg-success mt-2 text-center text-white p-2 d-sm-none d-lg-block" style="height:100px ">
+            <h3>Your dvertizement can be pulished here</h3> 
+          </div>
+        </div>
+      </div>
+    </main>
     <div class="mt-auto">
         <%- include('../partials/footer') %>
     </div>
@@ -36,12 +85,12 @@
       crossorigin="anonymous"
     ></script>
   
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script> 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script> 
 
- <!-- Initialize the editor -->
-<script>
-  new FroalaEditor('textarea');
-</script>
+    <!-- Initialize the editor -->
+    <script>
+      new FroalaEditor('textarea');
+    </script>
 
 
 

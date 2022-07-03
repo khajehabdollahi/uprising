@@ -474,7 +474,11 @@ app.get("/deletetext/:id", async (req, res) => {
 app.get("/deletetextconfirm/:id", async (req, res) => {
   const { id } = req.params;
   const text = await Text.findByIdAndDelete(id);
-   
+  const currentUser = req.user;
+  
+    if ((currentUser.username = "admin@admin")) {
+      res.redirect("/admin");
+    }
   res.redirect("/");
 });
 // app.get("/deletetextconfirm/:id", async (req, res) => {
