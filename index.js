@@ -457,8 +457,9 @@ app.put("/edittext/:id", async (req, res) => {
   const id = req.params.id;
 
   const text = await Text.findByIdAndUpdate(id, req.body);
- 
+  text.confirmed = "no";
   text.save()
+  res.render("tnxedit");
   res.redirect("/");
 });
 
