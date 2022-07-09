@@ -1,7 +1,7 @@
 <% layout('layout/boilerplate') %> 
 <br>
 <div class="d-flex justify-content-center">
-<main class="card col-6"; style="text-align:center">
+<main class=class="card col-12 col-sm-12 "; style="text-align:center">
  <h3> <%= user.name %>'Page! </h3>
  Email: <%= user.username %> <br>
  Name: <%= user.name %> <br>
@@ -28,8 +28,8 @@
 <% } %> 
 <h1>Texts</h1>
 <% for(let t of text.reverse()){ %> 
-<ul>
-      <li><h4><a href="/text/<%=t.id %>"><%=t.title %></a></h4> </li> 
+<ul  style="list-style: none">
+      <li><h4><a href="/text/<%=t.id %>" ><%-t.title%></a></h4> </li> 
   
   <% if(currentUser && currentUser.id==t.author.id){ %>  
  <a href="/edittext/<%=t.id %>">Edit</a>

@@ -1,9 +1,10 @@
  <% layout('layout/boilerplate') %> 
- <div style="text-align:center">
+ <div style="text-align:center"> <br>
+  
   <form action="/edittext/<%=text._id %>?_method=PUT " method="POST" >
-    <label for="title">Title:</label> <br>
-    <input type="text" name="title" id="title" value="<%=text.title %> ">
-    <label for="text">Text:</label> <br>
+    
+      <textarea  type="text" name="title" id="title" cols="66" > <%=text.title %></textarea><br><br>
+   
     <textarea  id="text" name="text" rows="15" cols="66"> <%=text.text%></textarea>
 <br>
 

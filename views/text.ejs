@@ -1,13 +1,14 @@
  <% layout('layout/boilerplate') %> 
 <br>
 <div class="d-flex justify-content-center">
-<main class="card col-12 col-sm-12 col-md-8"; style="text-align:center">
+<main class="card col-12 col-sm-12 "; style="text-align:center">
   <form class="d-flex flex-column" action="/writenewtex" method="POST" enctype='multipart/form-data'>
 
 
 
-    <label for="title">Title:</label> <br>
-    <input type="text" name="title" id="title">
+    <label for="title" >Title:</label> <br>
+  
+    <textarea id="title" name="title" rows="2" cols="66"></textarea>
     <br>
     <label for="text">Text:</label> 
     <br>
