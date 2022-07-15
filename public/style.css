@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster+Two&family=Ubuntu&display=swap');
+/* @import url('https://use.fontawesome.com/a31a3f8384.js'); */
+
 
 * {
   margin: 0;
@@ -70,5 +72,27 @@
 color:#d8eaff !important;
 
 }
+.main-content{
+  width:90%;
+  box-shadow: 0 10px 20px;
+}
 
+.text-editor-header{
+  background-color:"#ecf0f1";
+   box-shadow: 0 10px 20px;
+  padding: 2px;
+}
+
+.text-editor-header .btn{
+  background-color: #D6E618;
+border:none;
+outline:none;
+cursor:pointer;
+}
+
+.content{
+  border:1px solid;
+  height:250px;
+  padding:20px
+}
 

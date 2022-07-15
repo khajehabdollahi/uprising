@@ -154,6 +154,10 @@ app.get("/", async (req, res) => {
     res.render("home", { allText, id });
   }
 });
+
+app.get('/sport', async (req,res) => {
+res.render('sport')
+})
 app.get("/persian", async (req, res) => {
   if (!req.user) {
     const allText = await Text.find({ language: "Persian" });
@@ -395,7 +399,7 @@ app.put("/resetpass/:tempid/:username", async (req, res) => {
 });
 
 app.get("/writenewtext", requiredLogin, (req, res) => {
-  res.render("text");
+  res.render("text1");
 });
 
 app.post("/writenewtex", upload.single("f"), async (req, res) => {
@@ -592,6 +596,17 @@ app.get("/logout", (req, res) => {
 app.use((req, res) => {
   res.status(404).send(`<h1>The page is not defined</h1>`);
 });
+
+
+//Text Editor
+
+//  let elements = document.querySelectorAll(".btn");
+// elements.forEach(element => {
+//   elements.addEventListener('click', () => {
+//     const command = element.dataset['element'];
+//     document.execCommand(command,false, null);
+//    })
+//  })
 
 const port = process.env.PORT || 3000;
 
