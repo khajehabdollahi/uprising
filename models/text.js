@@ -3,11 +3,10 @@ const mongoose = require("mongoose");
 let textSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true,
+    // required: true,
   },
   text: {
     type: String,
-    required: true,
   },
   file: {
     type: String,

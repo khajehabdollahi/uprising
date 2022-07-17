@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster+Two&family=Ubuntu&display=swap');
-/* @import url('https://use.fontawesome.com/a31a3f8384.js'); */
-
+@import url('../node_modules/font-awesome/css/font-awesome.min.css');
 
 * {
   margin: 0;

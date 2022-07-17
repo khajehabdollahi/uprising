@@ -11,66 +11,107 @@
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
-      
     />
-    <link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <link rel="stylesheet" href="trumbowyg/dist/ui/trumbowyg.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/ui/trumbowyg.min.css" integrity="sha512-nwpMzLYxfwDnu68Rt9PqLqgVtHkIJxEPrlu3PfTfLQKVgBAlTKDmim1JvCGNyNRtyvCx1nNIVBfYm8UZotWd4Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
   <body class="d-flex flex-column min-vh-100 bg-light bg-image">
-    
     <%- include('../partials/navbar') %>
     <main class="container">
       <div class="row">
-        <div class="col-lg-3 ">
-          <div class="row bg-warning mt-2 p-1 d-sm-none d-sm-block text-white text-center"  style="height:70px ">
-           <a href="http://www.svenskaswedish.com/" > <h2>Learn Swedish</h2> </a>
+        <div class="col-lg-3">
+          <div
+            class="row bg-warning mt-2 p-1 d-sm-none d-sm-block text-white text-center"
+            style="height: 70px"
+          >
+            <a href="http://www.svenskaswedish.com/">
+              <h2>Learn Swedish</h2>
+            </a>
           </div>
-          <div class="row bg-info mt-2 text-center text-white p-2 d-none d-lg-block" style="height:70px">
-            <a href="http://www.svenskaswedish.com/" class="text-white"> <h2>Learn Swedish</h2> </a>
-          </div>  
-          <div class="row bg-primary mt-2 text-center text-white p-2 d-none d-lg-block" style="height:100px ">
-          <h4>Your advertizement can be pulished here</h4> 
+          <div
+            class="row bg-info mt-2 text-center text-white p-2 d-none d-lg-block"
+            style="height: 70px"
+          >
+            <a href="http://www.svenskaswedish.com/" class="text-white">
+              <h2>Learn Swedish</h2>
+            </a>
           </div>
-          <div class="row bg-secondary mt-2 text-center text-white p-2 d-none d-sm-block" style="height:100px ">
-            <h4>Your advertizement can be pulished here</h4> 
+          <div
+            class="row bg-primary mt-2 text-center text-white p-2 d-none d-lg-block"
+            style="height: 100px"
+          >
+            <h4>Your advertizement can be pulished here</h4>
           </div>
-          <div class="row bg-danger mt-2 text-center text-white p-1 d-sm-none d-sm-block" style="height:70px ">
-            <h4>Your advertizement can be pulished here</h4> 
+          <div
+            class="row bg-secondary mt-2 text-center text-white p-2 d-none d-sm-block"
+            style="height: 100px"
+          >
+            <h4>Your advertizement can be pulished here</h4>
           </div>
-          
-          <div class="row bg-warning mt-2 text-center text-danger p-2 d-sm-none d-lg-block" style="height:100px ">
-            <h4>Your advertizement can be pulished here</h4> 
+          <div
+            class="row bg-danger mt-2 text-center text-white p-1 d-sm-none d-sm-block"
+            style="height: 70px"
+          >
+            <h4>Your advertizement can be pulished here</h4>
+          </div>
+
+          <div
+            class="row bg-warning mt-2 text-center text-danger p-2 d-sm-none d-lg-block"
+            style="height: 100px"
+          >
+            <h4>Your advertizement can be pulished here</h4>
           </div>
         </div>
 
-        <div class="col-lg-6">
-          <%- body %>
-        </div>
+        <div class="col-lg-6"><%- body %></div>
 
-        <div class="col-lg-3 ">
-          <div class="row bg-warning mt-2 text-center p-2 " style="height:100px ">
-          <h4><a href="http:/sport">Sport News</a></h4> 
+        <div class="col-lg-3">
+          <div
+            class="row bg-warning mt-2 text-center p-2"
+            style="height: 100px"
+          >
+            <h3>Your advertizement can be pulished here</h3>
           </div>
-          <div class="row bg-info mt-2 text-center text-white p-2" style="height:100px">
-            <h4>Your advertizement can be pulished here</h4> 
-          </div>  
-          <div class="row bg-primary mt-2 text-center text-white p-2" style="height:100px ">
-          <h3>Your advertizement can be pulished here</h3> 
+          <div
+            class="row bg-info mt-2 text-center text-white p-2"
+            style="height: 100px"
+          >
+            <h4>Your advertizement can be pulished here</h4>
           </div>
-          <div class="row bg-secondary mt-2 text-center text-white p-2 d-sm-none d-lg-block" style="height:100px ">
-            <h4>Your advertizement can be pulished here</h4> 
+          <div
+            class="row bg-primary mt-2 text-center text-white p-2"
+            style="height: 100px"
+          >
+            <h3>Your advertizement can be pulished here</h3>
           </div>
-          <div class="row bg-danger mt-2 text-center text-white p-2 d-sm-none d-lg-block" style="height:100px ">
-            <h4>Your advertizement can be pulished here</h4> 
+          <div
+            class="row bg-secondary mt-2 text-center text-white p-2 d-sm-none d-lg-block"
+            style="height: 100px"
+          >
+            <h4>Your advertizement can be pulished here</h4>
           </div>
-          <div class="row bg-success mt-2 text-center text-white p-2 d-sm-none d-lg-block" style="height:100px ">
-            <h4>Your advertizement can be pulished here</h4> 
+          <div
+            class="row bg-danger mt-2 text-center text-white p-2 d-sm-none d-lg-block"
+            style="height: 100px"
+          >
+            <h4>Your advertizement can be pulished here</h4>
+          </div>
+          <div
+            class="row bg-success mt-2 text-center text-white p-2 d-sm-none d-lg-block"
+            style="height: 100px"
+          >
+            <h4>Your advertizement can be pulished here</h4>
           </div>
         </div>
       </div>
     </main>
-    <div class="mt-auto">
-        <%- include('../partials/footer') %>
-    </div>
+    <div class="mt-auto"><%- include('../partials/footer') %></div>
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -86,20 +127,34 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
-  
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script> 
 
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"
+    ></script>
+
+    <link rel="stylesheet" href="trumbowyg/dist/ui/trumbowyg.min.css" />
     <!-- Initialize the editor -->
     <script>
-     // new FroalaEditor('textarea');
-     new FroalaEditor('textarea', {
-      toolbarButtons: [  'bold', 'italic',   'outdent', 'indent','align' ]
-      
-    });
-
+      // new FroalaEditor('textarea');
+      // new FroalaEditor('textarea', {
+      //   toolbarButtons: [  'bold', 'italic',   'outdent', 'indent','align' ]
+      // });
     </script>
 
+    <!-- Import jQuery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
 
+    <!-- Import Trumbowyg -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/trumbowyg.min.js" integrity="sha512-t4CFex/T+ioTF5y0QZnCY9r5fkE8bMf9uoNH2HNSwsiTaMQMO0C9KbKPMvwWNdVaEO51nDL3pAzg4ydjWXaqbg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <script>
+      $('#text').trumbowyg({
+          btns: [['strong', 'em',], ['insertImage'],
+          ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],],
+          autogrow: true
+      });
+    </script>
   </body>
 </html>

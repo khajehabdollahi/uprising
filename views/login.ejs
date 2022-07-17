@@ -1,31 +1,45 @@
+<% layout('layout/boilerplate') %>
 
-<% layout('layout/boilerplate') %> 
- 
-<br><br>
-<div class="d-flex justify-content-center" >
-<main class="card col-lg-7 col-sm-12 col-md-8 "; style="text-align:center">
-    <form  action="/login" method="POST" class="validated-form novalidate ">
+<br /><br />
+<div class="d-flex justify-content-center">
+  <main class="card col-lg-7 col-sm-12 col-md-8" ; style="text-align: center">
+    <form action="/login" method="POST" class="validated-form novalidate">
       <div class="mb-3">
-      <label class="form-label" for="username">Email</label><br>
-      <input class="form-control" type="email" name="username" id="username" placeholder="email"required>      
-    </div>
+        <label class="form-label" for="username">Email</label><br />
+        <input
+          class="form-control"
+          type="email"
+          name="username"
+          id="username"
+          placeholder="email"
+          required
+        />
+      </div>
 
-    <div class="mb-3">
-      <label class="form-label" for="password">Password</label><br>
-      <input class="form-control" type="password" name="password" id="password" required>
-    </div>
+      <div class="mb-3">
+        <label class="form-label" for="password">Password</label><br />
+        <input
+          class="form-control"
+          type="password"
+          name="password"
+          id="password"
+          required
+        />
+      </div>
 
-    <button type="submit" class="btn-success">LOG IN</button> <br/> <br>
-    <a href="/forgetpass">Forgot Password?</a>
+      <button type="submit" class="btn-success">
+        <i class="fa-solid fa-right-to-bracket"></i> LOG IN
+      </button>
+      <br />
+      <br />
+      <a href="/forgetpass">Forgot Password?</a>
     </form>
-  
 
-  <br/>
-  
-    <h4 >Don't you have an account?</h4> <br/>
-   
-    <a href='/Register'>Register an account</a> <br>
+    <br />
 
+    <h4>Don't you have an account?</h4>
+    <br />
 
-</main>
-  </div>
+    <a href="/Register">Register an account</a> <br />
+  </main>
+</div>

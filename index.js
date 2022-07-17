@@ -399,20 +399,26 @@ app.put("/resetpass/:tempid/:username", async (req, res) => {
 });
 
 app.get("/writenewtext", requiredLogin, (req, res) => {
-  res.render("text1");
+  res.render("text");
 });
 
 app.post("/writenewtex", upload.single("f"), async (req, res) => {
   try {
- 
+    
     let id = req.user.id;
     let user = await User.findById(id);
+    
     await Text.create(req.body, (err, text) => {
+      console.log("BODY ", req.body)
       if (err) {
         console.log(err);
       } else {
         
         // text.file = req.file.path;
+        text.title = req.body.title
+        if (text.title == "") {
+          res.send('Please add the title')
+        }
         if (req.file === undefined) {
            text.file = "";
          } else {
@@ -599,14 +605,6 @@ app.use((req, res) => {
 
 
 //Text Editor
-
-//  let elements = document.querySelectorAll(".btn");
-// elements.forEach(element => {
-//   elements.addEventListener('click', () => {
-//     const command = element.dataset['element'];
-//     document.execCommand(command,false, null);
-//    })
-//  })
 
 const port = process.env.PORT || 3000;
 
