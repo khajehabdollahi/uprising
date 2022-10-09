@@ -12,6 +12,10 @@ let textSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  video: {
+    type: String,
+    required: false,
+  },
   language: {
     type: String,
     value: "undefined",

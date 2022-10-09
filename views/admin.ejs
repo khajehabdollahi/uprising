@@ -10,7 +10,10 @@
           width="100%"
           style="border-radius: 5px"
         />
-              <p class="mt-1" style="font-size: 20px">
+        <% if(t.video !== ''){ %>
+          <video src="<%= t.video %> " width="100%"  controls> </video> 
+          <% } %>
+        <p class="mt-1" style="font-size: 20px">
         Written By:
         <a href="/users/<%=t.author.id %> "><%=t.author.name %> </a>
           </p>

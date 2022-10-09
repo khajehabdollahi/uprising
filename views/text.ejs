@@ -2,8 +2,26 @@
 <br>
 <div class="d-flex justify-content-center">
 <main class="card col-12 col-sm-12 "; style="text-align:center">
+
+
+  <div class="okay">
+    <form class="d-flex flex-column" action="/upload-video" method="POST" enctype='multipart/form-data'>
+
+      <small style="text-align:start; margin: 1rem;">1 : Upload a video first </small>
+      <h4>select video</h4>
+      <input type="file" name="video" id="video" > <br/> <br/>
+        <% if(video){%>
+          <video src="<%= video %>" width="100%" controls style="margin-bottom:10px ;"></video>
+    <% } %>
+      <button type="submit" class="btn btn-success">upload video</button>
+    </form> <br>
+    <hr>
+  </div>
+
+
   <form class="d-flex flex-column" action="/writenewtex" method="POST" enctype='multipart/form-data'>
 
+    <small style="text-align:start; margin: 1rem;">2 : Upload Post Now </small>
 
     <label for="title" >Title:</label> <br>
   
@@ -19,9 +37,10 @@
      <textarea id="text" name="text" rows="4" cols="50">
          
           </textarea>
-      <h4>select image</h4>
-    <input type="file" name="f" id="f" > <br/> <br/>
-    <br>
+          <h4>select image</h4>
+          <input type="file" name="f" id="f" > <br/> 
+          <br>
+          
 
 
     <label for="language"> <h2> Language زبان:</h2></label> <br>
@@ -32,6 +51,7 @@
       <option value="ُSwedish">Svenska</option>
       <option value="Mixed">mixed</option>
     </select> <br/><br>
+    <input type="hidden" name="videoPath" value="<%= video %>" id="">
     <button type="submit" class="btn btn-success">Send</button>
   </form> <br>
 

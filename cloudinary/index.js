@@ -11,14 +11,21 @@ const storage = new CloudinaryStorage({
   cloudinary,
   params:{
   folder: 'backery',
-  allowedFormats: ['jpeg', 'png', 'gif', 'tiff', 'jpg']
+}
+})
+const VIDstorage = new CloudinaryStorage({
+  cloudinary,
+  params:{
+    resource_type: "video",
+      folder: "video",
 }
 })
 
 
 module.exports = {
   cloudinary,
-  storage
+  storage,
+  VIDstorage
 }
 
 

@@ -5,6 +5,9 @@
       <% if(t.confirmed == "yes"){ %>
       <h4><a href="/text/<%=t.id %>"><%-t.title %></a></h4>
       <div><%- t.text %></div>
+      <% if(t.video !== ''){ %>
+          <video src="<%= t.video %> " width="100%"  controls> </video> 
+          <% } %>
       <% if(t.file !="") {%>
       <div class="rounded" style="height: 400px; overflow: hidden">
         <img

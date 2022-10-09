@@ -7,8 +7,11 @@ const path = require("path");
 const mongoose = require("mongoose");
 
 const multer = require("multer");
-const { storage } = require("./cloudinary/index");
+const { storage , VIDstorage } = require("./cloudinary/index");
 const upload = multer({ storage });
+const uploadVid = multer({ storage :  VIDstorage });
+
+
 
 const nodemailer = require("nodemailer");
 const mailer = require("./views/mailer");
@@ -39,7 +42,7 @@ mongoose.connect(dbUrl, {
   useCreateIndex: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
-});
+}).then((res)=>{console.log('db connected')}).catch(err=>{console.log(err)});
 
 // const db = "news";
 // mongoose.connect("mongodb://localhost:27017/" + db, {
@@ -136,7 +139,6 @@ app.get("/admin", requiredLogin, async (req, res) => {
   const currentUser = req.user;
   if (currentUser.username == "admin@admin") {
     let text =await  Text.find({})
-   
     res.render("admin",{text});
   } else {
     res.send("MMMM");
@@ -399,15 +401,14 @@ app.put("/resetpass/:tempid/:username", async (req, res) => {
 });
 
 app.get("/writenewtext", requiredLogin, (req, res) => {
-  res.render("text");
+  res.render("text" , {video : ''});
 });
 
-app.post("/writenewtex", upload.single("f"), async (req, res) => {
+app.post("/writenewtex", upload.single('f'), async (req, res) => {
   try {
-    
     let id = req.user.id;
     let user = await User.findById(id);
-    
+
     await Text.create(req.body, (err, text) => {
       console.log("BODY ", req.body)
       if (err) {
@@ -429,15 +430,27 @@ app.post("/writenewtex", upload.single("f"), async (req, res) => {
         // if (text.language == "undefined") {
         //   res.send("please select the language of your text");
         // }
+         text.video = req.body.videoPath
         text.save();
-       
-        res.render("tnx");
+       console.log(text)
+        res.render("tnx" );
       }
     });
   } catch (e) {
     return res.status(404).send("SOMETHING WRONG!");
   }
 });
+
+
+
+
+app.post('/upload-video' , uploadVid.single('video') , async(req ,res)=>{
+  if (req.file === undefined) {
+    console.log('empty' , req.file.path)
+  } else {
+    res.render("text" , {video : req.file.path});
+  }
+})
 
 app.get("/confirmtext/:id",async (req, res) => {
   const {id} = req.params
@@ -553,6 +566,15 @@ app.get("/art", (req, res) => {
   res.render("art");
 });
 
+// School Code
+
+
+
+app.get("/school", (req, res) => {
+  
+  res.render("schoolsFirstPage");
+});
+
 app.get("/users", async (req, res) => {
   const allUsers = await User.find({});
   res.render("allUsers", { allUsers });
@@ -605,6 +627,8 @@ app.use((req, res) => {
 
 
 //Text Editor
+
+
 
 const port = process.env.PORT || 3000;
 
