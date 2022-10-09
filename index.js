@@ -1,4 +1,4 @@
-require("dotenv").config();
+const dotenv = require('dotenv').config() 
 
 const express = require("express");
 const app = express();
@@ -52,17 +52,21 @@ mongoose.connect(dbUrl, {
 //   useFindAndModify: false,
 // });
 
-app.use(
-  session({
-    secret: "mriduava",
-    saveUninitialized: false,
-    resave: false,
-    store: new MongoStore({
-      url: dbUrl,
-      touchAfter: 24 * 3600,
-    }),
-  })
-);
+// app.use(
+//   session({
+//     secret: "mriduava",
+//     saveUninitialized: false,
+//     resave: false,
+//     store: new MongoStore({
+//       url: dbUrl,
+//       touchAfter: 24 * 3600,
+//     }),
+//   })
+// );
+
+app.use(session({
+  secret: process.env.SESSION_SECRET
+}));
 
 // const secret = process.env.SECRET;
 // const store = MongoDBStore.create({
