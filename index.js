@@ -1,4 +1,4 @@
-const dotenv = require('dotenv').config() 
+require("dotenv").config();
 
 const express = require("express");
 const app = express();
@@ -64,9 +64,14 @@ mongoose.connect(dbUrl, {
 //   })
 // );
 
-app.use(session({
-  secret: process.env.SESSION_SECRET
-}));
+app.use(
+  session({
+    secret: "current-news",
+    resave: true,
+    saveUninitialized: true,
+    maxAge: 3600000
+  })
+);
 
 // const secret = process.env.SECRET;
 // const store = MongoDBStore.create({
@@ -90,7 +95,7 @@ const sessionConfig = {
   },
 };
 
-app.use(session(sessionConfig));
+//app.use(session(sessionConfig));
 // app.use(flash());
 
 app.use(passport.initialize());
