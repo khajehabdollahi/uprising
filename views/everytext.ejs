@@ -3,6 +3,7 @@
      <main class="card col-12 col-sm-12 col-md-10"; style="text-align:center">
       
           <h4><a href="/text/<%=text.id %>"><%-text.title %></a></h4>
+          <p class="text-center text-justify"><%- text.text %></p>
           <% if(text.video !== ''){ %>
           <video src="<%= text.video %> " width="100%"  controls> </video> 
           <% } %>
