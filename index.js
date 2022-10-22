@@ -35,7 +35,8 @@ const console = require("console");
 const { log } = require("console");
 
 const dbUrl =
-  "mongodb+srv://admin:admin@fairnews.ynril.mongodb.net/mynews?retryWrites=true&w=majority";
+  // "mongodb+srv://cluster0.wcxfnp4.mongodb.net/myFirstDatabase"
+   "mongodb+srv://admin:admin@fairnews.ynril.mongodb.net/iranuprising?retryWrites=true&w=majority";
 
 mongoose.connect(dbUrl, {
   useNewUrlParser: true,
@@ -294,7 +295,7 @@ app.get("/users/edit/:id", async (req, res) => {
 
 app.put("/users/edit/:id", async (req, res) => {
   const { id } = await req.params;
-  console.log("id: ");
+
 
   const user = await User.findByIdAndUpdate(id, req.body, {
     runValidators: true,
@@ -441,7 +442,6 @@ app.post("/writenewtex", upload.single('f'), async (req, res) => {
         // }
          text.video = req.body.videoPath
         text.save();
-       console.log(text)
         res.render("tnx" );
       }
     });
@@ -639,7 +639,7 @@ app.use((req, res) => {
 
 
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   console.log(`IranianSE Serv on ${port}`);

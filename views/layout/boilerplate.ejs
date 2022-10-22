@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Iranan Se Sverige ایرانیان سوئد</title>
+    <title>Iran Uprising رستاخیز ایران</title>
     <link href="../../public/style.css" rel="stylesheet" type="text/css" />
     <link
       rel="stylesheet"
@@ -18,29 +18,24 @@
       type="text/css"
     />
 
-    <link rel="stylesheet" href="trumbowyg/dist/ui/trumbowyg.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/ui/trumbowyg.min.css" integrity="sha512-nwpMzLYxfwDnu68Rt9PqLqgVtHkIJxEPrlu3PfTfLQKVgBAlTKDmim1JvCGNyNRtyvCx1nNIVBfYm8UZotWd4Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="trumbowyg/dist/ui/trumbowyg.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/ui/trumbowyg.min.css"
+      integrity="sha512-nwpMzLYxfwDnu68Rt9PqLqgVtHkIJxEPrlu3PfTfLQKVgBAlTKDmim1JvCGNyNRtyvCx1nNIVBfYm8UZotWd4Q=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body class="d-flex flex-column min-vh-100 bg-light bg-image">
     <%- include('../partials/navbar') %>
     <main class="container">
       <div class="row">
-        <div class="col-lg-3">
-          
-          
-          
-          
-         
-
-        
-        </div>
+        <div class="col-lg-3"></div>
 
         <div class="col-lg-6"><%- body %></div>
 
-        <div class="col-lg-3">
-          
-         
-        </div>
+        <div class="col-lg-3"></div>
       </div>
     </main>
     <div class="mt-auto"><%- include('../partials/footer') %></div>
@@ -76,16 +71,29 @@
 
     <!-- Import jQuery -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+    <script>
+      window.jQuery ||
+        document.write(
+          '<script src="js/vendor/jquery-3.3.1.min.js"><\/script>'
+        );
+    </script>
 
     <!-- Import Trumbowyg -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/trumbowyg.min.js" integrity="sha512-t4CFex/T+ioTF5y0QZnCY9r5fkE8bMf9uoNH2HNSwsiTaMQMO0C9KbKPMvwWNdVaEO51nDL3pAzg4ydjWXaqbg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/trumbowyg.min.js"
+      integrity="sha512-t4CFex/T+ioTF5y0QZnCY9r5fkE8bMf9uoNH2HNSwsiTaMQMO0C9KbKPMvwWNdVaEO51nDL3pAzg4ydjWXaqbg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
 
     <script>
-      $('#text').trumbowyg({
-          btns: [['strong', 'em',], ['insertImage'],
-          ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],],
-          autogrow: true
+      $("#text").trumbowyg({
+        btns: [
+          ["strong", "em", "link"],
+          ["insertImage"],
+          ["justifyLeft", "justifyCenter", "justifyRight", "justifyFull"],
+        ],
+        autogrow: true,
       });
     </script>
   </body>

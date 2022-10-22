@@ -1,6 +1,8 @@
 <% layout('layout/boilerplate') %>
       
       <% for(let t of allText.reverse()){ %>
+        <br/>
+       
       <!-- there is problem here -->
       <% if(t.confirmed == "yes"){ %>
       <h4><a href="/text/<%=t.id %>"><%-t.title %></a></h4>
@@ -8,8 +10,13 @@
       <% if(t.video !== ''){ %>
           <video src="<%= t.video %> " width="100%"  controls> </video> 
           <% } %>
+           <br\>
+          <br\>
+          <br\>
       <% if(t.file !="") {%>
+         
       <div class="rounded" style="height: 400px; overflow: hidden">
+       
         <img
           src="<%= t.file %> "
           alt="hassan"
@@ -17,10 +24,7 @@
           style="border-radius: 5px"
         />
       </div>
-      <p class="mt-1" style="font-size: 20px">
-        Written By:
-        <a href="/users/<%=t.author.id %> "><%=t.author.name %> </a>
-      </p>
+      
       <% } else { %>
       <div class="rounded" style="height: 2px; overflow: hidden"></div>
       <% } %> <% if(currentUser && currentUser.id==t.author.id || currentUser
@@ -30,6 +34,7 @@
           class="btn btn-sm btn-outline-success mr-2 py-0"
           style="text-decoration: none; height: 28px"
         >
+     
           <a style="text-decoration: none" href="/edittext/<%=t.id %>">Edit</a>
         </div>
 
@@ -51,4 +56,7 @@
       <hr />
 
        <% }else{ %> <% } %> <% } %> <% } %>
+       <br/>
+       <br/>
+       <br/>
 
