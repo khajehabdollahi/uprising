@@ -2,21 +2,24 @@
 <div class="row d-flex justify-content-center mt-2">
      <main class="card col-12 col-sm-12 col-md-10"; style="text-align:center">
       
-          <h4><a href="/text/<%=text.id %>"><%-text.title %></a></h4>
-          <p  class="text-center text-justify"><%- text.text %></p> <br/><br/>
+      <h4><a href="/text/<%=text.id %>"><%-text.title %></a></h4>
+          <p class="text-justify"><%- text.text %></p>
+
+          <div class="rounded" $>
+            <img src="<%= text.file %> " alt="hassan" width="100%" style="border-radius: 5px;"/>
+          </div>
+
+          
+          
           <% if(text.video !== ''){ %>
           <video src="<%= text.video %> " width="100%"  controls> </video> 
           <% } %>
 
           <video <% text.video %>
 
-          <div class="rounded" $>
-            <img src="<%= text.file %> " alt="hassan" width="100%" style="border-radius: 5px;"/>
-          </div>
-        
-          <% if(text.file !="") {%>
          
-      <div class="rounded" style="height: 400px; overflow: hidden">
+          <% if(text.file !=""){%>
+               <div class="rounded" style="height: 400px; overflow: hidden">
        
         <img
           src="<%= text.file %> "
